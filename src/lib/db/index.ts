@@ -3,16 +3,15 @@ import postgres from "postgres";
 import * as schema from "./schema";
 
 if (!process.env.DATABASE_URL) {
-  throw new Error("DATABASE_URL environment variable is not set");
+  throw new Error("DATABASE_URL is not set");
 }
 
-// Connection pool for server components / API routes
 const client = postgres(process.env.DATABASE_URL, {
   max: 10,
   idle_timeout: 20,
   connect_timeout: 10,
+  ssl: process.env.NODE_ENV === "production" ? "require" : false,
 });
 
 export const db = drizzle(client, { schema });
-
 export type DB = typeof db;

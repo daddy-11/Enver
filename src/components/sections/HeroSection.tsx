@@ -1,46 +1,16 @@
 "use client";
-
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import Link from "next/link";
 
-const TYPEWRITER_LINES = [
-  "PostGIS spatial intelligence — production.",
-  "pgvector similarity at sub-50ms latency.",
-  "Better Auth + Supabase. No vendor lock.",
-  "Open stack. Auditable. Yours to own.",
+const METRICS = [
+  { value: "3+",    label: "Live products"  },
+  { value: "<50ms", label: "P95 latency"    },
+  { value: "RLS",   label: "DB isolation"   },
+  { value: "100%",  label: "Auth-gated"     },
 ];
 
 export function HeroSection() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [lineIndex, setLineIndex] = useState(0);
-  const [displayText, setDisplayText] = useState("");
-  const [charIndex, setCharIndex] = useState(0);
-  const [visible, setVisible] = useState(false);
-
-  // Entrance animation
-  useEffect(() => {
-    const t = setTimeout(() => setVisible(true), 100);
-    return () => clearTimeout(t);
-  }, []);
-
-  // Typewriter
-  useEffect(() => {
-    const currentLine = TYPEWRITER_LINES[lineIndex];
-    if (charIndex < currentLine.length) {
-      const t = setTimeout(() => {
-        setDisplayText(currentLine.slice(0, charIndex + 1));
-        setCharIndex((c) => c + 1);
-      }, 32);
-      return () => clearTimeout(t);
-    } else {
-      const t = setTimeout(() => {
-        setCharIndex(0);
-        setDisplayText("");
-        setLineIndex((i) => (i + 1) % TYPEWRITER_LINES.length);
-      }, 2800);
-      return () => clearTimeout(t);
-    }
-  }, [charIndex, lineIndex]);
 
   // Animated grid canvas
   useEffect(() => {
@@ -49,322 +19,162 @@ export function HeroSection() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    let animId: number;
+    let raf: number;
     let t = 0;
 
     const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      canvas.width  = canvas.offsetWidth  * devicePixelRatio;
+      canvas.height = canvas.offsetHeight * devicePixelRatio;
+      ctx.scale(devicePixelRatio, devicePixelRatio);
     };
     resize();
     window.addEventListener("resize", resize);
 
-    const COLS = 28;
-    const ROWS = 16;
-
     const draw = () => {
-      t += 0.004;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      t += 0.003;
+      const W = canvas.offsetWidth;
+      const H = canvas.offsetHeight;
+      ctx.clearRect(0, 0, W, H);
 
-      const cellW = canvas.width / COLS;
-      const cellH = canvas.height / ROWS;
-
-      // Grid lines
-      ctx.strokeStyle = "rgba(240,125,0,0.04)";
+      const CELL = 60;
+      ctx.strokeStyle = "rgba(27,43,75,0.055)";
       ctx.lineWidth = 1;
-
-      for (let col = 0; col <= COLS; col++) {
-        ctx.beginPath();
-        ctx.moveTo(col * cellW, 0);
-        ctx.lineTo(col * cellW, canvas.height);
-        ctx.stroke();
+      for (let x = 0; x <= W; x += CELL) {
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
       }
-      for (let row = 0; row <= ROWS; row++) {
-        ctx.beginPath();
-        ctx.moveTo(0, row * cellH);
-        ctx.lineTo(canvas.width, row * cellH);
-        ctx.stroke();
+      for (let y = 0; y <= H; y += CELL) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
       }
 
-      // Glowing nodes at intersections
-      for (let col = 0; col <= COLS; col++) {
-        for (let row = 0; row <= ROWS; row++) {
-          const wave = Math.sin(t + col * 0.4 + row * 0.3);
-          const alpha = (wave + 1) / 2;
-          const size = alpha * 1.8;
-          if (alpha > 0.55) {
+      // Glowing intersection nodes
+      for (let cx = 0; cx <= W; cx += CELL) {
+        for (let cy = 0; cy <= H; cy += CELL) {
+          const wave = (Math.sin(t + cx * 0.05 + cy * 0.04) + 1) / 2;
+          if (wave > 0.6) {
+            const r = wave * 1.8;
             ctx.beginPath();
-            ctx.arc(col * cellW, row * cellH, size, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(240,125,0,${alpha * 0.5})`;
+            ctx.arc(cx, cy, r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(27,43,75,${wave * 0.35})`;
             ctx.fill();
           }
         }
       }
 
-      // Flowing data lines
-      for (let i = 0; i < 4; i++) {
-        const progress = ((t * 0.5 + i * 0.25) % 1);
-        const x = progress * canvas.width;
-        const y = (Math.sin(t + i * 1.2) * 0.2 + 0.5) * canvas.height;
+      // Flowing accent lines
+      [[0.3, "#E8660A"], [0.6, "#1B2B4B"], [0.8, "#3A9A3C"]].forEach(
+        ([yRatio, color], i) => {
+          const y = (Number(yRatio) + Math.sin(t * 0.5 + i) * 0.05) * H;
+          const progress = ((t * 0.35 + i * 0.33) % 1) * (W + 200) - 100;
+          const grad = ctx.createLinearGradient(progress - 120, 0, progress + 120, 0);
+          grad.addColorStop(0, "transparent");
+          grad.addColorStop(0.5, `${color}20`);
+          grad.addColorStop(1, "transparent");
+          ctx.beginPath();
+          ctx.moveTo(progress - 120, y);
+          ctx.lineTo(progress + 120, y);
+          ctx.strokeStyle = grad;
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
+        }
+      );
 
-        const grad = ctx.createLinearGradient(x - 120, 0, x + 120, 0);
-        grad.addColorStop(0, "transparent");
-        grad.addColorStop(0.5, `rgba(240,125,0,0.12)`);
-        grad.addColorStop(1, "transparent");
-
-        ctx.beginPath();
-        ctx.moveTo(x - 120, y);
-        ctx.lineTo(x + 120, y);
-        ctx.strokeStyle = grad;
-        ctx.lineWidth = 1;
-        ctx.stroke();
-      }
-
-      // Scan line
-      const scanY = (Math.sin(t * 0.3) * 0.5 + 0.5) * canvas.height;
-      const scanGrad = ctx.createLinearGradient(0, scanY - 1, 0, scanY + 1);
-      scanGrad.addColorStop(0, "transparent");
-      scanGrad.addColorStop(0.5, "rgba(240,125,0,0.06)");
-      scanGrad.addColorStop(1, "transparent");
-      ctx.fillStyle = scanGrad;
-      ctx.fillRect(0, scanY - 60, canvas.width, 120);
-
-      animId = requestAnimationFrame(draw);
+      raf = requestAnimationFrame(draw);
     };
-
     draw();
-    return () => {
-      cancelAnimationFrame(animId);
-      window.removeEventListener("resize", resize);
-    };
+    return () => { cancelAnimationFrame(raf); window.removeEventListener("resize", resize); };
   }, []);
 
   return (
     <section
       style={{
-        position: "relative",
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "flex-end",
-        overflow: "hidden",
-        background: "var(--void)",
+        minHeight: "91vh", position: "relative", overflow: "hidden",
+        display: "flex", flexDirection: "column", justifyContent: "flex-end",
       }}
     >
       {/* Canvas background */}
       <canvas
         ref={canvasRef}
-        style={{
-          position: "absolute",
-          inset: 0,
-          width: "100%",
-          height: "100%",
-          pointerEvents: "none",
-        }}
+        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none" }}
+        aria-hidden="true"
       />
 
-      {/* Radial gradient focal point */}
-      <div
-        style={{
-          position: "absolute",
-          top: "30%",
-          left: "55%",
-          width: "600px",
-          height: "600px",
-          background:
-            "radial-gradient(ellipse at center, rgba(240,125,0,0.07) 0%, transparent 70%)",
-          transform: "translate(-50%, -50%)",
-          pointerEvents: "none",
-        }}
-      />
+      {/* Radial glow */}
+      <div style={{
+        position: "absolute", top: "25%", right: "15%",
+        width: 560, height: 560, borderRadius: "50%",
+        background: "radial-gradient(ellipse, rgba(27,43,75,0.06) 0%, transparent 70%)",
+        pointerEvents: "none",
+      }} />
+      <div style={{
+        position: "absolute", bottom: "10%", left: "10%",
+        width: 320, height: 320, borderRadius: "50%",
+        background: "radial-gradient(ellipse, rgba(232,102,10,0.05) 0%, transparent 70%)",
+        pointerEvents: "none",
+      }} />
 
-      {/* Bottom vignette */}
-      <div
-        style={{
-          position: "absolute",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          height: "30%",
-          background:
-            "linear-gradient(to bottom, transparent, var(--void))",
-          pointerEvents: "none",
-        }}
-      />
+      {/* Bottom fade */}
+      <div style={{
+        position: "absolute", bottom: 0, left: 0, right: 0, height: "28%",
+        background: "linear-gradient(to bottom, transparent, var(--bg))",
+        pointerEvents: "none",
+      }} />
 
-      {/* Content */}
-      <div
-        style={{
-          position: "relative",
-          zIndex: 2,
-          maxWidth: "1400px",
-          margin: "0 auto",
-          padding: "0 2rem 5rem",
-          width: "100%",
-        }}
-      >
-        {/* Lab badge */}
+      <div className="container" style={{ position: "relative", zIndex: 2, paddingBottom: "5rem" }}>
+        {/* Live badge */}
         <div
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "0.5rem",
-            marginBottom: "2.5rem",
-            opacity: visible ? 1 : 0,
-            transform: visible ? "translateY(0)" : "translateY(1rem)",
-            transition: "opacity 0.6s, transform 0.6s",
-          }}
+          className="badge badge-live"
+          style={{ marginBottom: "2rem", animation: "fadeUp 0.5s var(--ease) both" }}
         >
-          <span
-            style={{
-              width: "6px",
-              height: "6px",
-              borderRadius: "50%",
-              background: "#22c55e",
-              boxShadow: "0 0 6px #22c55e",
-              animation: "data-pulse 2s ease-in-out infinite",
-            }}
-          />
-          <span
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: "0.65rem",
-              letterSpacing: "0.16em",
-              textTransform: "uppercase",
-              color: "#6b6b6b",
-            }}
-          >
-            Systems Active — 3 services running
-          </span>
+          <span className="badge-dot" />
+          3 systems live · enver-ai.tech
         </div>
 
-        {/* Main headline */}
+        {/* Headline */}
         <h1
-          style={{
-            fontFamily: "var(--font-display)",
-            fontWeight: 800,
-            fontSize: "clamp(3.5rem, 9vw, 8.5rem)",
-            lineHeight: 0.9,
-            letterSpacing: "-0.04em",
-            color: "var(--white)",
-            maxWidth: "900px",
-            marginBottom: "1.5rem",
-            opacity: visible ? 1 : 0,
-            transform: visible ? "translateY(0)" : "translateY(2rem)",
-            transition: "opacity 0.7s 0.1s, transform 0.7s 0.1s",
-          }}
+          className="display-1"
+          style={{ marginBottom: "1.5rem", animation: "fadeUp 0.6s 0.06s var(--ease) both", maxWidth: 780 }}
         >
-          Build
-          <br />
-          <span style={{ color: "var(--ember)" }}>spatial</span>
-          <br />
-          intelligence.
+          Build with<br />
+          <span style={{ color: "var(--orange)" }}>spatial</span>{" "}
+          <span style={{ color: "var(--navy)" }}>intelligence.</span>
         </h1>
 
-        {/* Typewriter */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "0.5rem",
-            marginBottom: "3rem",
-            minHeight: "1.5rem",
-            opacity: visible ? 1 : 0,
-            transition: "opacity 0.6s 0.3s",
-          }}
+        {/* Sub */}
+        <p
+          className="body-lg"
+          style={{ maxWidth: 520, marginBottom: "2.5rem", animation: "fadeUp 0.6s 0.12s var(--ease) both" }}
         >
-          <span
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: "0.85rem",
-              letterSpacing: "0.02em",
-              color: "#9b9b9b",
-            }}
-          >
-            {displayText}
-          </span>
-          <span
-            style={{
-              display: "inline-block",
-              width: "2px",
-              height: "1rem",
-              background: "var(--ember)",
-              animation: "type-blink 1s step-end infinite",
-            }}
-          />
-        </div>
+          Independent AI lab shipping production-grade tools for real-world use — geospatial analysis, document intelligence, and applied ML. No demos. No vaporware.
+        </p>
 
         {/* CTAs */}
         <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "1rem",
-            flexWrap: "wrap",
-            opacity: visible ? 1 : 0,
-            transform: visible ? "translateY(0)" : "translateY(1.5rem)",
-            transition: "opacity 0.6s 0.4s, transform 0.6s 0.4s",
-          }}
+          style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: "4rem", animation: "fadeUp 0.6s 0.18s var(--ease) both" }}
         >
-          <Link
-            href="#apps"
-            className="btn-primary"
-          >
-            Explore Applications
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-              <path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <Link href="/projects" className="btn btn-primary btn-lg">
+            View live projects
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </Link>
-          <Link
-            href="/auth/signup"
-            className="btn-ghost"
-          >
-            Request Access
-          </Link>
+          <Link href="/contact" className="btn btn-secondary btn-lg">Get early access</Link>
         </div>
 
-        {/* Bottom stats row */}
+        {/* Metrics */}
         <div
           style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "2.5rem",
-            marginTop: "4rem",
-            paddingTop: "2rem",
-            borderTop: "1px solid rgba(255,255,255,0.06)",
-            opacity: visible ? 1 : 0,
-            transition: "opacity 0.6s 0.6s",
+            display: "flex", gap: "3rem", flexWrap: "wrap",
+            paddingTop: "2rem", borderTop: "0.5px solid var(--border)",
+            animation: "fadeUp 0.6s 0.24s var(--ease) both",
           }}
         >
-          {[
-            { value: "2", label: "Live Apps" },
-            { value: "PostGIS", label: "Spatial Engine" },
-            { value: "pgvector", label: "Similarity Index" },
-            { value: "BetterAuth", label: "Auth Layer" },
-          ].map((stat) => (
-            <div key={stat.label}>
-              <div
-                style={{
-                  fontFamily: "var(--font-mono)",
-                  fontSize: "0.85rem",
-                  fontWeight: 700,
-                  color: "var(--ember)",
-                  marginBottom: "0.25rem",
-                  letterSpacing: "0.02em",
-                }}
-              >
-                {stat.value}
+          {METRICS.map(({ value, label }) => (
+            <div key={label}>
+              <div style={{ fontSize: 26, fontWeight: 800, letterSpacing: "-0.5px", marginBottom: 3, color: "var(--navy)" }}>
+                {value}
               </div>
-              <div
-                style={{
-                  fontFamily: "var(--font-mono)",
-                  fontSize: "0.6rem",
-                  letterSpacing: "0.14em",
-                  textTransform: "uppercase",
-                  color: "#3d3d3d",
-                }}
-              >
-                {stat.label}
+              <div className="mono" style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--muted)" }}>
+                {label}
               </div>
             </div>
           ))}

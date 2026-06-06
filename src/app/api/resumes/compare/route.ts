@@ -63,7 +63,7 @@ export async function POST(req: NextRequest) {
   `);
 
   const similarityScore =
-    (result[0] as { similarity: string })?.similarity ?? "0";
+    ((result as unknown as { similarity: string }[])[0])?.similarity ?? "0";
 
   // Persist comparison result
   const [comparison] = await db
