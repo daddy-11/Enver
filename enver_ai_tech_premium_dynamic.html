@@ -1,0 +1,697 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#1B2B4B;--orange:#E8660A;--green:#3A9A3C;
+  --bg:#FAFAF8;--surface:#FFFFFF;--text:#0D0D0D;--muted:#6B7280;--border:rgba(0,0,0,0.08);
+  --radius:12px;--font:'Syne',sans-serif;--mono:'DM Mono',monospace;
+}
+body{font-family:var(--font);background:var(--bg);color:var(--text);overflow-x:hidden;font-size:15px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:200;background:rgba(250,250,248,0.92);backdrop-filter:blur(16px);border-bottom:0.5px solid var(--border);padding:0 2rem;height:58px;display:flex;align-items:center;justify-content:space-between}
+.nav-brand{display:flex;align-items:center;gap:10px;cursor:pointer;font-weight:700;font-size:16px;letter-spacing:-0.3px}
+.nav-links{display:flex;gap:2px}
+.nav-link{padding:6px 14px;border-radius:8px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;transition:all .15s;border:none;background:none}
+.nav-link:hover,.nav-link.active{background:rgba(0,0,0,0.05);color:var(--text)}
+.nav-cta{background:var(--navy);color:#fff;padding:8px 18px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:opacity .15s}
+.nav-cta:hover{opacity:.85}
+
+/* PAGES */
+.page{display:none}
+.page.active{display:block}
+
+/* HERO */
+.hero{min-height:88vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:5rem 2rem 4rem;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;pointer-events:none}
+.hero-orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.12}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border:0.5px solid var(--border);border-radius:100px;font-size:12px;font-family:var(--mono);color:var(--muted);margin-bottom:2rem;background:var(--surface);animation:fadeUp .6s ease both}
+.live-pip{width:6px;height:6px;border-radius:50%;background:#22c55e;animation:pip 2s ease-in-out infinite}
+@keyframes pip{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(34,197,94,0.4)}50%{opacity:.6;box-shadow:0 0 0 5px rgba(34,197,94,0)}}
+.hero h1{font-size:clamp(42px,7vw,80px);font-weight:800;line-height:1.0;letter-spacing:-2px;margin-bottom:1.5rem;animation:fadeUp .7s .05s ease both}
+.hero h1 .line2{display:block;color:var(--orange)}
+.hero h1 .line3{display:block;color:var(--navy)}
+.hero-sub{font-size:17px;color:var(--muted);max-width:500px;margin:0 auto 2.5rem;line-height:1.7;animation:fadeUp .7s .1s ease both;font-weight:400}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;animation:fadeUp .7s .15s ease both}
+.btn-hero-p{background:var(--navy);color:#fff;padding:12px 28px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:transform .15s,opacity .15s}
+.btn-hero-p:hover{transform:translateY(-2px);opacity:.9}
+.btn-hero-s{background:transparent;color:var(--text);padding:12px 28px;border-radius:10px;font-size:14px;font-weight:500;cursor:pointer;border:0.5px solid rgba(0,0,0,0.15);transition:background .15s}
+.btn-hero-s:hover{background:rgba(0,0,0,0.04)}
+.hero-metrics{display:flex;gap:3rem;justify-content:center;margin-top:4rem;padding-top:2.5rem;border-top:0.5px solid var(--border);animation:fadeUp .7s .25s ease both}
+.hero-metric .val{font-size:28px;font-weight:800;letter-spacing:-1px;margin-bottom:4px}
+.hero-metric .lbl{font-size:11px;font-family:var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* MARQUEE */
+.marquee-wrap{overflow:hidden;border-top:0.5px solid var(--border);border-bottom:0.5px solid var(--border);padding:14px 0;background:var(--surface)}
+.marquee-inner{display:flex;gap:3rem;white-space:nowrap;animation:marquee 28s linear infinite}
+.m-item{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;color:var(--muted);flex-shrink:0}
+.m-dot{width:4px;height:4px;border-radius:50%;background:var(--orange)}
+@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* SECTIONS */
+.section{padding:5rem 2rem;max-width:1000px;margin:0 auto}
+.s-eyebrow{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--orange);margin-bottom:.875rem;display:flex;align-items:center;gap:8px}
+.s-eyebrow::before{content:'';width:24px;height:1.5px;background:var(--orange);flex-shrink:0}
+.s-h2{font-size:clamp(28px,4vw,44px);font-weight:800;letter-spacing:-1px;line-height:1.05;margin-bottom:1.25rem}
+.s-sub{font-size:16px;color:var(--muted);line-height:1.75;max-width:520px;margin-bottom:3rem}
+.divider{height:0.5px;background:var(--border);margin:0}
+
+/* PROJECTS */
+.proj-featured{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:16px;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.proj-featured:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,0.08)}
+.pf-inner{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.pf-left{padding:2.5rem}
+.pf-badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;padding:4px 10px;border-radius:100px;background:rgba(34,197,94,.1);color:#166534;margin-bottom:1.25rem}
+.pf-left h3{font-size:26px;font-weight:800;letter-spacing:-0.5px;margin-bottom:.75rem}
+.pf-left p{font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:1.5rem}
+.pf-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1.5rem}
+.tag{font-family:var(--mono);font-size:11px;padding:3px 10px;border-radius:100px;background:rgba(0,0,0,.05);color:var(--muted)}
+.btn-proj{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--navy);text-decoration:none;cursor:pointer;transition:gap .15s}
+.proj-featured:hover .btn-proj{gap:10px}
+.pf-right{background:linear-gradient(135deg,#EBF5FF,#F0F8FF);padding:2.5rem;display:flex;flex-direction:column;justify-content:center;gap:12px}
+.geo-vis{display:flex;flex-direction:column;gap:10px}
+.geo-row{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:12px;color:var(--muted)}
+.geo-bar-bg{flex:1;height:5px;background:rgba(0,0,0,.08);border-radius:3px;overflow:hidden}
+.geo-bar-fill{height:100%;border-radius:3px;background:var(--navy);transition:width .8s ease}
+.geo-val{font-weight:600;color:var(--navy);min-width:34px;text-align:right}
+.vis-label{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:4px}
+
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.proj-card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);padding:1.5rem;cursor:pointer;transition:transform .2s,box-shadow .2s;position:relative;overflow:hidden}
+.proj-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;opacity:0;transition:opacity .2s}
+.proj-card:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,.08)}
+.proj-card:hover::before{opacity:1}
+.pc-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1rem}
+.pc-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px}
+.status{font-family:var(--mono);font-size:11px;padding:3px 9px;border-radius:100px;font-weight:500}
+.s-live{background:rgba(34,197,94,.1);color:#166534}
+.s-beta{background:rgba(234,179,8,.1);color:#713f12}
+.s-soon{background:rgba(0,0,0,.05);color:var(--muted)}
+.pc-title{font-size:16px;font-weight:700;margin-bottom:6px;letter-spacing:-.2px}
+.pc-desc{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:1rem}
+.pc-tags{display:flex;flex-wrap:wrap;gap:5px}
+.pc-arrow{position:absolute;bottom:1.25rem;right:1.25rem;color:var(--muted);font-size:16px;transition:transform .15s}
+.proj-card:hover .pc-arrow{transform:translate(3px,-3px);color:var(--navy)}
+
+/* SECURITY */
+.sec-wrap{background:var(--navy);border-radius:var(--radius);overflow:hidden;display:grid;grid-template-columns:1fr 1fr;margin:3rem 0}
+.sec-left{padding:2.5rem;color:#fff}
+.sec-left h3{font-size:24px;font-weight:800;letter-spacing:-.5px;margin-bottom:.875rem}
+.sec-left p{font-size:14px;line-height:1.7;opacity:.7;margin-bottom:2rem}
+.sec-certs{display:flex;flex-direction:column;gap:10px}
+.cert{display:flex;align-items:center;gap:10px;padding:.75rem 1rem;background:rgba(255,255,255,.07);border-radius:8px;font-size:13px;color:rgba(255,255,255,.85)}
+.cert-dot{width:6px;height:6px;border-radius:50%;background:#22c55e;flex-shrink:0;box-shadow:0 0 0 3px rgba(34,197,94,.2)}
+.sec-right{background:rgba(0,0,0,.3);padding:2rem;display:flex;flex-direction:column;justify-content:center}
+.terminal{background:rgba(0,0,0,.5);border-radius:10px;overflow:hidden}
+.term-bar{padding:.75rem 1rem;border-bottom:0.5px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:6px}
+.tdot{width:10px;height:10px;border-radius:50%}
+.term-title{font-family:var(--mono);font-size:11px;color:rgba(255,255,255,.3);margin:0 auto;letter-spacing:.08em}
+.term-body{padding:1.25rem;font-family:var(--mono);font-size:12px;line-height:2}
+.tc{color:rgba(255,255,255,.3)}.tg{color:#4ade80}.tb{color:#60a5fa}.ta{color:#fbbf24}.tw{color:rgba(255,255,255,.9)}
+.cursor{display:inline-block;width:7px;height:13px;background:#60a5fa;vertical-align:-.1em;animation:blink 1s step-end infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* STACK */
+.stack-grid{display:flex;flex-direction:column;gap:1px;background:var(--border);border:0.5px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.stack-row{background:var(--surface);display:grid;grid-template-columns:160px 1fr;gap:0}
+.stack-label{padding:1.5rem;border-right:0.5px solid var(--border);display:flex;flex-direction:column;justify-content:center;gap:4px}
+.sl-name{font-size:13px;font-weight:700;letter-spacing:-.1px}
+.sl-sub{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.stack-items{padding:1.25rem 1.5rem;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.si{padding:5px 12px;border:0.5px solid var(--border);border-radius:8px;font-family:var(--mono);font-size:12px;display:flex;flex-direction:column;gap:2px;background:var(--bg)}
+.si-name{font-weight:500;color:var(--text);font-size:12px}
+.si-role{color:var(--muted);font-size:11px}
+.schema-block{margin-top:2.5rem;border:0.5px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--surface)}
+.schema-hdr{padding:.875rem 1.5rem;border-bottom:0.5px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.schema-tabs{display:flex;gap:4px}
+.stab{font-family:var(--mono);font-size:11px;padding:4px 10px;border-radius:6px;cursor:pointer;color:var(--muted);transition:all .15s;border:none;background:none}
+.stab.on{background:rgba(0,0,0,.06);color:var(--text);font-weight:500}
+.schema-body{padding:1.5rem;font-family:var(--mono);font-size:12px;line-height:1.9;color:var(--muted);overflow-x:auto}
+.kw{color:var(--navy);font-weight:600}.ty{color:var(--orange)}.cm{color:#9CA3AF}.hl{color:var(--text);font-weight:500}.str{color:var(--green)}
+
+/* TESTIMONIALS */
+.testi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.testi{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);padding:1.5rem}
+.testi-stars{color:var(--orange);font-size:14px;letter-spacing:2px;margin-bottom:1rem}
+.testi q{font-size:14px;color:var(--muted);line-height:1.7;display:block;margin-bottom:1rem;font-style:italic}
+.testi-who{display:flex;align-items:center;gap:10px}
+.testi-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.testi-name{font-size:13px;font-weight:600}
+.testi-co{font-size:11px;color:var(--muted);font-family:var(--mono)}
+
+/* ABOUT */
+.about-layout{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:start}
+.founder-card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin-bottom:1rem}
+.fc-top{display:flex;align-items:center;gap:12px;margin-bottom:1rem}
+.fc-av{width:52px;height:52px;border-radius:12px;background:var(--navy);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;color:#fff;flex-shrink:0}
+.fc-name{font-size:16px;font-weight:700}
+.fc-role{font-size:13px;color:var(--muted);font-family:var(--mono)}
+.fc-bio{font-size:14px;color:var(--muted);line-height:1.7}
+.about-blocks{display:flex;flex-direction:column;gap:10px}
+.ab{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);padding:1.25rem}
+.ab h4{font-size:14px;font-weight:700;margin-bottom:5px}
+.ab p{font-size:13px;color:var(--muted);line-height:1.65}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:0.5px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-top:2rem}
+.stat-box{background:var(--bg);padding:1.25rem;text-align:center}
+.stat-v{font-size:26px;font-weight:800;letter-spacing:-1px;margin-bottom:3px}
+.stat-l{font-family:var(--mono);font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+
+/* CONTACT */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+.c-info{display:flex;flex-direction:column;gap:10px}
+.c-item{display:flex;gap:12px;padding:1rem 1.25rem;background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);align-items:flex-start}
+.c-item-icon{font-size:20px;color:var(--navy);margin-top:1px;flex-shrink:0}
+.c-item h4{font-size:13px;font-weight:600;margin-bottom:3px}
+.c-item p{font-size:12px;color:var(--muted);font-family:var(--mono)}
+.contact-form{display:flex;flex-direction:column;gap:12px}
+.cf-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cf-field{display:flex;flex-direction:column;gap:5px}
+.cf-field label{font-size:12px;font-weight:600;color:var(--muted)}
+.cf-field input,.cf-field textarea,.cf-field select{font-family:var(--font);font-size:13px;padding:9px 12px;border:0.5px solid rgba(0,0,0,.15);border-radius:8px;background:var(--surface);color:var(--text);outline:none;transition:border-color .15s;resize:none;width:100%}
+.cf-field input:focus,.cf-field textarea:focus,.cf-field select:focus{border-color:var(--navy)}
+.cf-submit{padding:11px;background:var(--navy);color:#fff;border:none;border-radius:8px;font-family:var(--font);font-size:14px;font-weight:600;cursor:pointer;transition:opacity .15s}
+.cf-submit:hover{opacity:.85}
+
+/* DETAIL PAGES */
+.det-hdr{padding:3rem 2rem 2rem;max-width:1000px;margin:0 auto}
+.det-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);cursor:pointer;margin-bottom:1.5rem;font-weight:500;transition:color .15s}
+.det-back:hover{color:var(--text)}
+.det-meta{display:flex;align-items:center;gap:10px;margin-bottom:.875rem}
+.det-hdr h1{font-size:clamp(28px,4vw,42px);font-weight:800;letter-spacing:-1px;margin-bottom:.875rem}
+.det-hdr p{font-size:16px;color:var(--muted);line-height:1.75;max-width:560px;margin-bottom:1.5rem}
+.det-stack{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1.75rem}
+.det-body{padding:0 2rem 4rem;max-width:1000px;margin:0 auto}
+.det-sec{margin-bottom:2.5rem}
+.det-sec h2{font-size:20px;font-weight:700;margin-bottom:.875rem;letter-spacing:-.3px}
+.det-sec p{font-size:14px;color:var(--muted);line-height:1.75;margin-bottom:.875rem}
+.arch{background:var(--navy);color:rgba(255,255,255,.7);border-radius:var(--radius);padding:1.5rem;font-family:var(--mono);font-size:12px;line-height:2}
+.arch .hl{color:#fff;font-weight:500}
+.arch .or{color:#fb923c}.arch .gr{color:#4ade80}
+.features{display:flex;flex-direction:column;gap:8px}
+.feat{display:flex;gap:12px;padding:1rem 1.25rem;background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius)}
+.feat-icon{font-size:18px;color:var(--navy);margin-top:1px;flex-shrink:0}
+.feat h4{font-size:13px;font-weight:600;margin-bottom:3px}
+.feat p{font-size:12px;color:var(--muted);line-height:1.6}
+.cta-card{background:var(--navy);border-radius:var(--radius);padding:2rem;text-align:center;margin-top:2rem}
+.cta-card h3{color:#fff;font-size:20px;font-weight:700;margin-bottom:.5rem}
+.cta-card p{color:rgba(255,255,255,.65);font-size:14px;margin-bottom:1.25rem}
+.cta-card button{background:#fff;color:var(--navy);padding:10px 24px;border-radius:8px;font-size:14px;font-weight:700;border:none;cursor:pointer;transition:opacity .15s}
+.cta-card button:hover{opacity:.9}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:none}
+</style>
+
+<h2 class="sr-only">Enver AI Tech — premium AI lab website with live project showcase, security architecture, and contact sections</h2>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand" onclick="go('home')">
+    <svg width="30" height="30" viewBox="0 0 80 80" aria-hidden="true">
+      <polygon points="40,4 76,24 76,56 40,76 4,56 4,24" fill="#1B2B4B" opacity=".08"/>
+      <!-- Back face -->
+      <polygon points="40,10 70,27 70,57 40,74 10,57 10,27" fill="none" stroke="#1B2B4B" stroke-width="1" opacity=".2"/>
+      <!-- Left stripe layers -->
+      <polygon points="10,27 40,10 40,22 10,39" fill="#1B2B4B"/>
+      <polygon points="10,39 40,22 40,34 10,51" fill="#E8660A"/>
+      <polygon points="10,51 40,34 40,46 10,63" fill="#3A9A3C"/>
+      <!-- Top face -->
+      <polygon points="40,10 70,27 40,44 10,27" fill="#1B2B4B" opacity=".7"/>
+      <!-- Right face -->
+      <polygon points="70,27 70,57 40,74 40,44" fill="#1B2B4B" opacity=".4"/>
+      <!-- Stripe overlays on top -->
+      <polygon points="40,10 70,27 40,18 10,27" fill="#fff" opacity=".1"/>
+    </svg>
+    Enver AI Tech
+  </div>
+  <div class="nav-links">
+    <button class="nav-link active" id="nl-home" onclick="go('home')">Home</button>
+    <button class="nav-link" id="nl-projects" onclick="go('projects')">Projects</button>
+    <button class="nav-link" id="nl-about" onclick="go('about')">About</button>
+    <button class="nav-link" id="nl-contact" onclick="go('contact')">Contact</button>
+  </div>
+  <button class="nav-cta" onclick="go('contact')">Get access →</button>
+</nav>
+
+<!-- ══ HOME ══ -->
+<div class="page active" id="page-home">
+  <section class="hero">
+    <div class="hero-bg">
+      <div class="hero-orb" style="width:500px;height:500px;top:-100px;right:-100px;background:var(--navy)"></div>
+      <div class="hero-orb" style="width:300px;height:300px;bottom:0;left:-50px;background:var(--orange)"></div>
+      <div class="hero-orb" style="width:200px;height:200px;bottom:100px;right:200px;background:var(--green)"></div>
+    </div>
+    <div style="position:relative;max-width:720px;width:100%">
+      <div class="hero-tag"><span class="live-pip"></span> 3 systems live · enver-ai.tech</div>
+      <h1>Build with<br><span class="line2">spatial</span><br><span class="line3">intelligence.</span></h1>
+      <p class="hero-sub">Independent AI lab shipping production-grade tools for real-world use — geospatial analysis, document intelligence, and applied ML. No demos. No vaporware.</p>
+      <div class="hero-btns">
+        <button class="btn-hero-p" onclick="go('projects')">View live projects →</button>
+        <button class="btn-hero-s" onclick="go('contact')">Get early access</button>
+      </div>
+      <div class="hero-metrics">
+        <div class="hero-metric"><div class="val" style="color:var(--navy)">3+</div><div class="lbl">Live products</div></div>
+        <div class="hero-metric"><div class="val" style="color:var(--orange)">&lt;50ms</div><div class="lbl">P95 latency</div></div>
+        <div class="hero-metric"><div class="val" style="color:var(--green)">100%</div><div class="lbl">Auth-gated</div></div>
+        <div class="hero-metric"><div class="val" style="color:var(--navy)">RLS</div><div class="lbl">DB isolation</div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="marquee-wrap">
+    <div class="marquee-inner">
+      <span class="m-item"><span class="m-dot"></span>Next.js 14 App Router</span>
+      <span class="m-item"><span class="m-dot"></span>TypeScript Strict Mode</span>
+      <span class="m-item"><span class="m-dot"></span>Supabase PostgreSQL</span>
+      <span class="m-item"><span class="m-dot"></span>PostGIS Geography Types</span>
+      <span class="m-item"><span class="m-dot"></span>pgvector HNSW Index</span>
+      <span class="m-item"><span class="m-dot"></span>Better Auth Sessions</span>
+      <span class="m-item"><span class="m-dot"></span>Drizzle ORM · Tailwind CSS</span>
+      <span class="m-item"><span class="m-dot"></span>MapLibre GL · Vercel Edge</span>
+      <span class="m-item"><span class="m-dot"></span>Row-Level Security</span>
+      <span class="m-item"><span class="m-dot"></span>OpenAI Embeddings</span>
+      <span class="m-item"><span class="m-dot"></span>Next.js 14 App Router</span>
+      <span class="m-item"><span class="m-dot"></span>TypeScript Strict Mode</span>
+      <span class="m-item"><span class="m-dot"></span>Supabase PostgreSQL</span>
+      <span class="m-item"><span class="m-dot"></span>PostGIS Geography Types</span>
+      <span class="m-item"><span class="m-dot"></span>pgvector HNSW Index</span>
+      <span class="m-item"><span class="m-dot"></span>Better Auth Sessions</span>
+      <span class="m-item"><span class="m-dot"></span>Drizzle ORM · Tailwind CSS</span>
+      <span class="m-item"><span class="m-dot"></span>MapLibre GL · Vercel Edge</span>
+      <span class="m-item"><span class="m-dot"></span>Row-Level Security</span>
+      <span class="m-item"><span class="m-dot"></span>OpenAI Embeddings</span>
+    </div>
+  </div>
+
+  <div class="section reveal">
+    <div class="s-eyebrow">Featured project</div>
+    <div class="proj-featured" onclick="go('detail-orange')">
+      <div class="pf-inner">
+        <div class="pf-left">
+          <div class="pf-badge"><span class="live-pip"></span> Live</div>
+          <h3>Orange Farm Mapper</h3>
+          <p>PostGIS-powered geospatial platform for agricultural monitoring. Real-time health scores per plot, MVT tile serving, MapLibre GL rendering. Built for field operators.</p>
+          <div class="pf-tags"><span class="tag">PostGIS</span><span class="tag">MapLibre GL</span><span class="tag">Supabase</span><span class="tag">Next.js 14</span><span class="tag">GDAL</span></div>
+          <div class="btn-proj" style="color:var(--navy)">Open project <i class="ti ti-arrow-right" aria-hidden="true"></i></div>
+        </div>
+        <div class="pf-right">
+          <div class="geo-vis">
+            <div class="geo-row"><span style="min-width:60px;font-family:var(--mono);font-size:11px">Plot A-12</span><div class="geo-bar-bg"><div class="geo-bar-fill" style="width:82%"></div></div><span class="geo-val">82%</span></div>
+            <div class="geo-row"><span style="min-width:60px;font-family:var(--mono);font-size:11px">Plot B-07</span><div class="geo-bar-bg"><div class="geo-bar-fill" style="width:67%"></div></div><span class="geo-val">67%</span></div>
+            <div class="geo-row"><span style="min-width:60px;font-family:var(--mono);font-size:11px">Plot C-03</span><div class="geo-bar-bg"><div class="geo-bar-fill" style="width:91%"></div></div><span class="geo-val">91%</span></div>
+            <div class="geo-row"><span style="min-width:60px;font-family:var(--mono);font-size:11px">Plot D-19</span><div class="geo-bar-bg"><div class="geo-bar-fill" style="width:44%"></div></div><span class="geo-val">44%</span></div>
+            <canvas id="miniGeoCanvas" width="300" height="90" style="width:100%;border-radius:8px;margin-top:8px"></canvas>
+            <div class="vis-label">Live PostGIS spatial query · EPSG:4326</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="proj-grid">
+      <div class="proj-card" onclick="go('detail-resume')" style="border-top:2px solid var(--orange)">
+        <div class="pc-top">
+          <div class="pc-icon" style="background:rgba(232,102,10,.1)"><i class="ti ti-file-text" style="color:var(--orange)" aria-hidden="true"></i></div>
+          <span class="status s-beta">Beta</span>
+        </div>
+        <div class="pc-title">Resume Comparer</div>
+        <div class="pc-desc">pgvector cosine similarity for PDF analysis. 1536-dim HNSW index. Sub-50ms P95 on cold queries.</div>
+        <div class="pc-tags"><span class="tag">pgvector</span><span class="tag">OpenAI</span><span class="tag">Supabase</span></div>
+        <i class="ti ti-arrow-up-right pc-arrow" aria-hidden="true"></i>
+      </div>
+      <div class="proj-card" style="border-top:2px solid var(--green)">
+        <div class="pc-top">
+          <div class="pc-icon" style="background:rgba(58,154,60,.1)"><i class="ti ti-brain" style="color:var(--green)" aria-hidden="true"></i></div>
+          <span class="status s-soon">Coming soon</span>
+        </div>
+        <div class="pc-title">AI Document QA</div>
+        <div class="pc-desc">RAG pipeline for natural language interrogation of any document. Streaming answers with citations.</div>
+        <div class="pc-tags"><span class="tag">RAG</span><span class="tag">pgvector</span><span class="tag">Streaming</span></div>
+        <i class="ti ti-arrow-up-right pc-arrow" aria-hidden="true"></i>
+      </div>
+      <div class="proj-card" style="border-top:2px solid var(--navy)">
+        <div class="pc-top">
+          <div class="pc-icon" style="background:rgba(27,43,75,.1)"><i class="ti ti-chart-dots" style="color:var(--navy)" aria-hidden="true"></i></div>
+          <span class="status s-soon">Coming soon</span>
+        </div>
+        <div class="pc-title">Predictive API</div>
+        <div class="pc-desc">REST API for time-series forecasting and anomaly detection. Drop a CSV, get predictions in JSON.</div>
+        <div class="pc-tags"><span class="tag">REST API</span><span class="tag">Time-series</span><span class="tag">Python</span></div>
+        <i class="ti ti-arrow-up-right pc-arrow" aria-hidden="true"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section reveal">
+    <div class="s-eyebrow">Social proof</div>
+    <h2 class="s-h2">What early users say</h2>
+    <div class="testi-grid">
+      <div class="testi">
+        <div class="testi-stars">★★★★★</div>
+        <q>The geospatial mapper cut our field survey time by 40%. Real data, real speed — nothing else comes close.</q>
+        <div class="testi-who">
+          <div class="testi-av" style="background:rgba(27,43,75,.1);color:var(--navy)">AR</div>
+          <div><div class="testi-name">Ahmed R.</div><div class="testi-co">AgriTech Operations Lead</div></div>
+        </div>
+      </div>
+      <div class="testi">
+        <div class="testi-stars">★★★★★</div>
+        <q>Resume Comparer saved our team hours of manual screening every week. Similarity scores are remarkably accurate.</q>
+        <div class="testi-who">
+          <div class="testi-av" style="background:rgba(232,102,10,.1);color:var(--orange)">PK</div>
+          <div><div class="testi-name">Priya K.</div><div class="testi-co">Head of Talent, Series B</div></div>
+        </div>
+      </div>
+      <div class="testi">
+        <div class="testi-stars">★★★★★</div>
+        <q>Clean APIs, solid auth, completely auditable stack. This is what production AI tooling should look like.</q>
+        <div class="testi-who">
+          <div class="testi-av" style="background:rgba(58,154,60,.1);color:var(--green)">MT</div>
+          <div><div class="testi-name">Marcus T.</div><div class="testi-co">CTO, Logistics SaaS</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section reveal" style="text-align:center;padding-bottom:5rem">
+    <div class="s-eyebrow" style="justify-content:center;display:flex">Access</div>
+    <h2 class="s-h2" style="max-width:400px;margin:0 auto 1rem">Ready to get started?</h2>
+    <p style="font-size:16px;color:var(--muted);margin-bottom:2rem">All products are auth-gated. Apply for early access — reviewed within 48 hours.</p>
+    <button class="btn-hero-p" onclick="go('contact')">Apply for access →</button>
+  </div>
+</div>
+
+<!-- ══ PROJECTS ══ -->
+<div class="page" id="page-projects">
+  <div class="section reveal">
+    <div class="s-eyebrow">All projects</div>
+    <h2 class="s-h2">Live AI products</h2>
+    <p class="s-sub">General-purpose AI tools built for real workflows. Each product is independently deployable, auth-protected, and production-grade from day one.</p>
+    <div class="proj-featured" onclick="go('detail-orange')" style="margin-bottom:16px">
+      <div class="pf-inner">
+        <div class="pf-left">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:1.25rem"><div class="pf-badge"><span class="live-pip"></span> Live</div><span style="font-family:var(--mono);font-size:11px;color:var(--muted)">Geospatial Intelligence</span></div>
+          <h3>Orange Farm Mapper</h3>
+          <p>Tile-based geospatial platform for agricultural monitoring. Ingests drone waypoints, serves PostGIS vector tiles via pg_tileserv, renders choropleth overlays in MapLibre GL.</p>
+          <div class="pf-tags" style="margin-bottom:1.5rem"><span class="tag">PostGIS</span><span class="tag">pg_tileserv</span><span class="tag">MapLibre GL</span><span class="tag">GDAL</span><span class="tag">Supabase</span><span class="tag">Next.js 14</span></div>
+          <button class="btn-hero-p" style="font-size:13px;padding:9px 20px" onclick="event.stopPropagation();go('detail-orange')">View project →</button>
+        </div>
+        <div class="pf-right">
+          <div class="geo-vis">
+            <div class="geo-row"><span style="min-width:60px;font-family:var(--mono);font-size:11px">Plot A-12</span><div class="geo-bar-bg"><div class="geo-bar-fill" style="width:82%"></div></div><span class="geo-val">82%</span></div>
+            <div class="geo-row"><span style="min-width:60px;font-family:var(--mono);font-size:11px">Plot B-07</span><div class="geo-bar-bg"><div class="geo-bar-fill" style="width:67%"></div></div><span class="geo-val">67%</span></div>
+            <div class="geo-row"><span style="min-width:60px;font-family:var(--mono);font-size:11px">Plot C-03</span><div class="geo-bar-bg"><div class="geo-bar-fill" style="width:91%"></div></div><span class="geo-val">91%</span></div>
+            <div class="geo-row"><span style="min-width:60px;font-family:var(--mono);font-size:11px">Plot D-19</span><div class="geo-bar-bg"><div class="geo-bar-fill" style="width:44%"></div></div><span class="geo-val">44%</span></div>
+            <div class="vis-label" style="margin-top:8px">PostGIS · MVT tiles · EPSG:4326</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="proj-grid" style="margin-bottom:2rem">
+      <div class="proj-card" onclick="go('detail-resume')" style="border-top:2px solid var(--orange)">
+        <div class="pc-top"><div class="pc-icon" style="background:rgba(232,102,10,.1)"><i class="ti ti-file-text" style="color:var(--orange)" aria-hidden="true"></i></div><span class="status s-beta">Beta</span></div>
+        <div class="pc-title">Resume Comparer</div>
+        <div class="pc-desc">Upload two PDFs, get cosine similarity score and skill gap delta. pgvector HNSW, OpenAI ada-002, sub-50ms P95.</div>
+        <div class="pc-tags"><span class="tag">pgvector</span><span class="tag">HNSW</span><span class="tag">OpenAI</span><span class="tag">Supabase Storage</span></div>
+        <i class="ti ti-arrow-up-right pc-arrow" aria-hidden="true"></i>
+      </div>
+      <div class="proj-card" style="border-top:2px solid var(--green)">
+        <div class="pc-top"><div class="pc-icon" style="background:rgba(58,154,60,.1)"><i class="ti ti-brain" style="color:var(--green)" aria-hidden="true"></i></div><span class="status s-soon">Coming soon</span></div>
+        <div class="pc-title">AI Document QA</div>
+        <div class="pc-desc">Natural language interrogation of any document. RAG pipeline, streaming answers, source citations.</div>
+        <div class="pc-tags"><span class="tag">RAG</span><span class="tag">pgvector</span><span class="tag">Streaming</span><span class="tag">LangChain</span></div>
+        <i class="ti ti-arrow-up-right pc-arrow" aria-hidden="true"></i>
+      </div>
+      <div class="proj-card" style="border-top:2px solid var(--navy)">
+        <div class="pc-top"><div class="pc-icon" style="background:rgba(27,43,75,.1)"><i class="ti ti-chart-dots" style="color:var(--navy)" aria-hidden="true"></i></div><span class="status s-soon">Coming soon</span></div>
+        <div class="pc-title">Predictive Analytics API</div>
+        <div class="pc-desc">REST API for time-series forecasting and anomaly detection. CSV in, JSON predictions out.</div>
+        <div class="pc-tags"><span class="tag">REST API</span><span class="tag">Time-series</span><span class="tag">Python</span><span class="tag">Forecasting</span></div>
+        <i class="ti ti-arrow-up-right pc-arrow" aria-hidden="true"></i>
+      </div>
+    </div>
+    <div style="background:var(--navy);border-radius:var(--radius);padding:1.75rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap">
+      <div>
+        <div style="font-size:15px;font-weight:700;color:#fff;margin-bottom:4px">Building something specific?</div>
+        <div style="font-size:13px;color:rgba(255,255,255,.6);font-family:var(--mono)">We take a small number of custom AI engagements each quarter.</div>
+      </div>
+      <button class="btn-hero-p" style="background:#fff;color:var(--navy)" onclick="go('contact')">Get in touch →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ABOUT ══ -->
+<div class="page" id="page-about">
+  <div class="section reveal">
+    <div class="s-eyebrow">About</div>
+    <h2 class="s-h2">An independent AI lab</h2>
+    <p class="s-sub">Enver AI Tech builds production-grade AI products for real-world use cases. No demos. No vaporware. If it's in the lab, it runs in production.</p>
+    <div class="about-layout">
+      <div>
+        <div class="founder-card">
+          <div class="fc-top">
+            <div class="fc-av">
+              <svg width="28" height="28" viewBox="0 0 80 80" aria-hidden="true">
+                <polygon points="40,8 72,26 72,58 40,76 8,58 8,26" fill="#fff" opacity=".1"/>
+                <polygon points="8,26 40,8 40,24 8,42" fill="#fff"/>
+                <polygon points="8,42 40,24 40,40 8,58" fill="rgba(255,255,255,.7)"/>
+                <polygon points="8,58 40,40 40,56 8,58" fill="rgba(255,255,255,.4)"/>
+                <polygon points="40,8 72,26 40,24" fill="rgba(255,255,255,.6)"/>
+                <polygon points="72,26 72,58 40,76 40,56" fill="rgba(255,255,255,.3)"/>
+              </svg>
+            </div>
+            <div><div class="fc-name">Enver · Founder</div><div class="fc-role">AI Engineer & Builder</div></div>
+          </div>
+          <div class="fc-bio">Building AI systems that actually ship. Background in full-stack engineering, spatial data, and machine learning. Every product in the lab is built, maintained, and iterated on personally — no team, no outsourcing.</div>
+        </div>
+        <div class="stats-row">
+          <div class="stat-box"><div class="stat-v" style="color:var(--navy)">3+</div><div class="stat-l">Products shipped</div></div>
+          <div class="stat-box"><div class="stat-v" style="color:var(--orange)">&lt;50ms</div><div class="stat-l">P95 latency</div></div>
+          <div class="stat-box"><div class="stat-v" style="color:var(--green)">100%</div><div class="stat-l">Auth-gated</div></div>
+          <div class="stat-box"><div class="stat-v" style="color:var(--navy)">0</div><div class="stat-l">Data leaks</div></div>
+        </div>
+      </div>
+      <div class="about-blocks">
+        <div class="ab"><h4>The approach</h4><p>Ship working products, not pitch decks. Every system is production-grade from day one — proper auth, real databases, auditable code.</p></div>
+        <div class="ab"><h4>The stack</h4><p>Next.js 14, TypeScript strict, Supabase PostgreSQL, PostGIS, pgvector, Better Auth, Drizzle ORM. Deliberate choices. No abstraction for abstraction's sake.</p></div>
+        <div class="ab"><h4>Open by default</h4><p>Architecture is documented, schemas are public. Every technical decision is reasoned and written up. No black boxes.</p></div>
+        <div class="ab"><h4>Security by design</h4><p>Row-Level Security on every table. HttpOnly session cookies. Middleware route protection. Service-role keys server-side only. Defense in depth by default.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CONTACT ══ -->
+<div class="page" id="page-contact">
+  <div class="section reveal">
+    <div class="s-eyebrow">Contact</div>
+    <h2 class="s-h2">Get in touch</h2>
+    <p class="s-sub">Request early access, discuss a custom project, or just ask a question. Every message is reviewed within 48 hours.</p>
+    <div class="contact-grid">
+      <div class="c-info">
+        <div class="c-item"><i class="ti ti-mail c-item-icon" aria-hidden="true"></i><div><h4>Email</h4><p>hello@enver-ai.tech</p></div></div>
+        <div class="c-item"><i class="ti ti-clock c-item-icon" aria-hidden="true"></i><div><h4>Response time</h4><p>Within 48 hours, usually faster</p></div></div>
+        <div class="c-item"><i class="ti ti-lock c-item-icon" aria-hidden="true"></i><div><h4>Access model</h4><p>All products are invite-only. Fill the form to apply.</p></div></div>
+        <div class="c-item"><i class="ti ti-code c-item-icon" aria-hidden="true"></i><div><h4>Custom builds</h4><p>Small number of engagements taken each quarter.</p></div></div>
+        <div style="background:var(--navy);border-radius:var(--radius);padding:1.25rem;margin-top:4px">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:.5rem">
+            <svg width="20" height="20" viewBox="0 0 80 80" aria-hidden="true">
+              <polygon points="8,26 40,8 40,24 8,42" fill="#fff"/>
+              <polygon points="8,42 40,24 40,40 8,58" fill="rgba(255,255,255,.7)"/>
+              <polygon points="8,58 40,40 40,56 8,58" fill="rgba(255,255,255,.4)"/>
+              <polygon points="40,8 72,26 40,24" fill="rgba(255,255,255,.5)"/>
+              <polygon points="72,26 72,58 40,76 40,56" fill="rgba(255,255,255,.25)"/>
+            </svg>
+            <span style="color:#fff;font-weight:700;font-size:14px">Enver AI Tech</span>
+          </div>
+          <p style="color:rgba(255,255,255,.6);font-size:12px;font-family:var(--mono)">enver-ai.tech · hello@enver-ai.tech</p>
+        </div>
+      </div>
+      <div class="contact-form" id="cform">
+        <div class="cf-row">
+          <div class="cf-field"><label>First name</label><input type="text" placeholder="Ahmed"/></div>
+          <div class="cf-field"><label>Last name</label><input type="text" placeholder="Rahman"/></div>
+        </div>
+        <div class="cf-field"><label>Email</label><input type="email" placeholder="you@company.com"/></div>
+        <div class="cf-field"><label>I'm interested in</label>
+          <select><option>Early access to a product</option><option>Custom AI product build</option><option>Partnership or integration</option><option>General enquiry</option></select>
+        </div>
+        <div class="cf-field"><label>Message</label><textarea rows="4" placeholder="Tell us what you're building..."></textarea></div>
+        <button class="cf-submit" onclick="submitForm()">Send message</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ DETAIL: ORANGE FARM ══ -->
+<div class="page" id="page-detail-orange">
+  <div class="det-hdr reveal">
+    <div class="det-back" onclick="go('projects')"><i class="ti ti-arrow-left" aria-hidden="true"></i> Back to projects</div>
+    <div class="det-meta"><span class="status s-live">Live</span><span style="font-family:var(--mono);font-size:12px;color:var(--muted)">Geospatial Intelligence</span></div>
+    <h1>Orange Farm Mapper</h1>
+    <p>Tile-based geospatial platform for agricultural monitoring. PostGIS spatial queries, MVT tile serving via pg_tileserv, MapLibre GL rendering — built for field operators on edge hardware.</p>
+    <div class="det-stack"><span class="tag">PostGIS</span><span class="tag">pg_tileserv</span><span class="tag">MapLibre GL</span><span class="tag">Supabase</span><span class="tag">GDAL</span><span class="tag">Next.js 14</span><span class="tag">TypeScript</span><span class="tag">Better Auth</span></div>
+    <button class="btn-hero-p" onclick="go('contact')" style="font-size:13px;padding:9px 20px">Request access →</button>
+  </div>
+  <div class="divider" style="margin:0 2rem"></div>
+  <div class="det-body reveal">
+    <div class="det-sec">
+      <h2>What it does</h2>
+      <p>Ingests GPS waypoints and drone imagery from field devices, stores plot geometry as PostGIS <code>geography(POLYGON, 4326)</code> with a GiST spatial index, and serves Mapbox Vector Tiles directly from the database via pg_tileserv. The client renders choropleth overlays in MapLibre GL — no tile CDN required.</p>
+      <p>Field operators see real-time health scores per plot, tile job status, and an area summary — all scoped to their account via Row-Level Security.</p>
+    </div>
+    <div class="det-sec">
+      <h2>Technical architecture</h2>
+      <div class="arch">
+        <span class="hl">Database</span> · <span class="or">Supabase PostgreSQL</span> + PostGIS extension<br>
+        <span class="hl">Geometry</span> · <span class="gr">geography(POLYGON, 4326)</span> — WGS84 native<br>
+        <span class="hl">Spatial index</span> · GiST on geometry column<br>
+        <span class="hl">Tile format</span> · <span class="or">MVT</span> via pg_tileserv — no CDN dependency<br>
+        <span class="hl">Renderer</span> · <span class="gr">MapLibre GL</span> (open source, MIT licensed)<br>
+        <span class="hl">Auth</span> · Better Auth sessions + RLS: <span class="or">farm_plots_owner</span><br>
+        <span class="hl">Ingest</span> · GDAL for drone raster reprojection + vectorization<br>
+        <span class="hl">Frontend</span> · Next.js 14 App Router · TypeScript strict · Tailwind
+      </div>
+    </div>
+    <div class="det-sec">
+      <h2>Key features</h2>
+      <div class="features">
+        <div class="feat"><i class="ti ti-map-pin feat-icon" aria-hidden="true"></i><div><h4>Plot geometry management</h4><p>Draw, edit, and store farm plot polygons. Stored as PostGIS geography with full spatial query support including area, distance, and intersection queries.</p></div></div>
+        <div class="feat"><i class="ti ti-chart-area feat-icon" aria-hidden="true"></i><div><h4>Real-time health scoring</h4><p>Per-plot health scores computed from sensor data and drone imagery analysis. Updated on each field device sync.</p></div></div>
+        <div class="feat"><i class="ti ti-server feat-icon" aria-hidden="true"></i><div><h4>MVT tile serving</h4><p>pg_tileserv serves vector tiles directly from PostGIS — no intermediate tile generation step, no S3 dependency, no tile CDN cost.</p></div></div>
+        <div class="feat"><i class="ti ti-lock feat-icon" aria-hidden="true"></i><div><h4>Per-user data isolation</h4><p>RLS policy ensures each operator sees only their own plots. Enforced at database query time — not just application layer.</p></div></div>
+      </div>
+    </div>
+    <div class="cta-card">
+      <h3>Want access to Orange Farm Mapper?</h3>
+      <p>This product is invite-only. Apply and we'll review within 48 hours.</p>
+      <button onclick="go('contact')">Apply for access</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ DETAIL: RESUME COMPARER ══ -->
+<div class="page" id="page-detail-resume">
+  <div class="det-hdr reveal">
+    <div class="det-back" onclick="go('projects')"><i class="ti ti-arrow-left" aria-hidden="true"></i> Back to projects</div>
+    <div class="det-meta"><span class="status s-beta">Beta</span><span style="font-family:var(--mono);font-size:12px;color:var(--muted)">Document Intelligence</span></div>
+    <h1>Resume Comparer</h1>
+    <p>Upload two PDFs, get a cosine similarity score, skill gap delta, and structured diff. pgvector HNSW index with OpenAI ada-002 embeddings. P95 under 50ms on cold queries.</p>
+    <div class="det-stack"><span class="tag">pgvector</span><span class="tag">HNSW index</span><span class="tag">OpenAI ada-002</span><span class="tag">Supabase Storage</span><span class="tag">pdfjs-dist</span><span class="tag">Drizzle ORM</span><span class="tag">Next.js 14</span></div>
+    <button class="btn-hero-p" onclick="go('contact')" style="font-size:13px;padding:9px 20px">Request beta access →</button>
+  </div>
+  <div class="divider" style="margin:0 2rem"></div>
+  <div class="det-body reveal">
+    <div class="det-sec">
+      <h2>What it does</h2>
+      <p>You upload two PDF resumes. The system extracts text via pdfjs-dist, chunks it, embeds each chunk with OpenAI's text-embedding-ada-002 (1536 dimensions), and stores the vectors in a pgvector HNSW index in Supabase.</p>
+      <p>Similarity is computed as cosine distance across chunk pairs. The result is a percentage match score, a list of skills in A but not B, and a ranked similarity breakdown by section.</p>
+    </div>
+    <div class="det-sec">
+      <h2>Technical architecture</h2>
+      <div class="arch">
+        <span class="hl">Storage</span> · <span class="or">Supabase Storage</span> — private bucket, user-scoped prefix<br>
+        <span class="hl">PDF parsing</span> · pdfjs-dist in a Supabase Edge Function<br>
+        <span class="hl">Embedding</span> · <span class="gr">OpenAI text-embedding-ada-002</span> · 1536-dim<br>
+        <span class="hl">Vector index</span> · <span class="or">pgvector HNSW</span> (m=16, ef_construction=64)<br>
+        <span class="hl">Distance metric</span> · cosine · operator <span class="gr">&lt;=&gt;</span><br>
+        <span class="hl">Latency</span> · P95 &lt;50ms · P99 &lt;120ms (cold query)<br>
+        <span class="hl">Auth</span> · Better Auth + RLS: <span class="or">resumes_owner</span> + <span class="or">chunks_via_resume</span><br>
+        <span class="hl">ORM</span> · Drizzle ORM · postgres-js driver · strict typed
+      </div>
+    </div>
+    <div class="det-sec">
+      <h2>Key features</h2>
+      <div class="features">
+        <div class="feat"><i class="ti ti-upload feat-icon" aria-hidden="true"></i><div><h4>PDF upload and storage</h4><p>Files go to Supabase Storage under a user-scoped key. Never accessible cross-user. RLS enforced at storage policy level.</p></div></div>
+        <div class="feat"><i class="ti ti-math-function feat-icon" aria-hidden="true"></i><div><h4>Cosine similarity scoring</h4><p>HNSW index computes cosine distance across 1536-dimensional vectors. Fast even at scale — index doesn't degrade linearly.</p></div></div>
+        <div class="feat"><i class="ti ti-list-check feat-icon" aria-hidden="true"></i><div><h4>Skill gap delta</h4><p>Structured output listing skills present in one resume but absent from the other. Useful for hiring decisions and candidate ranking.</p></div></div>
+        <div class="feat"><i class="ti ti-shield-check feat-icon" aria-hidden="true"></i><div><h4>Full data isolation</h4><p>RLS policies cascade from resumes → chunks → comparisons. No cross-user data exposure at any layer of the stack.</p></div></div>
+      </div>
+    </div>
+    <div class="cta-card">
+      <h3>Want to try Resume Comparer?</h3>
+      <p>Currently in beta. Apply and start comparing resumes in under a minute.</p>
+      <button onclick="go('contact')">Apply for beta access</button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer style="border-top:0.5px solid var(--border);padding:2.5rem 2rem;background:var(--surface)">
+  <div style="max-width:1000px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem">
+    <div style="display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px">
+      <svg width="24" height="24" viewBox="0 0 80 80" aria-hidden="true">
+        <polygon points="8,26 40,8 40,24 8,42" fill="var(--navy)"/>
+        <polygon points="8,42 40,24 40,40 8,58" fill="var(--orange)"/>
+        <polygon points="8,58 40,40 40,56 8,58" fill="var(--green)"/>
+        <polygon points="40,8 72,26 40,24" fill="var(--navy)" opacity=".7"/>
+        <polygon points="72,26 72,58 40,76 40,56" fill="var(--navy)" opacity=".4"/>
+      </svg>
+      Enver AI Tech
+    </div>
+    <div style="display:flex;gap:2rem;font-size:13px">
+      <span style="color:var(--muted);cursor:pointer" onclick="go('projects')">Projects</span>
+      <span style="color:var(--muted);cursor:pointer" onclick="go('about')">About</span>
+      <span style="color:var(--muted);cursor:pointer" onclick="go('contact')">Contact</span>
+    </div>
+    <div style="font-family:var(--mono);font-size:11px;color:var(--muted)">© 2024 Enver AI Tech · enver-ai.tech</div>
+  </div>
+</footer>
+
+<script>
+const pages=['home','projects','about','contact','detail-orange','detail-resume'];
+const navMap={home:'home',projects:'projects',about:'about',contact:'contact','detail-orange':'projects','detail-resume':'projects'};
+function go(id){
+  pages.forEach(p=>{
+    const el=document.getElementById('page-'+p);
+    if(el)el.classList.toggle('active',p===id);
+  });
+  document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
+  const navId=navMap[id]||id;
+  const nl=document.getElementById('nl-'+navId);
+  if(nl)nl.classList.add('active');
+  window.scrollTo(0,0);
+  setTimeout(initReveal,50);
+}
+function initReveal(){
+  const els=document.querySelectorAll('.page.active .reveal');
+  if(!('IntersectionObserver' in window)){els.forEach(e=>e.classList.add('in'));return;}
+  const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target)}})},{threshold:.1});
+  els.forEach(e=>{if(e.getBoundingClientRect().top<window.innerHeight)e.classList.add('in');else obs.observe(e);});
+}
+function submitForm(){
+  const btn=document.querySelector('#cform .cf-submit');
+  btn.textContent='Sending...';btn.disabled=true;
+  setTimeout(()=>{
+    document.getElementById('cform').innerHTML='<div style="padding:3rem;text-align:center;background:rgba(27,43,75,.04);border-radius:12px;border:0.5px solid var(--border)"><div style="font-size:40px;margin-bottom:1rem">✓</div><div style="font-size:18px;font-weight:700;margin-bottom:.5rem">Message sent</div><div style="font-size:14px;color:var(--muted)">We\'ll be in touch within 48 hours.</div></div>';
+  },900);
+}
+function drawMiniGeo(){
+  const c=document.getElementById('miniGeoCanvas');
+  if(!c)return;
+  const ctx=c.getContext('2d');
+  const W=c.width,H=c.height;
+  ctx.fillStyle='#EBF5FF';ctx.fillRect(0,0,W,H);
+  ctx.strokeStyle='rgba(27,43,75,0.08)';ctx.lineWidth=1;
+  for(let x=0;x<=W;x+=20){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke()}
+  for(let y=0;y<=H;y+=20){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}
+  const pts=[[60,25],[90,18],[120,20],[150,18],[180,22],[210,28],[230,35],[60,50],[90,42],[120,45],[150,44],[180,48],[210,52],[80,70],[110,65],[140,68],[170,70],[200,72]];
+  pts.forEach(([x,y])=>{
+    ctx.beginPath();ctx.arc(x,y,5,0,Math.PI*2);
+    ctx.fillStyle='rgba(27,43,75,0.12)';ctx.fill();
+    ctx.strokeStyle='rgba(27,43,75,0.4)';ctx.lineWidth=0.8;ctx.stroke();
+    ctx.beginPath();ctx.arc(x,y,2,0,Math.PI*2);
+    ctx.fillStyle='#1B2B4B';ctx.fill();
+  });
+  ctx.strokeStyle='rgba(232,102,10,0.5)';ctx.lineWidth=1.5;ctx.setLineDash([4,3]);
+  ctx.strokeRect(90,12,120,80);ctx.setLineDash([]);
+}
+setTimeout(()=>{initReveal();drawMiniGeo();},100);
+</script>
