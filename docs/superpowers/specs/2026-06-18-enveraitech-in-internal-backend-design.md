@@ -43,6 +43,35 @@ This project replaces the mock with a real, secure backend covering three subsys
 - **One manual setup step:** enabling Cloud Billing → BigQuery export and creating the read-only service
   account must be done in the Google Cloud console (cannot be scripted from the app). Steps in the plan.
 
+## 2b. Project structure (two apps in one master folder)
+
+The `website/` master folder hosts **two independent web apps**:
+
+```
+website/
+├── src/ …                      # App 1: public enveraitech.com site (existing; untouched)
+├── index.html, README.md       # static GitHub Pages landing (the only git-tracked files)
+├── docs/superpowers/specs/     # design docs (this file)
+└── enveraitech-in/             # App 2: internal portal — SELF-CONTAINED
+    ├── package.json            # own scripts; deps resolve from website/node_modules
+    ├── tsconfig / next.config / tailwind / postcss / .gitignore / .env.example
+    └── src/
+        ├── lib/{db,auth,security,supabase,team,ai,presence,realtime,tethys}
+        ├── app/{layout,page,auth/login,dashboard,api/*}
+        ├── components/{layout,sections,ui}
+        ├── hooks, styles, types
+```
+
+Everything the internal portal needs lives under `enveraitech-in/`. Shared infrastructure
+(Drizzle db, Better Auth, security, Supabase) is **copied** into the app (per decision) rather than
+shared via a package, so the two apps stay fully independent. The internal app's `schema.ts` is a
+trimmed copy declaring only the tables it uses (auth tables + the seven internal tables +
+`developer_telemetry`); both apps target the **same Supabase Postgres**.
+
+Deployment: the public app continues as a static export; `enveraitech-in/` deploys as a Next.js
+server on **Cloud Run**. Each app builds/runs from its own folder (`npm install` once inside
+`enveraitech-in/`, then `npm run dev` / `npm run build`).
+
 ## 3. Architecture
 
 ```
@@ -119,10 +148,11 @@ so no AI request can bypass metering and provider keys never reach the client.
 
 ## 7. Build phases
 
-**Phase 0 — Foundation**
-Cloud Run deploy config; Google SSO provider + domain/allowlist hook; `team_members` seed (8 members);
-middleware + `requireTeamMember`/`requireFounder` guards; Secret Manager wiring; `/api/realtime/token`;
-presence heartbeat + `activity_sessions`; the `lib/ai/meter` gateway (+ refactor Tethys client through it).
+**Phase 0 — Foundation** ✅ *built (in `enveraitech-in/`), type-checked clean*
+Standalone app scaffolded; Google SSO provider + domain/allowlist hook; `team_members` seed (8 members);
+middleware + `requireTeamMember`/`requireFounder` guards; `/api/realtime/token`; presence heartbeat +
+`activity_sessions`; the `lib/ai/meter` gateway (+ Tethys client routed through it). Remaining for Phase 0
+ops: Cloud Run deploy config + Secret Manager wiring (needs the prereqs in §9).
 
 **Phase 1 — Lounge**
 `lounge_rooms` + `lounge_messages` + `voice_sessions`; message API + Realtime broadcast; presence channel;
