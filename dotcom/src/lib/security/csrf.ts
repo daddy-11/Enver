@@ -16,6 +16,8 @@ const ALLOWED_ORIGINS = new Set([
   process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000",
   "https://enver-ai.tech",
   "https://www.enver-ai.tech",
+  "https://enveraitech.com",
+  "https://www.enveraitech.com",
 ]);
 
 export type CsrfCheckResult =
