@@ -10,3 +10,5 @@ A premium, dynamic landing page with a live project showcase, security architect
 - Interactive tab/page switching (Home, Projects, About, Contact).
 - Live metrics and interactive vector-field canvas visualizations.
 - Fully self-contained static HTML deployment (`index.html`).
+
+<!-- Trigger Vercel Build -->
