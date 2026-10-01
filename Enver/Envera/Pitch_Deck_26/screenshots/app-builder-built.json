@@ -1,0 +1,38 @@
+{
+  "url": "http://127.0.0.1:8081/",
+  "viewports": {
+    "desktop": {
+      "width": 1280,
+      "height": 800,
+      "status": 200,
+      "title": "Enver AI · Artificer",
+      "hasCanvas": false,
+      "bodyTextLen": 397,
+      "bodyTextHash": "2eebfbe29650bc7696fd009eb34cdf5c7549aa7cf124da50283510335004c4b2",
+      "bodyTextPrefix": "ENVER AI TECH Artificer · Google pitch Download PDF Present GOOG",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-built.png"
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "title": "Enver AI · Artificer",
+      "hasCanvas": false,
+      "bodyTextLen": 397,
+      "bodyTextHash": "2eebfbe29650bc7696fd009eb34cdf5c7549aa7cf124da50283510335004c4b2",
+      "bodyTextPrefix": "ENVER AI TECH Artificer · Google pitch Download PDF Present GOOG",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-built-mobile.png"
+    }
+  },
+  "brandWarnings": [],
+  "authWarnings": [],
+  "verdictFile": "/workspace/screenshots/app-builder-built.json",
+  "divergesFromBaseline": false,
+  "baselineReasons": []
+}

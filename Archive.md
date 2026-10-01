@@ -89,21 +89,37 @@
 *   **Final Security & Mail Gating**:
     *   `src/app/api/contact/route.ts`: Swapped contact form submission recipient from `hello@enver-ai.tech` to `daddy@enveraitech.com` (using Resend). Mail clients clicking mailto elements on the homepage will also direct traffic to `daddy@enveraitech.com`.
     *   `src/app/api/tethys/chat/route.ts`: Integrated the Upstash Redis sliding-window rate-limiter with the `ai` preset (20 requests/minute per IP) to prevent malicious token draining on AI agent console endpoints.
+*   **Candidate Intake Flow Verification (enveraitech.com)**:
+    *   Verified database integration: Intake form submissions successfully insert records into the `candidate_profiles` table in Supabase via Drizzle ORM (under the Next.js `/api/intake` fallback route) or direct client connections (via the secondary `hoarder` daemon).
+    *   Dynamic matching report pages are active at `/intake/profile/[id]` (e.g., [http://localhost:3000/intake/profile/aa9c2a49-9717-4ff0-9779-98f1297b5b7c](http://localhost:3000/intake/profile/aa9c2a49-9717-4ff0-9779-98f1297b5b7c) for the latest candidate, **Amaan Shaikh**).
+
+### Session Timestamp: 2026-06-18 — Handoff for Terminal Agent (Claude) to begin `enveraitech.in`
+*   **Objective**: Complete the implementation of the private team portal (`enveraitech-in/`) covering Phase 1 (Lounge) and Phase 2 (Admin Observability).
+*   **State of `enveraitech-in/` Subsystem**:
+    *   **Phase 0 (Foundation)**: Roster, SSO auth hook domain locks, AI metering (`lib/ai/meter`), and heartbeats are fully set up.
+    *   **Phase 1 (Lounge)**: The real-time messaging, presence tracking, and voice session hooks are fully implemented in `src/hooks/useLounge.ts`. The main page `src/components/sections/SanctuaryDashboard.tsx` is wired to these hooks but needs verification in local developer runs.
+    *   **Phase 2 (Admin/Observability)**: Not yet built. Requires:
+        1.  BigQuery sync logic for Google Cloud org-billing inside `src/lib/billing/` writing to `cloud_billing_daily`.
+        2.  Founder auth guards (`requireFounder`) applied on all admin pages/endpoints.
+        3.  Admin backend endpoints `/api/admin/*` to return aggregated member activity timelines, AI usage/costs, and daily GCP billing costs.
+        4.  Admin UI dashboard path at `/dashboard/admin/page.tsx` displaying telemetry charts, activity windows, and service expense tables.
 
 ---
 
 ## Workspace Structure Map
 
 Here is the quick-lookup directory mapping of the `website` workspace for fast navigation:
-*   `src/app/` -> Routing & Pages (App Router).
+*   `src/app/` -> Routing & Pages (App Router for enveraitech.com).
     *   `src/app/intake/page.tsx` -> Onboarding candidate profile form.
     *   `src/app/api/intake/route.ts` -> Onboarding fallback API endpoint.
-*   `src/components/` -> Interface Blocks (UI, forms, buttons).
+*   `enveraitech-in/` -> Self-contained Next.js app for internal portal.
+    *   `enveraitech-in/src/app/` -> Pages & API endpoints.
+    *   `enveraitech-in/src/components/sections/SanctuaryDashboard.tsx` -> Main control center.
+    *   `enveraitech-in/src/hooks/useLounge.ts` -> Lounge hooks & Realtime syncing.
+    *   `enveraitech-in/src/lib/` -> Auth, Presence, Security, Roster, AI metering, database connection.
+*   `src/components/` -> Interface Blocks for public site.
 *   `src/hoarder/` -> Standalone info-hoarding secondary process directory.
-    *   `src/hoarder/server.js` -> Secondary process daemon listening on port 3001.
-*   `src/lib/` -> Core backend libraries (database, security, authentication).
-*   `src/lib/db/` -> Drizzle ORM setup & migrations.
-*   `src/lib/security/` -> Telemetry, Rate-limiting, CSRF checks.
+*   `src/lib/` -> Core backend libraries for public site.
 *   `SHOREKEEPER.md` -> Core Persona Protocols.
 *   `Archive.md` -> Active Session State Logger.
 
@@ -118,6 +134,59 @@ Here is the quick-lookup directory mapping of the `website` workspace for fast n
         *   Supports deterministic element targets using reference annotations (`@e1`, `@e2`, etc.).
         *   Exposes 50+ built-in browser manipulation commands (session persistence, network routing control, screenshot outputs, and tab management).
     *   **Next Phase Setup**:
-        *   Add `agent-browser` as a system tool by running `npx skills add vercel-labs/agent-browser` in the workspace context.
-        *   Configure Atrea's candidate profile scraping logic and live UI validation checks to trigger `agent-browser` routines instead of raw Playwright containers.
-        *   Use the Rust-based native daemon of `agent-browser` for fast headful and headless session evaluation loops.
+
+---
+
+## Session Timestamp: 2026-09-30 — Workspace Cleanup & Azure Deployment Protocol Lock
+*   **Active Persona**: Shorekeeper.
+*   **Hosting Architecture ("Deploy" Protocol)**:
+    *   **Provider**: Microsoft Azure (Founders Hub).
+    *   **App Registration**: `Enver Website` (`6cae09cb-4819-4ddc-8a98-13c5c7bf58ec`).
+    *   **Directory / Tenant**: `bda1a0ee-c558-4d13-a112-18b2d8d1deba`.
+    *   **Authenticated Identity**: `Enver.AI@outlook.com` on `Azure subscription 1` (`c5ba51bd-ad7c-4e15-8199-bbc045d607de`).
+    *   **Deployment Vector**: `Enver/azure-deploy.ps1` -> Azure Container Apps (`enver-web-app` in `centralindia` under `enver-ai-rg`) containerized from [Enver/Dockerfile](file:///c:/Users/dbleg/OneDrive/Desktop/website/Enver/Dockerfile).
+    *   **Target Custom Domain**: `enveraitech.com`.
+*   **Security & Sanitization**:
+    *   Strengthened root `.gitignore` to prevent any `.env*` or legacy leakage.
+    *   Cleaned mock database connection strings in test docs.
+    *   Organized legacy sessions and plan docs into `docs/history/`.
+    *   Root `.vscode/mcp.json` initialized with Windows-safe `cmd.exe /c npx -y shadcn@latest mcp` command.
+
+---
+
+## Session Timestamp: 2026-10-01 — Decoupled Production Launch & Azure SWA Edge Deployment
+*   **Active Persona**: Shorekeeper.
+*   **Primary Directives**:
+    *   Execute a decoupled website launch for Enver AI Tech ([enveraitech.com](https://enveraitech.com)).
+    *   Deploy production static build to Microsoft Azure Static Web Apps under Founders Hub Sponsored credits.
+    *   Design and deploy the Agent Console Gateway for priority pilot queue staging.
+    *   Repair form delivery pipeline to ensure direct email notifications to founders with zero lead loss.
+    *   Diagnose and resolve the HTTP 503 error on `enveraitech.com` via GoDaddy DNS cutover.
+*   **Key Architecture Accomplishments**:
+    1.  **Azure Static Web Apps Deployment**:
+        *   Resource Group: `rg-enveraitech-prod` (Subscription: `c5ba51bd-ad7c-4e15-8199-bbc045d607de`, `Azure subscription 1`).
+        *   App: `enveraitech-web` (SKU: `Standard`, Region: `East Asia` control plane, worldwide Anycast Edge CDN).
+        *   Default Hostname: [https://nice-meadow-010692200.5.azurestaticapps.net](https://nice-meadow-010692200.5.azurestaticapps.net).
+        *   Edge Routing & Headers: Configured in `staticwebapp.config.json` with strict CSP, HSTS, frame options, and SPA fallback routes.
+    2.  **Decoupled Agent Gateway (`/playground`, `/signup`)**:
+        *   Implemented `client/src/pages/AgentGateway.tsx` to handle decoupled launch state.
+        *   Visitors attempting to access the agent console are welcomed to the Enver AI Sovereign Agent Cloud priority staging queue.
+        *   Generates cryptographic queue tickets (`ENV-PRD-XXXX`), captures registrant contact and company details, and dispatches directly to founders.
+        *   Displays live cluster deployment telemetry (Quantum Arbiter, Sovereign Enclave, RBI Financial Engine) and auto-returns visitors to the home portal in 10s with pause/resume controls.
+        *   Maintains internal team preview access via `?access=root` or `?preview=true` to access the full 3D Neuv deliberation console.
+    3.  **Form & Lead Delivery Pipeline**:
+        *   Diagnosed and repaired legacy Formspree endpoint (`mqaejydz`) returning 404 Form Not Found errors.
+        *   Integrated FormSubmit AJAX pipeline targeting `hanabi@enveraitech.com` (CC `amaan@enveraitech.com`).
+        *   Added persistent browser storage caching (`enver_inquiries` / `enver_pilot_queue_token`) so inquiries are safely stored locally even during network drops.
+        *   Tested live end-to-end: `/contact` successfully transmits inquiry and transitions cleanly to `/thank-you`.
+    4.  **DNS Cutover & 503 Resolution**:
+        *   Root Cause: GoDaddy nameservers (`ns45.domaincontrol.com` / `ns46.domaincontrol.com`) were routing `enveraitech.com` to abandoned Google Cloud/Firebase IP addresses (216.239.36.21, etc.) that responded with HTTP 503 Service Unavailable.
+        *   Resolution: Generated Azure custom domain validation TXT token (`_muk37rt7gdhfj59fni4v3jun1dnu2ux`), created CNAME alias to `nice-meadow-010692200.5.azurestaticapps.net`, and purged obsolete Google A/AAAA records.
+    5.  **Microsoft Entra ID Authentication**:
+        *   Configured App Registration `Enver AI` (Client ID: `6cae09cb-4819-4ddc-8a98-13c5c7bf58ec`, Tenant: `bda1a0ee-c558-4d13-a112-18b2d8d1deba`).
+        *   Registered authorized production redirect URIs for Azure SWA and custom domain callbacks.
+    6.  **Security & Zero Secrets Exposure**:
+        *   Audited all bundles to verify zero private environment variables (`RESEND_API_KEY`, Azure secrets) are exposed to client JavaScript.
+        *   Confirmed production deployment only serves static client assets from `./dist/public`.
+
+

@@ -1,1 +1,8 @@
-{"name": "enveraitech-workspace","private": true,"workspaces": ["dotcom","enveraitech-in"]}
+{
+  "name": "enveraitech-workspace",
+  "private": true,
+  "workspaces": [
+    "Enver",
+    "enveraitech-in"
+  ]
+}

@@ -1,0 +1,335 @@
+{"kind":"deck","id":"pr/vusbe2","name":"Deck"}
+{"kind":"layout","layoutId":"/ppt/slideMasters/slideMaster1.xml","name":"","type":"master","placeholders":[{"name":"title","type":"title"},{"name":"body","type":"body"},{"name":"footer","type":"footer"},{"name":"dateTime","type":"dateTime"},{"name":"slideNumber","type":"slideNumber","textPreview":"#"}]}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout1.xml","name":"Title Slide","type":"obj","placeholders":[{"name":"title","type":"title"},{"name":"subtitle","type":"subtitle"},{"name":"footer","type":"footer"},{"name":"dateTime","type":"dateTime"},{"name":"slideNumber","type":"slideNumber","textPreview":"#"}]}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout2.xml","name":"Title and Content","type":"obj","placeholders":[{"name":"title","type":"title"},{"name":"body","type":"body"},{"name":"footer","type":"footer"},{"name":"dateTime","type":"dateTime"},{"name":"slideNumber","type":"slideNumber","textPreview":"#"}]}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout3.xml","name":"Two Content","type":"obj","placeholders":[{"name":"title","type":"title"},{"name":"holder 3"},{"name":"holder 4"},{"name":"footer","type":"footer"},{"name":"dateTime","type":"dateTime"},{"name":"slideNumber","type":"slideNumber","textPreview":"#"}]}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout4.xml","name":"Title Only","type":"obj","placeholders":[{"name":"title","type":"title"},{"name":"footer","type":"footer"},{"name":"dateTime","type":"dateTime"},{"name":"slideNumber","type":"slideNumber","textPreview":"#"}]}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout5.xml","name":"Blank","type":"obj","placeholders":[{"name":"footer","type":"footer"},{"name":"dateTime","type":"dateTime"},{"name":"slideNumber","type":"slideNumber","textPreview":"#"}]}
+{"kind":"slide","id":"sl/y90nupkv","slide":1,"title":"Enver AI Tech","textShapes":3}
+{"kind":"shape","id":"sh/547294r6","slide":1,"name":"object 2","bbox":[864.05,507.33,387,50.07]}
+{"kind":"textbox","id":"sh/k3yl0zql","slide":1,"name":"object 3","placeholder":"title","text":"Enver AI Tech","textPreview":"Enver AI Tech","textChars":13,"textLines":1,"bbox":[859.29,487.03,392.33,83.47]}
+{"kind":"textbox","id":"sh/7qp4be9c","slide":1,"name":"object 4","text":"U4719OM H2O23PTC4O2519","textPreview":"U4719OM H2O23PTC4O2519","textChars":22,"textLines":1,"bbox":[767.86,812.39,250.67,14.33]}
+{"kind":"shape","id":"sh/65g3298r","slide":1,"name":"object 5","bbox":[1091.06,812.39,178.67,14.33]}
+{"kind":"textbox","id":"sh/ts7md4r2","slide":1,"name":"object 6","text":"27AAHCE 5539J1ZA","textPreview":"27AAHCE 5539J1ZA","textChars":16,"textLines":1,"bbox":[1089.09,803.42,181.33,28.33]}
+{"kind":"shape","id":"sh/sryl4zqx","slide":1,"bbox":[955,320,200,195]}
+{"kind":"image","id":"im/6lgjadw3","slide":1,"name":"","geometry":"ellipse","alt":"Enver AI Tech logo","bbox":[970,333,168,168]}
+{"kind":"notes","id":"nt/y90nupkv","slide":1,"text":""}
+{"kind":"slide","id":"sl/hwbqtkby","slide":2,"title":"1","textShapes":36}
+{"kind":"shape","id":"sh/a10jqpsj","slide":2,"name":"object 5","bbox":[0.55,50.02,2109.6,30.8]}
+{"kind":"textbox","id":"sh/r65knqtk","slide":2,"name":"object 8","text":"1","textPreview":"1","textChars":1,"textLines":1,"bbox":[58.95,57.82,5,16.8]}
+{"kind":"textbox","id":"sh/x4r21kru","slide":2,"name":"object 6","text":",',\"’ :","textPreview":",',\"’ :","textChars":7,"textLines":1,"bbox":[92.93,51.22,15.33,16.8]}
+{"kind":"textbox","id":"sh/q5wjelsz","slide":2,"name":"object 9","text":"- .'","textPreview":"- .'","textChars":4,"textLines":1,"bbox":[95.03,57.82,12.6,16.8]}
+{"kind":"textbox","id":"sh/w3i1sfa9","slide":2,"name":"object 7","text":"E hl V E R A I T E C H","textPreview":"E hl V E R A I T E C H","textChars":22,"textLines":1,"bbox":[121.96,51.22,133,16.8]}
+{"kind":"textbox","id":"sh/ove9o7yd","slide":2,"name":"object 10","text":"0 l —  T H E P - OP L E","textPreview":"0 l —  T H E P - OP L E","textChars":23,"textLines":1,"bbox":[1869.02,55.17,177.27,21.27]}
+{"kind":"shape","id":"sh/9wnqhczy","slide":2,"name":"object 11","bbox":[0.55,227.01,2109.6,12.13]}
+{"kind":"shape","id":"sh/mtwrmxg7","slide":2,"name":"object 12","bbox":[0.55,258.89,2109.6,25.33]}
+{"kind":"textbox","id":"sh/nu58f2hs","slide":2,"name":"object 13","text":"C O - F O U N D E B  &  D I R E C T O R\tD I N 1 0 1 5 4 2 4 7\nNeeda Kaiser Shaikh","textPreview":"C O - F O U N D E B  &  D I R E C T O R\tD I N 1 0 1 5 4 2 4 7 | Needa Kaiser Shaikh","textChars":81,"textLines":2,"bbox":[1089.94,217.36,420.2,74.6]}
+{"kind":"shape","id":"sh/wjy9sry9","slide":2,"name":"object 14","bbox":[0.55,311.65,2109.6,16]}
+{"kind":"textbox","id":"sh/xk7qlczu","slide":2,"name":"object 15","text":"Governonce, security posture, and the AI monitoring / evaluation layer. Woman co—founded, DPllT—recognised entity.","textPreview":"Governonce, security posture, and the AI monitoring / evaluation layer. Woman co—founded, DPllT—recognised entity.","textChars":114,"textLines":1,"bbox":[1090.49,305.85,848.13,22.6]}
+{"kind":"shape","id":"sh/ahwrqhgj","slide":2,"name":"object 16","bbox":[0.55,342.43,2109.6,8.27]}
+{"kind":"textbox","id":"sh/bip8jmho","slide":2,"name":"object 17","text":"F O U N D E R , C E O\tA P P L I E D A I A R C I-J I T E C T\nAmaan Shaikh\nBuilds the Artificer agent fleet on Vertex / Gemin-i\tingestion, grounded scoring, XAI drower, and the GCP orgo nisotion it already\nruns on.","textPreview":"F O U N D E R , C E O\tA P P L I E D A I A R C I-J I T E C T | Amaan Shaikh | Builds the Artificer agent fleet on Vertex / Gemin-i\tingesti...","textChars":212,"textLines":4,"bbox":[87.63,217.63,923.13,137.27]}
+{"kind":"shape","id":"sh/cnupgny5","slide":2,"name":"object 18","bbox":[0.55,422.68,2109.6,8.27]}
+{"kind":"textbox","id":"sh/do3q9szq","slide":2,"name":"object 19","text":"0›","textPreview":"0›","textChars":2,"textLines":1,"bbox":[77.97,415.69,16.33,18.73]}
+{"kind":"textbox","id":"sh/t8byxkn2","slide":2,"name":"object 20","text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[744.7,415.69,16.33,18.73]}
+{"kind":"textbox","id":"sh/s72xofmh","slide":2,"name":"object 21","text":"Oõ","textPreview":"Oõ","textChars":2,"textLines":1,"bbox":[1412.85,416.75,18.33,17.47]}
+{"kind":"shape","id":"sh/76twva5c","slide":2,"name":"object 22","bbox":[0.55,446.87,2109.6,19.8]}
+{"kind":"textbox","id":"sh/65kfmpor","slide":2,"name":"object 23","text":"Multi-agent systems","textPreview":"Multi-agent systems","textChars":19,"textLines":1,"bbox":[78.34,440.05,193.47,26.4]}
+{"kind":"textbox","id":"sh/hcvy14ne","slide":2,"name":"object 24","text":"Document intelligence","textPreview":"Document intelligence","textChars":21,"textLines":1,"bbox":[746.41,440.05,211.47,26.4]}
+{"kind":"shape","id":"sh/u94fqp4n","slide":2,"name":"object 27","bbox":[0.55,478.75,2109.6,13.2]}
+{"kind":"textbox","id":"sh/p0vy54na","slide":2,"name":"object 28","text":"Ind ian bank\tD ^s , GSM chaIlans","textPreview":"Ind ian bank\tD ^s , GSM chaIlans","textChars":32,"textLines":1,"bbox":[745.95,472.88,204.2,20]}
+{"kind":"textbox","id":"sh/4zmxwzmp","slide":2,"name":"object 29","text":"TO • atoCement la youI s","textPreview":"TO • atoCement la youI s","textChars":24,"textLines":1,"bbox":[957.47,472.88,147.2,20]}
+{"kind":"textbox","id":"sh/mlgvq147","slide":2,"name":"object 30","text":"Quantitative telemetry\nDeterministic fi—oil la r ratios-\tmath i  code. not in the model","textPreview":"Quantitative telemetry | Deterministic fi—oil la r ratios-\tmath i  code. not in the model","textChars":87,"textLines":2,"bbox":[1412.87,426.34,389.27,66.47]}
+{"kind":"shape","id":"sh/nmpcj6ls","slide":2,"name":"object 31","bbox":[0.55,540.31,2109.6,8.27]}
+{"kind":"textbox","id":"sh/a9gvulkj","slide":2,"name":"object 34","text":"0","textPreview":"0","textChars":1,"textLines":1,"bbox":[77.97,533.31,10.47,18.73]}
+{"kind":"textbox","id":"sh/9o7ulg3y","slide":2,"name":"object 33","text":"Oö","textPreview":"Oö","textChars":2,"textLines":1,"bbox":[745.52,533.31,18.27,18.73]}
+{"kind":"textbox","id":"sh/onydsbmd","slide":2,"name":"object 32","text":"Oö","textPreview":"Oö","textChars":2,"textLines":1,"bbox":[1412.82,533.85,18.87,18.07]}
+{"kind":"shape","id":"sh/ba9cn6l4","slide":2,"name":"object 35","bbox":[0.55,563.94,2109.6,19.8]}
+{"kind":"textbox","id":"sh/wbidwb29","slide":2,"name":"object 36","text":"Vertex AI / GCP","textPreview":"Vertex AI / GCP","textChars":15,"textLines":1,"bbox":[745.98,557.14,142.8,27.07]}
+{"kind":"textbox","id":"sh/xcrupg3u","slide":2,"name":"object 37","text":"Product cockpit","textPreview":"Product cockpit","textChars":15,"textLines":1,"bbox":[1412.85,557.68,151.27,26.4]}
+{"kind":"shape","id":"sh/ru5cbqd4","slide":2,"name":"object 40","bbox":[0.55,596.37,2109.6,13.2]}
+{"kind":"textbox","id":"sh/69wbilcj","slide":2,"name":"object 41","text":"MSME credit domain\nN^C co sh —Łow und erw rit in g .\tSL. RB XA","textPreview":"MSME credit domain | N^C co sh —Łow und erw rit in g .\tSL. RB XA","textChars":62,"textLines":2,"bbox":[78.34,545.21,264.73,65.33]}
+{"kind":"textbox","id":"sh/tw7ud0va","slide":2,"name":"object 42","text":"o n g noge","textPreview":"o n g noge","textChars":10,"textLines":1,"bbox":[351.61,590.51,59.53,20]}
+{"kind":"textbox","id":"sh/svedkvup","slide":2,"name":"object 43","text":"Reoc40leníoworkbevh GoogleSSO oFterCX","textPreview":"Reoc40leníoworkbevh GoogleSSO oFterCX","textChars":37,"textLines":1,"bbox":[1413.93,589.97,320.67,20.67]}
+{"kind":"shape","id":"sh/fypcfqdg","slide":2,"name":"object 44","bbox":[0.55,656.84,2109.6,8.27]}
+{"kind":"textbox","id":"sh/exgvmlcv","slide":2,"name":"object 45","text":"OY","textPreview":"OY","textChars":2,"textLines":1,"bbox":[78.84,650.91,18.07,17.47]}
+{"kind":"textbox","id":"sh/107uh0v6","slide":2,"name":"object 46","text":"08","textPreview":"08","textChars":2,"textLines":1,"bbox":[744.82,650.91,18.07,17.47]}
+{"kind":"textbox","id":"sh/gzydovul","slide":2,"name":"object 47","text":"09","textPreview":"09","textChars":2,"textLines":1,"bbox":[1412.04,650.37,18.73,18.07]}
+{"kind":"shape","id":"sh/v2lc36dw","slide":2,"name":"object 48","bbox":[0.55,681.02,2109.6,19.27]}
+{"kind":"textbox","id":"sh/a1cba1wb","slide":2,"name":"object 49","text":"Guardrails & XAI","textPreview":"Guardrails & XAI","textChars":16,"textLines":1,"bbox":[78.87,674.21,160.13,26.4]}
+{"kind":"textbox","id":"sh/0vq1o36x","slide":2,"name":"object 50","text":"India Stack","textPreview":"India Stack","textChars":11,"textLines":1,"bbox":[745.58,674.21,108.2,26.4]}
+{"kind":"shape","id":"sh/1wzix87i","slide":2,"name":"object 51","bbox":[0.55,712.9,2109.6,13.2]}
+{"kind":"textbox","id":"sh/et8zmto7","slide":2,"name":"object 52","text":"Schemo ro iIs . cit o Iion Ied","textPreview":"Schemo ro iIs . cit o Iion Ied","textChars":30,"textLines":1,"bbox":[79.15,707.57,148.33,19.4]}
+{"kind":"textbox","id":"sh/zuh0vypc","slide":2,"name":"object 53","text":"ger, ten oero I u re-0 scor ing","textPreview":"ger, ten oero I u re-0 scor ing","textChars":31,"textLines":1,"bbox":[239.55,707.57,177.87,19.4]}
+{"kind":"textbox","id":"sh/c76hk361","slide":2,"name":"object 54","text":"G S^ N. Accon nt Ag g reg of or ' So ho not i. M CAPS . e- Con rts","textPreview":"G S^ N. Accon nt Ag g reg of or ' So ho not i. M CAPS . e- Con rts","textChars":66,"textLines":1,"bbox":[746.26,707.57,367.4,19.4]}
+{"kind":"textbox","id":"sh/d8zit87m","slide":2,"name":"object 55","text":"SecOps & evaluation\nA Inon\titor ing . ino ct iv ity sent incl , SI ock SecOo s","textPreview":"SecOps & evaluation | A Inon\titor ing . ino ct iv ity sent incl , SI ock SecOo s","textChars":78,"textLines":2,"bbox":[1412.79,660.49,299.4,66.47]}
+{"kind":"shape","id":"sh/w3a1wn65","slide":2,"name":"object 58","bbox":[0.55,1129.54,2109.6,9.93]}
+{"kind":"textbox","id":"sh/xoji5s7q","slide":2,"name":"object 59","text":"E N V E R A I T E C H\tC O N F I D E N T I A L","textPreview":"E N V E R A I T E C H\tC O N F I D E N T I A L","textChars":45,"textLines":1,"bbox":[60.44,1125.78,234.73,16.13]}
+{"kind":"shape","id":"sh/wf6hcnyd","slide":2,"bbox":[43,37,260,51]}
+{"kind":"textbox","id":"sh/ad4zadg7","slide":2,"text":"ENVER AI TECH","textPreview":"ENVER AI TECH","textChars":13,"textLines":1,"bbox":[108,49,164,18]}
+{"kind":"textbox","id":"sh/9svih8zm","slide":2,"text":"ARTIFICER MVP","textPreview":"ARTIFICER MVP","textChars":13,"textLines":1,"bbox":[109,68,155,14]}
+{"kind":"image","id":"im/2xwz6twb","slide":2,"name":"object 4","bbox":[63.21,50.57,17.59,30.23]}
+{"kind":"image","id":"im/3yp0zyxg","slide":2,"name":"object 2","bbox":[0.55,129.72,2110.12,40.12]}
+{"kind":"image","id":"im/ozyh83e1","slide":2,"name":"object 26","bbox":[81.9,479.3,412.79,12.64]}
+{"kind":"image","id":"im/p07i18fm","slide":2,"name":"object 39","bbox":[748.08,596.37,352.88,13.19]}
+{"kind":"image","id":"im/e9wz29wz","slide":2,"name":"object 57","bbox":[2001.84,1130.09,44.52,9.34]}
+{"kind":"image","id":"im/gbeh4je5","slide":2,"name":"","geometry":"ellipse","alt":"Enver AI Tech logo","bbox":[57,45,38,38]}
+{"kind":"notes","id":"nt/hwbqtkby","slide":2,"text":""}
+{"kind":"slide","id":"sl/ofy9wn61","slide":3,"title":"We did not start in credit. Credit found the work.","textShapes":3}
+{"kind":"shape","id":"sh/298ryl4v","slide":3,"name":"object 4","bbox":[61.56,133.57,1091.07,39.6]}
+{"kind":"textbox","id":"sh/3ah8rqlg","slide":3,"name":"object 5","placeholder":"title","text":"We did not start in credit. Credit found the work.","textPreview":"We did not start in credit. Credit found the work.","textChars":50,"textLines":1,"bbox":[60.19,116.75,1093.53,68.13]}
+{"kind":"shape","id":"sh/pcjqtg36","slide":3,"bbox":[43,37,260,51]}
+{"kind":"textbox","id":"sh/n6ls3alk","slide":3,"text":"ENVER AI TECH","textPreview":"ENVER AI TECH","textChars":13,"textLines":1,"bbox":[108,49,164,18]}
+{"kind":"textbox","id":"sh/n2l4fq98","slide":3,"text":"ARTIFICER MVP","textPreview":"ARTIFICER MVP","textChars":13,"textLines":1,"bbox":[109,68,155,14]}
+{"kind":"image","id":"im/twvmpszq","slide":3,"name":"object 3","bbox":[0,133.57,2110.67,40.12]}
+{"kind":"image","id":"im/rqxozmh4","slide":3,"name":"","geometry":"ellipse","alt":"Enver AI Tech logo","bbox":[57,45,38,38]}
+{"kind":"notes","id":"nt/ofy9wn61","slide":3,"text":""}
+{"kind":"slide","id":"sl/jyx0ra1s","slide":4,"title":"1","textShapes":13}
+{"kind":"shape","id":"sh/3ihk3et8","slide":4,"name":"object 8","bbox":[0.55,50.02,2109.6,30.8]}
+{"kind":"textbox","id":"sh/5cva1cfq","slide":4,"name":"object 11","text":"1","textPreview":"1","textChars":1,"textLines":1,"bbox":[58.95,57.82,5,16.8]}
+{"kind":"textbox","id":"sh/ih8ju9sn","slide":4,"name":"object 9","text":",',\"’ :","textPreview":",',\"’ :","textChars":7,"textLines":1,"bbox":[92.93,51.22,15.33,16.8]}
+{"kind":"textbox","id":"sh/i94r6xgz","slide":4,"name":"object 12","text":"-'.'","textPreview":"-'.'","textChars":4,"textLines":1,"bbox":[95.03,57.82,12.6,16.8]}
+{"kind":"textbox","id":"sh/kbm987y5","slide":4,"name":"object 10","text":"E hl V E R A I T E C H","textPreview":"E hl V E R A I T E C H","textChars":22,"textLines":1,"bbox":[121.96,51.22,133,16.8]}
+{"kind":"textbox","id":"sh/jadsz2xk","slide":4,"name":"object 13","text":"0  3","textPreview":"0  3","textChars":4,"textLines":1,"bbox":[1850.93,55.71,24,20.67]}
+{"kind":"textbox","id":"sh/w72947yt","slide":4,"name":"object 14","text":"T H E P E O B L E M","textPreview":"T H E P E O B L E M","textChars":19,"textLines":1,"bbox":[1907.26,55.71,139.13,20.67]}
+{"kind":"shape","id":"sh/x8vaxsfe","slide":4,"name":"object 15","bbox":[62.66,133.02,673.93,40.73]}
+{"kind":"textbox","id":"sh/a5kr2xg3","slide":4,"name":"object 16","text":"70Sò of New-to-Credit MSMEs","textPreview":"70Sò of New-to-Credit MSMEs","textChars":27,"textLines":1,"bbox":[57.86,115.68,679.4,69.4]}
+{"kind":"shape","id":"sh/ql8jytsj","slide":4,"name":"object 5","bbox":[62.59,270.63,52.33,0]}
+{"kind":"shape","id":"sh/v6tsv2xo","slide":4,"name":"object 17","bbox":[0.55,306.16,2109.6,29.13]}
+{"kind":"shape","id":"sh/g36tgryd","slide":4,"name":"object 18","bbox":[0.55,347.93,2109.6,28.07]}
+{"kind":"shape","id":"sh/h4fa9wfy","slide":4,"name":"object 19","bbox":[0.55,388.6,2109.6,29.13]}
+{"kind":"shape","id":"sh/p0batw72","slide":4,"name":"object 20","bbox":[0.55,430.38,2109.6,28.07]}
+{"kind":"textbox","id":"sh/oz29krqh","slide":4,"name":"object 21","text":"IBM MSMEs  -30% of GDP  $300B+ credit gap (RB  / FOR\n\nCABIL needs a repayment history these firms do not have — even when cosh flow is real\nOfŁîcer s still line-read 100+ page statements. 3—5 days. $80—$150 a file.\n\nFraud the eye misses: circular trading, spoofed PDFs, GSTR-1 vs GB gaps","textPreview":"IBM MSMEs  -30% of GDP  $300B+ credit gap (RB  / FOR |  | CABIL needs a repayment history these firms do not have — even when cosh flow i...","textChars":287,"textLines":6,"bbox":[78.37,308.08,713.73,148.2]}
+{"kind":"shape","id":"sh/3ytsrmpw","slide":4,"name":"object 22","bbox":[0.55,566.14,2109.6,11]}
+{"kind":"textbox","id":"sh/2xkrih8b","slide":4,"name":"object 23","text":"NTC F LES REV ECT ED B\tBU REAU SCOR NG","textPreview":"NTC F LES REV ECT ED B\tBU REAU SCOR NG","textChars":38,"textLines":1,"bbox":[1273.19,559.22,327.93,21.93]}
+{"kind":"shape","id":"sh/1wbapc7q","slide":4,"name":"object 24","bbox":[0.55,898.13,2109.6,11]}
+{"kind":"textbox","id":"sh/gv29g7q5","slide":4,"name":"object 25","text":"MAN UAL TAT  VS 55 S ECON DS","textPreview":"MAN UAL TAT  VS 55 S ECON DS","textChars":28,"textLines":1,"bbox":[1273.3,892.28,231.47,20.67]}
+{"kind":"shape","id":"sh/tsrqlc7u","slide":4,"name":"object 28","bbox":[0.55,1129.54,2109.6,9.93]}
+{"kind":"textbox","id":"sh/sri9s7q9","slide":4,"name":"object 29","text":"E N V E R A I T E C H\tC O N F I D E N T I A L","textPreview":"E N V E R A I T E C H\tC O N F I D E N T I A L","textChars":45,"textLines":1,"bbox":[60.44,1125.78,234.73,16.13]}
+{"kind":"shape","id":"sh/vy5gbe14","slide":4,"bbox":[43,37,260,51]}
+{"kind":"textbox","id":"sh/xknyx4ja","slide":4,"text":"ENVER AI TECH","textPreview":"ENVER AI TECH","textChars":13,"textLines":1,"bbox":[108,49,164,18]}
+{"kind":"textbox","id":"sh/mtcfypkn","slide":4,"text":"ARTIFICER MVP","textPreview":"ARTIFICER MVP","textChars":13,"textLines":1,"bbox":[109,68,155,14]}
+{"kind":"image","id":"im/tona5s3y","slide":4,"name":"object 7","bbox":[63.21,50.57,17.59,30.23]}
+{"kind":"image","id":"im/s3etcnmd","slide":4,"name":"object 4","bbox":[0.55,133.02,2110.12,113.78]}
+{"kind":"image","id":"im/725s3il8","slide":4,"name":"object 3","bbox":[0.55,471.05,2110.12,69.26]}
+{"kind":"image","id":"im/61wbax4n","slide":4,"name":"object 2","bbox":[0.55,821.18,2110.12,65.96]}
+{"kind":"image","id":"im/hs7u9c3a","slide":4,"name":"object 27","bbox":[2000.74,1130.09,45.62,9.34]}
+{"kind":"image","id":"im/fqps72l4","slide":4,"name":"","geometry":"ellipse","alt":"Enver AI Tech logo","bbox":[57,45,38,38]}
+{"kind":"notes","id":"nt/jyx0ra1s","slide":4,"text":""}
+{"kind":"slide","id":"sl/i107q5of","slide":5,"title":"1","textShapes":18}
+{"kind":"shape","id":"sh/x4vedgvm","slide":5,"name":"object 11","bbox":[0.55,50.02,2109.6,30.8]}
+{"kind":"textbox","id":"sh/k7mxovud","slide":5,"name":"object 14","text":"1","textPreview":"1","textChars":1,"textLines":1,"bbox":[58.95,57.82,5,16.8]}
+{"kind":"textbox","id":"sh/ahkvi1cb","slide":5,"name":"object 12","text":",',\"’ :","textPreview":",',\"’ :","textChars":7,"textLines":1,"bbox":[92.93,51.22,15.33,16.8]}
+{"kind":"textbox","id":"sh/58vehgvy","slide":5,"name":"object 15","text":"- .'","textPreview":"- .'","textChars":4,"textLines":1,"bbox":[95.03,57.82,12.6,16.8]}
+{"kind":"textbox","id":"sh/v2twb6dw","slide":5,"name":"object 13","text":"E hl V E R A I T E C H","textPreview":"E hl V E R A I T E C H","textChars":22,"textLines":1,"bbox":[121.96,51.22,133,16.8]}
+{"kind":"shape","id":"sh/hgrmpwj2","slide":5,"name":"object 20","bbox":[0.55,327.59,2109.6,22]}
+{"kind":"textbox","id":"sh/gfi5grih","slide":5,"name":"object 21","text":"Account Aggregator","textPreview":"Account Aggregator","textChars":18,"textLines":1,"bbox":[1090.65,319.76,206.27,29.6]}
+{"kind":"textbox","id":"sh/fe94nm1w","slide":5,"name":"object 22","text":"Public registries","textPreview":"Public registries","textChars":17,"textLines":1,"bbox":[1591.4,320.82,167.67,28.33]}
+{"kind":"shape","id":"sh/4ji5kbid","slide":5,"name":"object 25","bbox":[0.55,366.62,2109.6,14.33]}
+{"kind":"textbox","id":"sh/3i94r61s","slide":5,"name":"object 26","text":"Bank statements\nP D\tPSV\t0* in dian layou Is","textPreview":"Bank statements | P D\tPSV\t0* in dian layou Is","textChars":43,"textLines":2,"bbox":[87.48,319.76,207.87,62]}
+{"kind":"textbox","id":"sh/2h0ni107","slide":5,"name":"object 27","text":"GST  returns\nSTR- as\tSTR-GB tax-gap ch eck","textPreview":"GST  returns | STR- as\tSTR-GB tax-gap ch eck","textChars":42,"textLines":2,"bbox":[588.82,320.29,237.6,61.67]}
+{"kind":"textbox","id":"sh/5o7mhcju","slide":5,"name":"object 28","text":"Sch omoti  SO N Sets /\tin ve / An omoti","textPreview":"Sch omoti  SO N Sets /\tin ve / An omoti","textChars":39,"textLines":1,"bbox":[1090.37,360.25,268.4,21.93]}
+{"kind":"shape","id":"sh/z2tcnm5s","slide":5,"name":"object 4","bbox":[62.59,439.92,483.27,0]}
+{"kind":"shape","id":"sh/yhkbe1o7","slide":5,"name":"object 5","bbox":[563.8,439.92,483.27,0]}
+{"kind":"shape","id":"sh/l4bupwny","slide":5,"name":"object 6","bbox":[1065.01,439.92,483.53,0]}
+{"kind":"shape","id":"sh/032tgr6d","slide":5,"name":"object 7","bbox":[1566.47,439.92,483.27,0]}
+{"kind":"shape","id":"sh/kny587i9","slide":5,"name":"object 29","bbox":[0.55,511.18,2109.6,14.87]}
+{"kind":"textbox","id":"sh/atcjidg7","slide":5,"name":"object 30","text":"SS E-streamed TAT vs 3—5 days","textPreview":"SS E-streamed TAT vs 3—5 days","textChars":29,"textLines":1,"bbox":[60.68,506.96,216.2,20]}
+{"kind":"textbox","id":"sh/vu5kbihc","slide":5,"name":"object 31","text":"Health score * LOW / M ED / H GH","textPreview":"Health score * LOW / M ED / H GH","textChars":32,"textLines":1,"bbox":[562.05,507.49,235.6,19.4]}
+{"kind":"textbox","id":"sh/wve1knyx","slide":5,"name":"object 32","text":"Liquidity, reven ue, stability, leverage, behaviour","textPreview":"Liquidity, reven ue, stability, leverage, behaviour","textChars":51,"textLines":1,"bbox":[1063.39,506.96,326.07,20]}
+{"kind":"textbox","id":"sh/xwn2dszi","slide":5,"name":"object 33","text":"A I cost per £Ie vs $8O— Al","textPreview":"A I cost per £Ie vs $8O— Al","textChars":27,"textLines":1,"bbox":[1564.65,508.56,171.67,18.07]}
+{"kind":"textbox","id":"sh/ihw3mxg3","slide":5,"name":"object 34","text":"O man uaI","textPreview":"O man uaI","textChars":9,"textLines":1,"bbox":[1743.74,508.56,65.73,18.07]}
+{"kind":"shape","id":"sh/ji5kf2ho","slide":5,"name":"object 35","bbox":[0.55,1129.54,2109.6,9.93]}
+{"kind":"textbox","id":"sh/kjelony9","slide":5,"name":"object 36","text":"E N V E R A I T E C H\tC O N F I D E N T I A L","textPreview":"E N V E R A I T E C H\tC O N F I D E N T I A L","textChars":45,"textLines":1,"bbox":[60.44,1125.78,234.73,16.13]}
+{"kind":"textbox","id":"sh/5kn2hszu","slide":5,"name":"object 37","text":"0 5 / 13","textPreview":"0 5 / 13","textChars":8,"textLines":1,"bbox":[1999.99,1124.71,48,17.47]}
+{"kind":"shape","id":"sh/povid4ra","slide":5,"bbox":[43,37,260,51]}
+{"kind":"textbox","id":"sh/bqx0fe9g","slide":5,"text":"ENVER AI TECH","textPreview":"ENVER AI TECH","textChars":13,"textLines":1,"bbox":[108,49,164,18]}
+{"kind":"textbox","id":"sh/qp4jm98v","slide":5,"text":"ARTIFICER MVP","textPreview":"ARTIFICER MVP","textChars":13,"textLines":1,"bbox":[109,68,155,14]}
+{"kind":"image","id":"im/18zih4ru","slide":5,"name":"object 8","bbox":[63.21,50.57,17.59,30.23]}
+{"kind":"image","id":"im/g7q1ozq9","slide":5,"name":"object 10","bbox":[1838.04,62.66,206.12,9.89]}
+{"kind":"image","id":"im/c3alg3ah","slide":5,"name":"object 3","bbox":[0.55,133.02,2110.12,52.77]}
+{"kind":"image","id":"im/d4j298b2","slide":5,"name":"object 17","bbox":[62.66,208.87,789.3,18.14]}
+{"kind":"image","id":"im/q1s3etsb","slide":5,"name":"object 18","bbox":[0.55,208.87,2110.12,18.69]}
+{"kind":"image","id":"im/b21k7ytw","slide":5,"name":"object 19","bbox":[0.55,239.65,2110.12,18.69]}
+{"kind":"image","id":"im/ozalc3al","slide":5,"name":"object 24","bbox":[1593.99,367.17,223.16,12.64]}
+{"kind":"image","id":"im/p0j25ob6","slide":5,"name":"object 2","bbox":[0.55,461.16,2110.12,41.22]}
+{"kind":"image","id":"im/3y1k3yt0","slide":5,"name":"","geometry":"ellipse","alt":"Enver AI Tech logo","bbox":[57,45,38,38]}
+{"kind":"notes","id":"nt/i107q5of","slide":5,"text":""}
+{"kind":"slide","id":"sl/x8f69ofe","slide":6,"title":"Four","textShapes":6}
+{"kind":"shape","id":"sh/zi98nu94","slide":6,"name":"object 3","bbox":[63.21,130.82,81.93,28.6]}
+{"kind":"textbox","id":"sh/87ipkzal","slide":6,"name":"object 4","text":"Four","textPreview":"Four","textChars":4,"textLines":1,"bbox":[59.02,114.25,86.8,55.27]}
+{"kind":"shape","id":"sh/98rqt4r6","slide":6,"name":"object 5","bbox":[285.82,130.82,128.67,37.93]}
+{"kind":"textbox","id":"sh/ml07i9sv","slide":6,"name":"object 6","text":"System","textPreview":"System","textChars":6,"textLines":1,"bbox":[282.79,116.92,132.27,52.07]}
+{"kind":"shape","id":"sh/7m98ru9g","slide":6,"name":"object 7","bbox":[445.77,129.72,79.73,29.73]}
+{"kind":"shape","id":"sh/oryp8fah","slide":6,"name":"object 8","bbox":[534.26,130.82,128.67,37.93]}
+{"kind":"shape","id":"sh/pc76hkr2","slide":6,"name":"object 9","bbox":[671.68,130.82,29.13,29.13]}
+{"kind":"shape","id":"sh/h4bupgn6","slide":6,"name":"object 10","bbox":[710.15,129.72,90.73,29.73]}
+{"kind":"shape","id":"sh/w32twb6l","slide":6,"name":"object 11","bbox":[809.09,131.92,26.93,27.53]}
+{"kind":"textbox","id":"sh/v2tcn650","slide":6,"name":"object 12","placeholder":"title","text":"then System 2.Math \"IS","textPreview":"then System 2.Math \"IS","textChars":22,"textLines":1,"bbox":[443.71,112.64,386.73,57.2]}
+{"kind":"shape","id":"sh/bq547yhw","slide":6,"name":"object 23","bbox":[1085.01,129.72,118.2,29.73]}
+{"kind":"textbox","id":"sh/0fy5k3id","slide":6,"name":"object 24","text":"model.","textPreview":"model.","textChars":6,"textLines":1,"bbox":[1082.54,116.38,122.8,52.73]}
+{"kind":"shape","id":"sh/4f2pgr2h","slide":6,"bbox":[43,37,260,51]}
+{"kind":"textbox","id":"sh/u907axkf","slide":6,"text":"ENVER AI TECH","textPreview":"ENVER AI TECH","textChars":13,"textLines":1,"bbox":[108,49,164,18]}
+{"kind":"textbox","id":"sh/hcrqlcj6","slide":6,"text":"ARTIFICER MVP","textPreview":"ARTIFICER MVP","textChars":13,"textLines":1,"bbox":[109,68,155,14]}
+{"kind":"image","id":"im/md8ru5sv","slide":6,"name":"object 2","bbox":[153.9,135.76,121.47,33.53]}
+{"kind":"image","id":"im/90zqp0r6","slide":6,"name":"object 13","bbox":[845.92,135.76,57.71,24.18]}
+{"kind":"image","id":"im/ofq9wfal","slide":6,"name":"object 15","bbox":[912.97,129.72,56.06,32.98]}
+{"kind":"image","id":"im/3id8b69w","slide":6,"name":"object 16","bbox":[912.42,129.72,56.61,30.23]}
+{"kind":"image","id":"im/2h47i1sb","slide":6,"name":"object 18","bbox":[977.28,136.31,34.08,23.64]}
+{"kind":"image","id":"im/sn25c7q9","slide":6,"name":"object 19","bbox":[977.28,135.76,34.08,24.18]}
+{"kind":"image","id":"im/tob6lc7u","slide":6,"name":"object 21","bbox":[1020.16,129.72,54.97,32.98]}
+{"kind":"image","id":"im/6l0nax83","slide":6,"name":"object 22","bbox":[1020.16,129.72,55.51,30.23]}
+{"kind":"image","id":"im/kji587qd","slide":6,"name":"","geometry":"ellipse","alt":"Enver AI Tech logo","bbox":[57,45,38,38]}
+{"kind":"notes","id":"nt/x8f69ofe","slide":6,"text":""}
+{"kind":"slide","id":"sl/gnmp4jqx","slide":7,"title":"Alternate data,","textShapes":5}
+{"kind":"shape","id":"sh/cb2tkvap","slide":7,"name":"object 2","bbox":[61.56,129.72,163.8,29.73]}
+{"kind":"shape","id":"sh/dcbud0ra","slide":7,"name":"object 3","bbox":[235.25,129.72,83.6,36.33]}
+{"kind":"textbox","id":"sh/ydkbm5sv","slide":7,"name":"object 4","text":"Alternate data,","textPreview":"Alternate data,","textChars":15,"textLines":1,"bbox":[60.66,116.92,260.6,52.07]}
+{"kind":"shape","id":"sh/eh0ba1sr","slide":7,"name":"object 8","bbox":[454.56,129.72,61.6,29.73]}
+{"kind":"shape","id":"sh/fi9c369c","slide":7,"name":"object 9","bbox":[527.12,140.16,18.73,19.27]}
+{"kind":"textbox","id":"sh/baxkjqlk","slide":7,"name":"object 10","placeholder":"title","text":"like a","textPreview":"like a","textChars":6,"textLines":1,"bbox":[0,0,0,0]}
+{"kind":"shape","id":"sh/n6x0fqlo","slide":7,"name":"object 14","bbox":[664.53,131.92,195.73,27.53]}
+{"kind":"textbox","id":"sh/25ojml43","slide":7,"name":"object 15","text":"committee.","textPreview":"committee.","textChars":10,"textLines":1,"bbox":[661.61,116.38,199.53,52.73]}
+{"kind":"shape","id":"sh/id4ju1oz","slide":7,"bbox":[43,37,260,51]}
+{"kind":"textbox","id":"sh/4fm1wb6p","slide":7,"text":"ENVER AI TECH","textPreview":"ENVER AI TECH","textChars":13,"textLines":1,"bbox":[108,49,164,18]}
+{"kind":"textbox","id":"sh/50v2pgna","slide":7,"text":"ARTIFICER MVP","textPreview":"ARTIFICER MVP","textChars":13,"textLines":1,"bbox":[109,68,155,14]}
+{"kind":"image","id":"im/y1ofmd0z","slide":7,"name":"object 6","bbox":[328.69,130.27,115.98,29.68]}
+{"kind":"image","id":"im/j2xwvyhk","slide":7,"name":"object 7","bbox":[328.14,129.72,117.08,30.23]}
+{"kind":"image","id":"im/8rqxsni1","slide":7,"name":"object 12","bbox":[554.6,130.27,101.69,29.68]}
+{"kind":"image","id":"im/tsze1szm","slide":7,"name":"object 13","bbox":[554.05,129.72,102.24,30.23]}
+{"kind":"image","id":"im/gb25wj6t","slide":7,"name":"","geometry":"ellipse","alt":"Enver AI Tech logo","bbox":[57,45,38,38]}
+{"kind":"notes","id":"nt/gnmp4jqx","slide":7,"text":""}
+{"kind":"slide","id":"sl/fu1gfa1s","slide":8,"title":"Every number","textShapes":5}
+{"kind":"shape","id":"sh/18byd4zy","slide":8,"name":"object 2","bbox":[63.21,130.82,100.6,37.93]}
+{"kind":"shape","id":"sh/g72x4zyd","slide":8,"name":"object 3","bbox":[172.04,129.72,139.67,29.73]}
+{"kind":"textbox","id":"sh/ri9g7uhw","slide":8,"name":"object 4","text":"Every number","textPreview":"Every number","textChars":12,"textLines":1,"bbox":[60.03,117.45,251.27,51.47]}
+{"kind":"shape","id":"sh/je9g3ahk","slide":8,"name":"object 8","bbox":[409.49,140.16,18.73,19.27]}
+{"kind":"shape","id":"sh/id0fu50z","slide":8,"name":"object 9","bbox":[436.42,129.72,72.07,29.73]}
+{"kind":"shape","id":"sh/o7ydoret","slide":8,"name":"object 10","bbox":[518.32,129.72,91.27,29.73]}
+{"kind":"textbox","id":"sh/98rehwve","slide":8,"name":"object 11","placeholder":"title","text":"a line. Then","textPreview":"a line. Then","textChars":12,"textLines":1,"bbox":[0,0,0,0]}
+{"kind":"shape","id":"sh/1k7edwv2","slide":8,"name":"object 15","bbox":[682.12,129.72,128.13,38.53]}
+{"kind":"shape","id":"sh/ehgvihwr","slide":8,"name":"object 16","bbox":[819.53,129.72,98.4,29.73]}
+{"kind":"textbox","id":"sh/zipwbmdc","slide":8,"name":"object 17","text":"cockpit locks.","textPreview":"cockpit locks.","textChars":14,"textLines":1,"bbox":[679.23,116.38,241.07,52.73]}
+{"kind":"shape","id":"sh/7u5w765k","slide":8,"bbox":[43,37,260,51]}
+{"kind":"textbox","id":"sh/5sne5wne","slide":8,"text":"ENVER AI TECH","textPreview":"ENVER AI TECH","textChars":13,"textLines":1,"bbox":[108,49,164,18]}
+{"kind":"textbox","id":"sh/kredcr6t","slide":8,"text":"ARTIFICER MVP","textPreview":"ARTIFICER MVP","textChars":13,"textLines":1,"bbox":[109,68,155,14]}
+{"kind":"image","id":"im/nud8jy1k","slide":8,"name":"object 6","bbox":[321,131.92,78.05,28.03]}
+{"kind":"image","id":"im/mt47qt0z","slide":8,"name":"object 7","bbox":[320.45,131.92,78.6,28.03]}
+{"kind":"image","id":"im/yp8rix47","slide":8,"name":"object 13","bbox":[617.26,130.27,55.51,32.43]}
+{"kind":"image","id":"im/jqhsb2ls","slide":8,"name":"object 14","bbox":[617.26,129.72,55.51,30.23]}
+{"kind":"image","id":"im/lszads3i","slide":8,"name":"","geometry":"ellipse","alt":"Enver AI Tech logo","bbox":[57,45,38,38]}
+{"kind":"notes","id":"nt/fu1gfa1s","slide":8,"text":""}
+{"kind":"slide","id":"sl/udsvah03","slide":9,"title":"ENVER AI TECH","textShapes":2}
+{"kind":"shape","id":"sh/1cfmhgne","slide":9,"bbox":[43,37,260,51]}
+{"kind":"textbox","id":"sh/nex4jq5k","slide":9,"text":"ENVER AI TECH","textPreview":"ENVER AI TECH","textChars":13,"textLines":1,"bbox":[108,49,164,18]}
+{"kind":"textbox","id":"sh/mdonql4z","slide":9,"text":"ARTIFICER MVP","textPreview":"ARTIFICER MVP","textChars":13,"textLines":1,"bbox":[109,68,155,14]}
+{"kind":"image","id":"im/f2dkvidc","slide":9,"name":"object 2","bbox":[0,0,2110.67,1187.25]}
+{"kind":"image","id":"im/hof2xsvi","slide":9,"name":"","geometry":"ellipse","alt":"Enver AI Tech logo","bbox":[57,45,38,38]}
+{"kind":"notes","id":"nt/udsvah03","slide":9,"text":""}
+{"kind":"slide","id":"sl/m90b6t0r","slide":10,"title":"1","textShapes":16}
+{"kind":"shape","id":"sh/r6pcv6lw","slide":10,"name":"object 13","bbox":[0.55,50.02,2109.6,30.8]}
+{"kind":"textbox","id":"sh/e9gb61k7","slide":10,"name":"object 16","text":"1","textPreview":"1","textChars":1,"textLines":1,"bbox":[58.95,57.82,5,16.8]}
+{"kind":"textbox","id":"sh/0bit8b2d","slide":10,"name":"object 14","text":",',\"’ :","textPreview":",',\"’ :","textChars":7,"textLines":1,"bbox":[92.93,51.22,15.33,16.8]}
+{"kind":"textbox","id":"sh/fapcz6ls","slide":10,"name":"object 17","text":"- .'","textPreview":"- .'","textChars":4,"textLines":1,"bbox":[95.03,57.82,12.6,16.8]}
+{"kind":"textbox","id":"sh/1cru1g3y","slide":10,"name":"object 15","text":"E hl V E R A I T E C H","textPreview":"E hl V E R A I T E C H","textChars":22,"textLines":1,"bbox":[121.96,51.22,133,16.8]}
+{"kind":"textbox","id":"sh/ozitcv29","slide":10,"name":"object 18","text":"0 9  —  M A F' l¢ E T  &  M O D E L","textPreview":"0 9  —  M A F' l¢ E T  &  M O D E L","textChars":35,"textLines":1,"bbox":[1810.27,56.24,236.07,20]}
+{"kind":"shape","id":"sh/725onyl4","slide":10,"name":"object 8","bbox":[62.59,246.26,367.87,0]}
+{"kind":"shape","id":"sh/m1cnetkj","slide":10,"name":"object 9","bbox":[448.37,246.26,369.13,0]}
+{"kind":"shape","id":"sh/s7yt4b21","slide":10,"name":"object 10","bbox":[835.44,246.26,367.87,0]}
+{"kind":"shape","id":"sh/wvetgbud","slide":10,"name":"object 21","bbox":[0.55,256.69,2109.6,23.67]}
+{"kind":"textbox","id":"sh/lk7ut0va","slide":10,"name":"object 24","text":"list price per evaluation","textPreview":"list price per evaluation","textChars":25,"textLines":1,"bbox":[1272.97,252.45,160.13,19.4]}
+{"kind":"textbox","id":"sh/bu5cnqd8","slide":10,"name":"object 22","text":"T A M","textPreview":"T A M","textChars":5,"textLines":1,"bbox":[60.45,264.55,40.2,19.4]}
+{"kind":"textbox","id":"sh/atwbelcn","slide":10,"name":"object 23","text":"SOA","textPreview":"SOA","textChars":3,"textLines":1,"bbox":[831.45,260.81,35.07,23.87]}
+{"kind":"shape","id":"sh/kzu5c32t","slide":10,"name":"object 7","bbox":[1275.08,300.13,52.33,0]}
+{"kind":"shape","id":"sh/kjytkvup","slide":10,"name":"object 25","bbox":[0.55,394.1,2109.6,12.13]}
+{"kind":"textbox","id":"sh/jypcrqd4","slide":10,"name":"object 26","text":"Gemini cost  -8. Ok tokens / Ale","textPreview":"Gemini cost  -8. Ok tokens / Ale","textChars":32,"textLines":1,"bbox":[1273.09,389.33,212.53,20]}
+{"kind":"shape","id":"sh/yxgbilcj","slide":10,"name":"object 27","bbox":[0.55,413.34,2109.6,18.2]}
+{"kind":"textbox","id":"sh/1o3ahwvq","slide":10,"name":"object 28","text":"Buyers: CRO / CCO, Head of MSME. Users: credit officers. API ev alua tions plus enterprise licences — not","textPreview":"Buyers: CRO / CCO, Head of MSME. Users: credit officers. API ev alua tions plus enterprise licences — not","textChars":105,"textLines":1,"bbox":[60.62,408.65,853.33,23.2]}
+{"kind":"textbox","id":"sh/0nut8rul","slide":10,"name":"object 29","text":"a consumer app.","textPreview":"a consumer app.","textChars":15,"textLines":1,"bbox":[925.86,408.65,140.27,23.2]}
+{"kind":"shape","id":"sh/l036l83y","slide":10,"name":"object 6","bbox":[1275.08,437.62,52.33,0]}
+{"kind":"shape","id":"sh/q9srixs3","slide":10,"name":"object 30","bbox":[0.55,530.96,2109.6,12.13]}
+{"kind":"textbox","id":"sh/ru18r2to","slide":10,"name":"object 31","text":"cost reduc tio n vs S 8O— Al","textPreview":"cost reduc tio n vs S 8O— Al","textChars":28,"textLines":1,"bbox":[1272.81,528.35,171.07,18.07]}
+{"kind":"textbox","id":"sh/cva9k7a9","slide":10,"name":"object 32","text":"O man uaI review","textPreview":"O man uaI review","textChars":16,"textLines":1,"bbox":[1451.33,528.35,115.13,18.07]}
+{"kind":"shape","id":"sh/zyl8vmt0","slide":10,"name":"object 35","bbox":[0.55,1129.54,2109.6,9.93]}
+{"kind":"textbox","id":"sh/0zu9ora5","slide":10,"name":"object 36","text":"E N V E R A I T E C H\tC O N F I D E N T I A L","textPreview":"E N V E R A I T E C H\tC O N F I D E N T I A L","textChars":45,"textLines":1,"bbox":[60.44,1125.78,234.73,16.13]}
+{"kind":"shape","id":"sh/jq9gvuh4","slide":10,"bbox":[43,37,260,51]}
+{"kind":"textbox","id":"sh/5cryx4za","slide":10,"text":"ENVER AI TECH","textPreview":"ENVER AI TECH","textChars":13,"textLines":1,"bbox":[108,49,164,18]}
+{"kind":"textbox","id":"sh/kbix4zyp","slide":10,"text":"ARTIFICER MVP","textPreview":"ARTIFICER MVP","textChars":13,"textLines":1,"bbox":[109,68,155,14]}
+{"kind":"image","id":"im/e5sfmpsj","slide":10,"name":"object 12","bbox":[63.21,50.57,17.59,30.23]}
+{"kind":"image","id":"im/hczel0bq","slide":10,"name":"object 5","bbox":[0.55,130.82,2110.12,46.17]}
+{"kind":"image","id":"im/wb6dcval","slide":10,"name":"object 4","bbox":[0.55,196.78,2110.12,39.57]}
+{"kind":"image","id":"im/0rehk3ut","slide":10,"name":"object 20","bbox":[449.07,270.43,35.18,9.89]}
+{"kind":"image","id":"im/lsnit8be","slide":10,"name":"object 3","bbox":[0.55,302.86,2110.12,74.2]}
+{"kind":"image","id":"im/ypwzidc3","slide":10,"name":"object 2","bbox":[0.55,472.15,2110.12,39.03]}
+{"kind":"image","id":"im/zq50rito","slide":10,"name":"object 34","bbox":[2004.03,1130.09,42.32,9.34]}
+{"kind":"image","id":"im/donip8bi","slide":10,"name":"","geometry":"ellipse","alt":"Enver AI Tech logo","bbox":[57,45,38,38]}
+{"kind":"notes","id":"nt/m90b6t0r","slide":10,"text":""}
+{"kind":"slide","id":"sl/jetc3ut0","slide":11,"title":"The MVP","textShapes":6}
+{"kind":"shape","id":"sh/wbih4b6d","slide":11,"name":"object 3","bbox":[62.66,133.57,88,39.6]}
+{"kind":"shape","id":"sh/n69grmpw","slide":11,"name":"object 4","bbox":[161.05,135.21,114.33,37.4]}
+{"kind":"textbox","id":"sh/250zy18b","slide":11,"name":"object 5","text":"The MVP","textPreview":"The MVP","textChars":7,"textLines":1,"bbox":[60.07,114.6,217.67,70]}
+{"kind":"shape","id":"sh/98rytw72","slide":11,"name":"object 6","bbox":[467.75,147.31,103.93,25.87]}
+{"kind":"shape","id":"sh/o7ih0r6h","slide":11,"name":"object 7","bbox":[584.28,147.31,57.2,25.87]}
+{"kind":"shape","id":"sh/72t03qp0","slide":11,"name":"object 8","bbox":[651.34,135.21,158.33,37.93]}
+{"kind":"textbox","id":"sh/61kzalof","slide":11,"name":"object 9","placeholder":"title","text":"runs on Vertex.","textPreview":"runs on Vertex.","textChars":15,"textLines":1,"bbox":[464.28,115.15,345.93,70]}
+{"kind":"shape","id":"sh/9gza9sze","slide":11,"bbox":[43,37,260,51]}
+{"kind":"textbox","id":"sh/nehs7iho","slide":11,"text":"ENVER AI TECH","textPreview":"ENVER AI TECH","textChars":13,"textLines":1,"bbox":[108,49,164,18]}
+{"kind":"textbox","id":"sh/0b6tc3yx","slide":11,"text":"ARTIFICER MVP","textPreview":"ARTIFICER MVP","textChars":13,"textLines":1,"bbox":[109,68,155,14]}
+{"kind":"shape","id":"sh/1cfa58zi","slide":11,"bbox":[42,98,2015,118]}
+{"kind":"textbox","id":"sh/epobatgr","slide":11,"text":"The MVP already runs on Google Cloud","textPreview":"The MVP already runs on Google Cloud","textChars":36,"textLines":1,"bbox":[60,112,1420,70]}
+{"kind":"shape","id":"sh/zaxs3yhc","slide":11,"bbox":[60,198,55,2]}
+{"kind":"shape","id":"sh/cn6t83y1","slide":11,"bbox":[58,515,1940,96]}
+{"kind":"textbox","id":"sh/dofa18z6","slide":11,"text":"Enver already runs in its own Google Cloud organisation. This room helps move an existing Google-native MVP into live lender pilots.","textPreview":"Enver already runs in its own Google Cloud organisation. This room helps move an existing Google-native MVP into live lender pilots.","textChars":132,"textLines":1,"bbox":[60,529,1800,52]}
+{"kind":"image","id":"im/bq5ovmlw","slide":11,"name":"object 2","bbox":[287.47,133.57,169.84,52.22]}
+{"kind":"image","id":"im/dsn6xw32","slide":11,"name":"","geometry":"ellipse","alt":"Enver AI Tech logo","bbox":[57,45,38,38]}
+{"kind":"notes","id":"nt/jetc3ut0","slide":11,"text":""}
+{"kind":"slide","id":"sl/8f2psfyx","slide":12,"title":"Credits.","textShapes":10}
+{"kind":"shape","id":"sh/sb2lcnmd","slide":12,"name":"object 7","bbox":[63.21,133.02,175.4,40.73]}
+{"kind":"textbox","id":"sh/b6d4f2lc","slide":12,"name":"object 8","text":"Credits.","textPreview":"Credits.","textChars":8,"textLines":1,"bbox":[59.29,117.28,180.87,67.47]}
+{"kind":"shape","id":"sh/1oj61kn6","slide":12,"name":"object 19","bbox":[297.36,141.81,100.07,31.33]}
+{"kind":"shape","id":"sh/tgrm1wzy","slide":12,"name":"object 24","bbox":[410.04,135.21,64.87,37.93]}
+{"kind":"textbox","id":"sh/sfi58ryd","slide":12,"name":"object 25","placeholder":"title","text":"seat. No","textPreview":"seat. No","textChars":8,"textLines":1,"bbox":[294.22,113.01,184.93,72.6]}
+{"kind":"shape","id":"sh/hkbm5wzu","slide":12,"name":"object 20","bbox":[196.78,375.41,103.93,24.8]}
+{"kind":"textbox","id":"sh/gj25cry9","slide":12,"name":"object 21","text":"credits","textPreview":"credits","textChars":7,"textLines":1,"bbox":[193.8,366.2,108.2,41.2]}
+{"kind":"shape","id":"sh/q5c7m5wb","slide":12,"name":"object 41","bbox":[1266.4,380.36,60.47,19.8]}
+{"kind":"textbox","id":"sh/d8nqxkf2","slide":12,"name":"object 42","text":"seat","textPreview":"seat","textChars":4,"textLines":1,"bbox":[1264.19,367.27,63.2,39.87]}
+{"kind":"shape","id":"sh/atc7epon","slide":12,"name":"object 12","bbox":[98.39,468.85,26.4,9.4]}
+{"kind":"shape","id":"sh/bulo7u58","slide":12,"name":"object 13","bbox":[130.27,464.46,62.13,17.6]}
+{"kind":"textbox","id":"sh/orapcf6h","slide":12,"name":"object 14","text":"o e aIready","textPreview":"o e aIready","textChars":11,"textLines":1,"bbox":[96.79,458.15,96.53,24.53]}
+{"kind":"shape","id":"sh/0nap8f6l","slide":12,"name":"object 18","bbox":[223.16,464.46,25.87,13.8]}
+{"kind":"shape","id":"sh/fit436ho","slide":12,"name":"object 22","bbox":[254.49,465.01,107.2,17.07]}
+{"kind":"textbox","id":"sh/uh0na1g3","slide":12,"name":"object 23","text":"he organisation.","textPreview":"he organisation.","textChars":16,"textLines":1,"bbox":[228.57,457.08,134.2,25.8]}
+{"kind":"textbox","id":"sh/s7epofeh","slide":12,"name":"object 43","text":"Drocurement.","textPreview":"Drocurement.","textChars":12,"textLines":1,"bbox":[1244.41,465.01,106.67,17.07]}
+{"kind":"shape","id":"sh/j2lorqxk","slide":12,"name":"object 44","bbox":[2005.13,1130.09,11.6,8.8]}
+{"kind":"shape","id":"sh/nyp83ud4","slide":12,"name":"object 48","bbox":[2034.81,1130.09,11,8.8]}
+{"kind":"textbox","id":"sh/2xw7upwj","slide":12,"name":"object 49","text":"1 2\t13","textPreview":"1 2\t13","textChars":6,"textLines":1,"bbox":[2002.58,1125.78,45.47,16.13]}
+{"kind":"shape","id":"sh/j6tkbil8","slide":12,"bbox":[43,37,260,51]}
+{"kind":"textbox","id":"sh/l8b2dsje","slide":12,"text":"ENVER AI TECH","textPreview":"ENVER AI TECH","textChars":13,"textLines":1,"bbox":[108,49,164,18]}
+{"kind":"textbox","id":"sh/69kjmxkz","slide":12,"text":"ARTIFICER MVP","textPreview":"ARTIFICER MVP","textChars":13,"textLines":1,"bbox":[109,68,155,14]}
+{"kind":"image","id":"im/fehovq9g","slide":12,"name":"object 5","bbox":[61.01,50.02,17.04,28.03]}
+{"kind":"image","id":"im/ed8n2lsb","slide":12,"name":"object 6","bbox":[61.01,50.02,17.04,28.03]}
+{"kind":"image","id":"im/1gz6x0rm","slide":12,"name":"object 2","bbox":[250.09,135.21,35.73,37.93]}
+{"kind":"image","id":"im/gfq54va1","slide":12,"name":"object 3","bbox":[486.44,135.76,151.15,50.02]}
+{"kind":"image","id":"im/rahorq9k","slide":12,"name":"object 10","bbox":[98.94,375.41,89.59,25.83]}
+{"kind":"image","id":"im/69onylsz","slide":12,"name":"object 11","bbox":[98.94,375.41,89.59,25.83]}
+{"kind":"image","id":"im/tcz6tgrq","slide":12,"name":"object 27","bbox":[1105.9,375.41,152.25,25.28]}
+{"kind":"image","id":"im/sbq50va5","slide":12,"name":"object 28","bbox":[1105.9,375.41,152.25,25.28]}
+{"kind":"image","id":"im/j6xo369o","slide":12,"name":"object 30","bbox":[1119.09,444.12,138.51,3.3]}
+{"kind":"image","id":"im/ilonu1s3","slide":12,"name":"object 31","bbox":[953.1,446.32,138.51,3.3]}
+{"kind":"image","id":"im/mh4761cv","slide":12,"name":"object 32","bbox":[694.76,444.12,138.51,3.3]}
+{"kind":"image","id":"im/nixof6tg","slide":12,"name":"object 33","bbox":[0,434.23,2110.67,18.69]}
+{"kind":"image","id":"im/8j6p8bu1","slide":12,"name":"object 16","bbox":[198.42,468.85,19.79,9.89]}
+{"kind":"image","id":"im/9kf6hgb6","slide":12,"name":"object 17","bbox":[198.42,468.85,19.79,9.89]}
+{"kind":"image","id":"im/u5o7alcr","slide":12,"name":"object 35","bbox":[1105.35,465.01,30.23,13.74]}
+{"kind":"image","id":"im/v6xojqtc","slide":12,"name":"object 36","bbox":[1105.35,465.01,30.23,13.74]}
+{"kind":"image","id":"im/w76pcbux","slide":12,"name":"object 37","bbox":[1142.18,464.46,51.12,14.29]}
+{"kind":"image","id":"im/h8f6lgbi","slide":12,"name":"object 39","bbox":[1199.34,464.46,39.57,14.29]}
+{"kind":"image","id":"im/i9o7elc3","slide":12,"name":"object 40","bbox":[1199.34,464.46,39.57,14.29]}
+{"kind":"image","id":"im/jah8nqto","slide":12,"name":"object 46","bbox":[2024.37,1130.09,3.85,9.34]}
+{"kind":"image","id":"im/dg3itoz2","slide":12,"name":"object 47","bbox":[2023.82,1130.09,6.05,9.34]}
+{"kind":"image","id":"im/re10rehw","slide":12,"name":"","geometry":"ellipse","alt":"Enver AI Tech logo","bbox":[57,45,38,38]}
+{"kind":"notes","id":"nt/8f2psfyx","slide":12,"text":""}
+{"kind":"slide","id":"sl/hgzapcr6","slide":13,"title":"Slide 13","textShapes":0}
+{"kind":"shape","id":"sh/q50nydsj","slide":13,"bbox":[955,320,200,195]}
+{"kind":"image","id":"im/0fm58zqp","slide":13,"name":"object 2","bbox":[0,0,2110.67,1187.25]}
+{"kind":"image","id":"im/ed4n6p8j","slide":13,"name":"","geometry":"ellipse","alt":"Enver AI Tech logo","bbox":[970,333,168,168]}
+{"kind":"notes","id":"nt/hgzapcr6","slide":13,"text":""}

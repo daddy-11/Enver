@@ -1,0 +1,97 @@
+/* ==========================================================================
+   NEUV PLAYGROUND — GEMINI CRICKET LANTERN & TRANQUIL POND DESIGN SYSTEM
+   Boxed, non-scrolling sovereign layout for Envera AI Tech.
+   ========================================================================== */
+
+/* Keyframe Animations */
+@keyframes ringRotateClockwise {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes ringRotateCounter {
+  0% { transform: rotate(360deg); }
+  100% { transform: rotate(0deg); }
+}
+
+@keyframes orbPulseBreathe {
+  0%, 100% {
+    transform: scale(0.97);
+    filter: drop-shadow(0 0 25px rgba(56, 189, 248, 0.35));
+  }
+  50% {
+    transform: scale(1.03);
+    filter: drop-shadow(0 0 45px rgba(56, 189, 248, 0.65));
+  }
+}
+
+@keyframes lanternHoverSway {
+  0%, 100% {
+    transform: translateY(0px) rotate(-1.5deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(1.5deg);
+  }
+}
+
+@keyframes emeraldCricketPulse {
+  0%, 100% {
+    opacity: 0.55;
+    filter: drop-shadow(0 0 20px rgba(34, 197, 94, 0.6)) drop-shadow(0 0 40px rgba(56, 189, 248, 0.4));
+  }
+  50% {
+    opacity: 0.95;
+    filter: drop-shadow(0 0 35px rgba(34, 197, 94, 0.9)) drop-shadow(0 0 60px rgba(56, 189, 248, 0.7));
+  }
+}
+
+@keyframes emblemGlow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.3), inset 0 0 10px rgba(56, 189, 248, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(56, 189, 248, 0.6), inset 0 0 15px rgba(56, 189, 248, 0.4);
+  }
+}
+
+/* Concentric Idle Thinking Rings */
+.concentric-ring-1 {
+  animation: ringRotateClockwise 22s linear infinite;
+}
+
+.concentric-ring-2 {
+  animation: ringRotateCounter 15s linear infinite;
+}
+
+.concentric-orb-core {
+  animation: orbPulseBreathe 4s ease-in-out infinite;
+}
+
+/* The Structurizing Gemini Cricket Lantern */
+.gemini-lantern-container {
+  animation: lanternHoverSway 5s ease-in-out infinite;
+  transform-origin: top center;
+}
+
+.gemini-emerald-core {
+  animation: emeraldCricketPulse 2.4s ease-in-out infinite;
+}
+
+/* Creative Envera Emblem */
+.creative-envera-emblem {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  border-radius: 9999px;
+  background: radial-gradient(circle at 35% 35%, #E0F2FE 0%, #38BDF8 40%, #0284C7 80%, #082F49 100%);
+  animation: emblemGlow 3s ease-in-out infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.creative-envera-emblem:hover {
+  transform: scale(1.08) rotate(15deg);
+}

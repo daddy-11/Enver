@@ -1,0 +1,100 @@
+/* ---- CallChip.css ---- */
+.call-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: var(--cc-size, 34px);
+  padding: 0 10px;
+  border-radius: var(--cc-radius, 10px);
+  background-color: var(--cc-surface, #1e293b);
+  border: 1px solid var(--cc-border-color, rgba(255, 255, 255, 0.12));
+  color: var(--cc-color, currentColor);
+  font-size: 12px;
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: background-color 200ms ease, border-color 200ms ease;
+  line-height: 1;
+}
+
+.call-chip-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  pointer-events: none;
+  transition: width 100ms linear;
+}
+
+.call-chip-icon-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+
+.call-chip-spinner {
+  color: #38bdf8;
+}
+
+.call-chip-name {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.call-chip-arg {
+  font-size: 11px;
+  opacity: 0.65;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 2px 6px;
+  border-radius: 5px;
+  white-space: nowrap;
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.call-chip-trailing {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.call-chip-timer {
+  font-size: 10px;
+  opacity: 0.65;
+  letter-spacing: 0.02em;
+}
+
+.call-chip-status-done {
+  display: flex;
+  align-items: center;
+}
+
+.call-chip-status-error {
+  display: flex;
+  align-items: center;
+}
+
+.call-chip-retry-btn {
+  background: none;
+  border: none;
+  padding: 2px;
+  cursor: pointer;
+  color: inherit;
+  opacity: 0.7;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  transition: opacity 150ms ease, transform 150ms ease;
+}
+
+.call-chip-retry-btn:hover {
+  opacity: 1;
+  transform: rotate(-45deg);
+}

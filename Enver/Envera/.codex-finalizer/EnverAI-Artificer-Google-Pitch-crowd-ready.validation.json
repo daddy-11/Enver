@@ -1,0 +1,249 @@
+{
+  "schemaVersion": "presentation-finalization.v1",
+  "finalSha256": "bb9ba43406bad88403b119afa96f184148e3db0f350ae9f57dd2d339ae8cef60",
+  "byteCount": 8832362,
+  "packageIntegrity": {
+    "chart_count": 0,
+    "claim_boundary": "Structural package checks only; no slide text, notes, formulas, chart values, or native PowerPoint execution were inspected.",
+    "finding_count": 0,
+    "findings": [],
+    "notes_parts_skipped": 13,
+    "relationship_part_count": 35,
+    "slide_count": 13,
+    "status": "pass",
+    "exitCode": 0,
+    "findingCount": 0,
+    "warnings": []
+  },
+  "presentationLayout": {
+    "finding_count": 0,
+    "findings": [],
+    "font_policy": {
+      "checked_text_script_count": 763,
+      "native_font_rendering_verified": false,
+      "observed_font_families": [
+        "Arial",
+        "Arial MT",
+        "Cambria",
+        "Consolas",
+        "Courier New",
+        "Times New Roman"
+      ],
+      "observed_font_use_counts": {
+        "Arial": 31,
+        "Arial MT": 502,
+        "Cambria": 71,
+        "Consolas": 17,
+        "Courier New": 16,
+        "Times New Roman": 126
+      },
+      "passed": true,
+      "performed": true
+    },
+    "slide_count": 13,
+    "slide_size_in": [
+      21.9861,
+      12.3681
+    ],
+    "warning_count": 9,
+    "warnings": [
+      {
+        "kind": "substantial_text_frame_overlap",
+        "left_object_id": "6",
+        "overlap_height_in": 0.1063,
+        "overlap_width_in": 0.1312,
+        "right_object_id": "9",
+        "slide": 2
+      },
+      {
+        "kind": "substantial_text_frame_overlap",
+        "left_object_id": "7",
+        "overlap_height_in": 0.1644,
+        "overlap_width_in": 1.3854,
+        "right_object_id": "67",
+        "slide": 2
+      },
+      {
+        "kind": "substantial_text_frame_overlap",
+        "left_object_id": "9",
+        "overlap_height_in": 0.1063,
+        "overlap_width_in": 0.1312,
+        "right_object_id": "12",
+        "slide": 4
+      },
+      {
+        "kind": "substantial_text_frame_overlap",
+        "left_object_id": "10",
+        "overlap_height_in": 0.1644,
+        "overlap_width_in": 1.3854,
+        "right_object_id": "37",
+        "slide": 4
+      },
+      {
+        "kind": "substantial_text_frame_overlap",
+        "left_object_id": "12",
+        "overlap_height_in": 0.1063,
+        "overlap_width_in": 0.1312,
+        "right_object_id": "15",
+        "slide": 5
+      },
+      {
+        "kind": "substantial_text_frame_overlap",
+        "left_object_id": "13",
+        "overlap_height_in": 0.1644,
+        "overlap_width_in": 1.3854,
+        "right_object_id": "48",
+        "slide": 5
+      },
+      {
+        "kind": "substantial_text_frame_overlap",
+        "left_object_id": "14",
+        "overlap_height_in": 0.1063,
+        "overlap_width_in": 0.1312,
+        "right_object_id": "17",
+        "slide": 10
+      },
+      {
+        "kind": "substantial_text_frame_overlap",
+        "left_object_id": "15",
+        "overlap_height_in": 0.1644,
+        "overlap_width_in": 1.3854,
+        "right_object_id": "46",
+        "slide": 10
+      },
+      {
+        "kind": "substantial_text_frame_overlap",
+        "left_object_id": "9",
+        "overlap_height_in": 0.6964,
+        "overlap_width_in": 3.6035,
+        "right_object_id": "16",
+        "slide": 11
+      }
+    ],
+    "exitCode": 0,
+    "findingCount": 0,
+    "fontPolicy": {
+      "checked_text_script_count": 763,
+      "native_font_rendering_verified": false,
+      "observed_font_families": [
+        "Arial",
+        "Arial MT",
+        "Cambria",
+        "Consolas",
+        "Courier New",
+        "Times New Roman"
+      ],
+      "observed_font_use_counts": {
+        "Arial": 31,
+        "Arial MT": 502,
+        "Cambria": 71,
+        "Consolas": 17,
+        "Courier New": 16,
+        "Times New Roman": 126
+      },
+      "passed": true,
+      "performed": true
+    }
+  },
+  "fontSelection": {
+    "basis": "reference",
+    "approvedFamilies": [
+      "Arial",
+      "Arial MT",
+      "Cambria",
+      "Consolas",
+      "Courier New",
+      "Times New Roman"
+    ],
+    "scriptFonts": {},
+    "referenceSha256": "7addabcf3174251a61b37d9f0102b2892d93fd6d80edbfe9d2b516d93f8d34f5",
+    "referenceFontsVerifiedInEncodedText": true,
+    "checked_text_script_count": 763,
+    "native_font_rendering_verified": false,
+    "observed_font_families": [
+      "Arial",
+      "Arial MT",
+      "Cambria",
+      "Consolas",
+      "Courier New",
+      "Times New Roman"
+    ],
+    "observed_font_use_counts": {
+      "Arial": 31,
+      "Arial MT": 502,
+      "Cambria": 71,
+      "Consolas": 17,
+      "Courier New": 16,
+      "Times New Roman": 126
+    },
+    "passed": true,
+    "performed": true
+  },
+  "firstPartyImport": {
+    "performed": true,
+    "passed": true,
+    "slideCount": 13,
+    "sha256": "bb9ba43406bad88403b119afa96f184148e3db0f350ae9f57dd2d339ae8cef60",
+    "runtimeNodeModules": "C:\\Users\\dbleg\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\node_modules",
+    "nodeExecutable": "C:\\Users\\dbleg\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\bin\\node.exe"
+  },
+  "nativeTableArithmetic": {
+    "performed": true,
+    "checked_column_count": 0,
+    "checks": [],
+    "claim_boundary": "Displayed-value arithmetic with rounding tolerance; not source-data verification.",
+    "eligible_table_count": 0,
+    "finding_count": 0,
+    "findings": [],
+    "native_table_count": 0,
+    "passed": true,
+    "schema_version": "presentation-native-table-arithmetic.v1",
+    "skipped_tables": [],
+    "slide_count": 13,
+    "warning_count": 0,
+    "warnings": []
+  },
+  "nativeChartTitles": {
+    "performed": true,
+    "checks": [],
+    "finding_count": 0,
+    "findings": [],
+    "native_chart_count": 0,
+    "native_powerpoint_verified": false,
+    "passed": true,
+    "presentation_sha256": "bb9ba43406bad88403b119afa96f184148e3db0f350ae9f57dd2d339ae8cef60",
+    "schema_version": "presentation-native-chart-titles.v1",
+    "slide_count": 13,
+    "source_text_emitted": false,
+    "unresolved_linked_title_count": 0
+  },
+  "sourceDerivedPolicyFlags": [
+    "--expected-slide-size-emu",
+    "20104100,11309350",
+    "--validate-heading-fit",
+    "--cover-role",
+    "none",
+    "--expected-slide-count",
+    "13",
+    "--approved-font-family",
+    "Arial",
+    "--approved-font-family",
+    "Arial MT",
+    "--approved-font-family",
+    "Cambria",
+    "--approved-font-family",
+    "Consolas",
+    "--approved-font-family",
+    "Courier New",
+    "--approved-font-family",
+    "Times New Roman"
+  ],
+  "nativeChartValidation": {
+    "detectedOwnerSlides": [],
+    "detectedChartCount": 0,
+    "targetApplication": null,
+    "sourceChartOwnersExplicitlyDeclared": false,
+    "validatorRan": false,
+    "passed": true
+  }
+}

@@ -1,0 +1,10 @@
+- [x] Implement new Collaboration Lounge UI in `SanctuaryDashboard.tsx`
+  - [x] Update imports and states for tabs (`lounge` & `projects`)
+  - [x] Implement full-featured Collaboration Lounge UI panel
+  - [x] Repurpose Projects Area rendering on `projects` tab
+- [x] Remove Kumospace WASD components
+  - [x] Delete `enveraitech-in/src/components/sections/VirtualOffice.tsx`
+  - [x] Delete `enveraitech-in/src/hooks/useMultiplayer.ts`
+- [x] Verify changes
+  - [x] Run dev server and test compilation/types
+  - [x] Test realtime chat and voice features

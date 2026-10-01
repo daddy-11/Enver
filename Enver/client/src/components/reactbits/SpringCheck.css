@@ -1,0 +1,67 @@
+/* ---- SpringCheck.css ---- */
+.spring-check-root {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+  font-size: var(--sc-font, 15px);
+  color: var(--sc-color, currentColor);
+  line-height: 1.25;
+  transition: opacity 180ms ease;
+}
+
+.spring-check-root.disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.spring-check-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.spring-check-box {
+  width: var(--sc-size, 24px);
+  height: var(--sc-size, 24px);
+  border-radius: var(--sc-radius, 8px);
+  border: 2px solid var(--sc-color, currentColor);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.spring-check-icon {
+  width: 62%;
+  height: 62%;
+  display: block;
+}
+
+.spring-check-label-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.spring-check-label {
+  display: inline-block;
+  font-weight: 500;
+}
+
+.spring-check-strike-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1.5px;
+  background-color: currentColor;
+  pointer-events: none;
+  border-radius: 999px;
+  transform: translateY(-50%);
+}
