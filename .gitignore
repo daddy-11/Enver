@@ -33,6 +33,8 @@ credentials.json
 # Legacy & Archive directories
 redundant dotcom/
 .archive/
+google-analytics-mcp/
+.vscode/
 
 # Logs & Temporary Files
 *.log

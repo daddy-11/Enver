@@ -104,6 +104,17 @@
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="shortcut icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <!-- Microsoft Azure Application Insights Real User Monitoring (RUM) -->
+    <script type="text/javascript">
+      !function(v,y,T){var S=v.location,k="script",D="instrumentationKey",C="ingestionendpoint",I="disableExceptionTracking",E="ai.device.",b="toLowerCase",w="crossOrigin",N="POST",e="appInsightsSDK",t=y.name||"appInsights";(y.name||v[e])&&(v[e]=t);var n=v[t]||function(d){var g=!1,f=!1,m={initialize:!0,queue:[],sv:"8",version:2,config:d};function v(e,t){var n={},a="Browser";return n[E+"id"]=a[b](),n[E+"type"]=a,n["ai.operation.name"]=S&&S.pathname||"_unknown_",n["ai.internal.sdkVersion"]="javascript:snippet_"+(m.sv||m.version),{time:function(){var e=new Date;function t(e){var t=""+e;return 1===t.length&&(t="0"+t),t}return e.getUTCFullYear()+"-"+t(1+e.getUTCMonth())+"-"+t(e.getUTCDate())+"T"+t(e.getUTCHours())+":"+t(e.getUTCMinutes())+":"+t(e.getUTCSeconds())+"."+(e.getUTCMilliseconds()||"000")+"Z"}(),iKey:e,name:"Microsoft.ApplicationInsights."+e.replace(/-/g,"")+"."+t,sampleRate:100,tags:n,data:{baseData:{ver:2}}}}var h=d.url||T;if(h){var e=function(e){var t,n,a,i,o,s,r,c,u,p;g=!0,m.queue=[],f||(f=!0,t=h,r=function(){var e={},t=d.connectionString;if(t)for(var n=t.split(";"),a=0;a<n.length;a++){var i=n[a].split("=");2===i.length&&(e[i[0][b]()]=i[1])}if(!e[C]){var o=e.endpointsuffix,s=o?e.location:null;e[C]="https://"+(s?s+".":"")+"dc."+(o||"services.visualstudio.com")}return e}(),c=r[D]||d[D]||"",u=r[C],p=u?u+"/v2/track":d.endpointUrl,(a=[]).push((n="SDKLoaded",i="",o="",s="",function(e,t,n,a){var i=v(c,e);return i.data.baseType=t,i.data.baseData=n,i.data.baseData.message=a,i}("InternalMessageId: 51",n,{msg:i,url:o,line:s}))),function(e,t,n){var a=y.createElement(k);a.src=e,a.async=!0,(n=n||{}).crossOrigin&&(a.crossOrigin=n.crossOrigin);var i=y.getElementsByTagName(k)[0];i.parentNode.insertBefore(a,i)}(t,0,{crossOrigin:"anonymous"}))}();try{m.cookie=y.cookie}catch(e){}m.queue=[],m.version=2;for(var a=["Event","PageView","Exception","Trace","DependencyData","Metric","PageViewPerformance"];a.length;)n("track"+a.pop());n("startTrackPage"),n("stopTrackPage");var i="Track"+a[0];if(n("start"+i),n("stop"+i),n("setAuthenticatedUserContext"),n("clearAuthenticatedUserContext"),n("flush"),!(!0===d.disableExceptionTracking||d.extensionConfig&&d.extensionConfig["ApplicationInsights-Analytics"]&&!0===d.extensionConfig["ApplicationInsights-Analytics"][I])){n("_"+(a="onerror"));var o=v[a];v[a]=function(e,t,n,a,i){var s=o&&o(e,t,n,a,i);return!0!==s&&m["_"+a]({message:e,url:t,lineNumber:n,columnNumber:a,error:i}),s},d.autoExceptionInstrumented=!0}return m}(y.cfg);(v[t]=n).queue&&0===n.queue.length&&(n.queue.push(y.cfg),n.trackPageView({}))}(window,document,{
+        src: "https://js.monitor.azure.com/scripts/b/ai.3.gbl.min.js",
+        crossOrigin: "anonymous",
+        cfg: {
+          connectionString: "InstrumentationKey=bff9fa79-78db-4511-bf3e-ec0467976f3f;IngestionEndpoint=https://eastasia-0.in.applicationinsights.azure.com/;LiveEndpoint=https://eastasia.livediagnostics.monitor.azure.com/;ApplicationId=0ca4b0ca-f9d3-4048-9601-4278466b9e6a",
+          enableAutoRouteTracking: true
+        }
+      });
+    </script>
   </head>
 
   <body>
