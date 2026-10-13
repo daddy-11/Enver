@@ -46,6 +46,7 @@
   --color-ring: var(--ring);
 
   /* Oat Silk and Plumwine Brand Palette */
+  --color-cream: #F7F3E9;
   --color-oat-silk: #F7F3E9;
   --color-oat-silk-card: #FFFFFF;
   --color-oat-silk-surface: #EFE9DC;
@@ -59,6 +60,8 @@
 
   --color-saffron: #FF6F1E;
   --color-saffron-hover: #E85B0B;
+  --color-saffron-light: #FFA048;
+  --color-saffron-amber: #FFD285;
 
   /* Custom fonts */
   --font-heading: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;

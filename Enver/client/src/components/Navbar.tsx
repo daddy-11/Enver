@@ -62,21 +62,21 @@ export default function Navbar() {
       links: [
         {
           label: "Artificer · MSME Underwriting",
-          href: "/projects/artificer",
+          href: "/services/artificer",
           ariaLabel: "Artificer MSME Underwriting",
-          onClick: (e: React.MouseEvent<HTMLAnchorElement>) => handleNavigate("/projects/artificer", e)
+          onClick: (e: React.MouseEvent<HTMLAnchorElement>) => handleNavigate("/services/artificer", e)
         },
         {
           label: "Arbiter · AST Cloud Firewall",
-          href: "/projects/arbiter",
+          href: "/services/arbiter",
           ariaLabel: "Arbiter Multi-Cloud Firewall",
-          onClick: (e: React.MouseEvent<HTMLAnchorElement>) => handleNavigate("/projects/arbiter", e)
+          onClick: (e: React.MouseEvent<HTMLAnchorElement>) => handleNavigate("/services/arbiter", e)
         },
         {
           label: "Cerberus · Zero-Trust Sentinel",
-          href: "/projects/cerberus",
+          href: "/services/cerberus",
           ariaLabel: "Cerberus Zero-Trust Auditor",
-          onClick: (e: React.MouseEvent<HTMLAnchorElement>) => handleNavigate("/projects/cerberus", e)
+          onClick: (e: React.MouseEvent<HTMLAnchorElement>) => handleNavigate("/services/cerberus", e)
         }
       ]
     },
@@ -86,16 +86,10 @@ export default function Navbar() {
       textColor: "#F7F3E9",
       links: [
         {
-          label: "Accreditations & Incubators",
+          label: "Credibility",
           href: "/accreditations",
-          ariaLabel: "Incubation & Accreditations",
+          ariaLabel: "Credibility · Institutional Incubators & Milestones",
           onClick: (e: React.MouseEvent<HTMLAnchorElement>) => handleNavigate("/accreditations", e)
-        },
-        {
-          label: "3-Year Accomplishments",
-          href: "/about#accomplishments",
-          ariaLabel: "3-Year Accomplishments and Production Milestones",
-          onClick: (e: React.MouseEvent<HTMLAnchorElement>) => handleNavigate("/about#accomplishments", e)
         },
         {
           label: "About Us",

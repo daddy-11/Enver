@@ -9,7 +9,6 @@ import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Services from "./pages/Services";
-import Projects from "./pages/Projects";
 import ProjectDetail from "./pages/ProjectDetail";
 import Accreditations from "./pages/Accreditations";
 import Contact from "./pages/Contact";
@@ -17,24 +16,39 @@ import ThankYou from "./pages/ThankYou";
 import TermsOfService from "./pages/TermsOfService";
 import PrivacyStatement from "./pages/PrivacyStatement";
 import SmoothScroll from "./components/SmoothScroll";
-import { useEffect, lazy, Suspense } from "react";
+import { useEffect, useState, lazy, Suspense } from "react";
+import { useAuth } from "./contexts/AuthContext";
 
 // Code-split gatekept app & onboarding so initial landing page load NEVER loads the MCP/agent bundle
 const AgentGateway = lazy(() => import("./pages/AgentGateway"));
 const Playground = lazy(() => import("./pages/Playground"));
+const AgentPaywall = lazy(() => import("./components/AgentPaywall"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Settings = lazy(() => import("./pages/Settings"));
 const Onboarding = lazy(() => import("./pages/Onboarding"));
 const Welcome = lazy(() => import("./pages/Welcome"));
+const Research = lazy(() => import("./pages/Research"));
 
-// Decoupled Launch Gateway: Public visitors see sign-up & production staging gate
+// Gatekept Playground Route with Paywall
 function DecoupledConsoleRoute() {
-  const search = typeof window !== "undefined" ? window.location.search : "";
-  const isRootOverride = search.includes("access=root") || search.includes("preview=true");
-  if (isRootOverride) {
-    return <Playground />;
+  const { user, isAuthenticated, hasAcceptedTerms } = useAuth();
+  const [unlocked, setUnlocked] = useState(() => {
+    if (typeof window === "undefined") return false;
+    const searchParams = new URLSearchParams(window.location.search);
+    if (searchParams.get("access") === "root" || searchParams.get("preview") === "true") {
+      localStorage.setItem("enver_playground_unlocked", "true");
+      return true;
+    }
+    return localStorage.getItem("enver_playground_unlocked") === "true";
+  });
+
+  const isAuthorized = (isAuthenticated && hasAcceptedTerms) || unlocked;
+
+  if (!isAuthorized) {
+    return <AgentPaywall onUnlock={() => setUnlocked(true)} />;
   }
-  return <AgentGateway />;
+
+  return <Playground />;
 }
 
 function PageLoader() {
@@ -56,10 +70,13 @@ function Router() {
           {/* Decoupled Gateway for Agent Console */}
           <Route path="/playground" component={DecoupledConsoleRoute} />
           <Route path="/signup" component={AgentGateway} />
+          <Route path="/login" component={AgentGateway} />
+          <Route path="/signin" component={AgentGateway} />
           <Route path="/dashboard" component={Dashboard} />
           <Route path="/settings" component={Settings} />
           <Route path="/onboarding" component={Onboarding} />
           <Route path="/welcome" component={Welcome} />
+          <Route path="/research" component={Research} />
 
           {/* Standard Public Website Pages wrapped in site Layout */}
           <Route>
@@ -69,8 +86,11 @@ function Router() {
                   <Route path="/" component={Home} />
                 <Route path="/about" component={About} />
                 <Route path="/services" component={Services} />
-                <Route path="/projects" component={Projects} />
-                <Route path="/projects/:slug" component={ProjectDetail} />
+                <Route path="/services/:slug" component={ProjectDetail} />
+                <Route path="/projects/:slug">
+                  {(params) => <Redirect to={`/services/${params.slug}`} />}
+                </Route>
+                <Route path="/projects"><Redirect to="/services" /></Route>
                 <Route path="/accreditations" component={Accreditations} />
                 <Route path="/contact" component={Contact} />
                 <Route path="/thank-you" component={ThankYou} />
@@ -104,7 +124,7 @@ function App() {
 
   return (
     <ErrorBoundary>
-      <ThemeProvider defaultTheme="light">
+      <ThemeProvider defaultTheme="dark" switchable={true}>
         <AuthProvider>
           <TooltipProvider>
             <Toaster position="top-right" />

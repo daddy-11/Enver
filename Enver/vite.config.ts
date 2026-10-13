@@ -239,6 +239,26 @@ function isValidEmailDev(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
+async function parseJsonBodyDev(req: any): Promise<any> {
+  if (req.body && typeof req.body === "object") {
+    return req.body;
+  }
+  if (typeof req.body === "string") {
+    try { return JSON.parse(req.body); } catch { return {}; }
+  }
+  if (req.readableEnded) {
+    return {};
+  }
+  return new Promise((resolve) => {
+    let raw = "";
+    req.on("data", (chunk: any) => { raw += chunk.toString(); });
+    req.on("end", () => {
+      try { resolve(JSON.parse(raw || "{}")); } catch { resolve({}); }
+    });
+    req.on("error", () => resolve({}));
+  });
+}
+
 function vitePluginEnverApi(): Plugin {
   return {
     name: "enver-api-middleware",
@@ -260,7 +280,7 @@ function vitePluginEnverApi(): Plugin {
         res.end(JSON.stringify({ status: "healthy", service: "enveraitech-com", timestamp: new Date().toISOString() }));
       });
 
-      server.middlewares.use("/api/contact", (req, res) => {
+      server.middlewares.use("/api/contact", async (req, res) => {
         if (req.method !== "POST") {
           res.writeHead(405, { "Content-Type": "text/plain" });
           res.end("Method Not Allowed");
@@ -282,79 +302,90 @@ function vitePluginEnverApi(): Plugin {
         attempts.push(now);
         contactRateMapDev.set(clientIp, attempts);
 
-        let body = "";
-        req.on("data", (chunk) => { body += chunk.toString(); });
-        req.on("end", async () => {
-          try {
-            const { name, email, company, message, _gotcha } = JSON.parse(body || "{}");
+        try {
+          const body = await parseJsonBodyDev(req);
+          const { name, email, company, message, _gotcha } = body || {};
 
-            // Honeypot bot trap
-            if (_gotcha) {
-              res.writeHead(200, { "Content-Type": "application/json" });
-              res.end(JSON.stringify({ success: true, message: "Inquiry sent successfully!" }));
-              return;
-            }
-
-            if (!name || !email || !message) {
-              res.writeHead(400, { "Content-Type": "application/json" });
-              res.end(JSON.stringify({ success: false, error: "Missing required fields" }));
-              return;
-            }
-
-            if (!isValidEmailDev(email)) {
-              res.writeHead(400, { "Content-Type": "application/json" });
-              res.end(JSON.stringify({ success: false, error: "Invalid email format" }));
-              return;
-            }
-
-            if (name.length > 100 || (company && company.length > 100) || message.length > 5000) {
-              res.writeHead(400, { "Content-Type": "application/json" });
-              res.end(JSON.stringify({ success: false, error: "Input payload exceeds allowed character limits" }));
-              return;
-            }
-
-            const safeName = sanitizeInputDev(name);
-            const safeEmail = sanitizeInputDev(email);
-            const safeCompany = sanitizeInputDev(company || "");
-            const safeMessage = sanitizeInputDev(message);
-
-            const resendKey = process.env.RESEND_API_KEY;
-            if (resendKey) {
-              const emailRes = await fetch("https://api.resend.com/emails", {
-                method: "POST",
-                headers: {
-                  "Authorization": `Bearer ${resendKey}`,
-                  "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                  from: "Enver Contact Form <contact@enveraitech.com>",
-                  to: "hanabi@enveraitech.com",
-                  subject: `📩 New Project Inquiry from ${safeName} (${safeCompany || "Individual"})`,
-                  html: `
-                    <h3>New Contact Form Submission</h3>
-                    <p><strong>Name:</strong> ${safeName}</p>
-                    <p><strong>Email:</strong> ${safeEmail}</p>
-                    <p><strong>Company:</strong> ${safeCompany || "N/A"}</p>
-                    <p><strong>Message:</strong></p>
-                    <p style="white-space: pre-wrap; background: #f4f4f4; padding: 15px; border-radius: 8px;">${safeMessage}</p>
-                  `
-                })
-              });
-              if (!emailRes.ok) {
-                const errText = await emailRes.text();
-                throw new Error("Resend API failed: " + errText);
-              }
-            } else {
-              console.log("Dev Mode: Sanitized contact submission received:", { name: safeName, email: safeEmail, company: safeCompany, message: safeMessage });
-            }
-
+          // Honeypot bot trap
+          if (_gotcha) {
             res.writeHead(200, { "Content-Type": "application/json" });
             res.end(JSON.stringify({ success: true, message: "Inquiry sent successfully!" }));
-          } catch (e: any) {
-            res.writeHead(500, { "Content-Type": "application/json" });
-            res.end(JSON.stringify({ success: false, error: e.message }));
+            return;
           }
-        });
+
+          if (!name || !email || !message) {
+            res.writeHead(400, { "Content-Type": "application/json" });
+            res.end(JSON.stringify({ success: false, error: "Missing required fields" }));
+            return;
+          }
+
+          if (!isValidEmailDev(email)) {
+            res.writeHead(400, { "Content-Type": "application/json" });
+            res.end(JSON.stringify({ success: false, error: "Invalid email format" }));
+            return;
+          }
+
+          if (name.length > 100 || (company && company.length > 100) || message.length > 5000) {
+            res.writeHead(400, { "Content-Type": "application/json" });
+            res.end(JSON.stringify({ success: false, error: "Input payload exceeds allowed character limits" }));
+            return;
+          }
+
+          const safeName = sanitizeInputDev(name);
+          const safeEmail = sanitizeInputDev(email);
+          const safeCompany = sanitizeInputDev(company || "");
+          const safeMessage = sanitizeInputDev(message);
+
+          // Microsoft Graph / Enterprise Dispatch
+          const tenantId = process.env.AZURE_TENANT_ID || "bda1a0ee-c558-4d13-a112-18b2d8d1deba";
+          const clientId = process.env.AZURE_CLIENT_ID || "6cae09cb-4819-4ddc-8a98-13c5c7bf58ec";
+          const clientSecret = process.env.AZURE_CLIENT_SECRET || process.env.MICROSOFT_CLIENT_SECRET;
+
+          if (clientSecret) {
+            try {
+              const tokenRes = await fetch(`https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token`, {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: new URLSearchParams({
+                  client_id: clientId,
+                  client_secret: clientSecret,
+                  scope: "https://graph.microsoft.com/.default",
+                  grant_type: "client_credentials"
+                }).toString()
+              });
+              const tokenData = await tokenRes.json();
+              if (tokenData.access_token) {
+                await fetch("https://graph.microsoft.com/v1.0/users/hanabi@enveraitech.com/sendMail", {
+                  method: "POST",
+                  headers: {
+                    Authorization: `Bearer ${tokenData.access_token}`,
+                    "Content-Type": "application/json"
+                  },
+                  body: JSON.stringify({
+                    message: {
+                      subject: `📩 New Project Inquiry from ${safeName} (${safeCompany || "Individual"})`,
+                      body: {
+                        contentType: "HTML",
+                        content: `<p><strong>Name:</strong> ${safeName}</p><p><strong>Email:</strong> ${safeEmail}</p><p><strong>Company:</strong> ${safeCompany || "N/A"}</p><p><strong>Message:</strong></p><pre>${safeMessage}</pre>`
+                      },
+                      toRecipients: [{ emailAddress: { address: "hanabi@enveraitech.com" } }]
+                    }
+                  })
+                });
+              }
+            } catch (e: any) {
+              console.warn("[Microsoft Graph Contact] Dispatch warning:", e.message);
+            }
+          } else {
+            console.log("Dev Mode (Microsoft Enterprise Protocol): Sanitized contact submission received:", { name: safeName, email: safeEmail, company: safeCompany, message: safeMessage });
+          }
+
+          res.writeHead(200, { "Content-Type": "application/json" });
+          res.end(JSON.stringify({ success: true, message: "Inquiry sent successfully!" }));
+        } catch (e: any) {
+          res.writeHead(500, { "Content-Type": "application/json" });
+          res.end(JSON.stringify({ success: false, error: e.message }));
+        }
       });
 
       server.middlewares.use("/api/visit", (req, res) => {
@@ -372,36 +403,162 @@ function vitePluginEnverApi(): Plugin {
         if (!lastVisit || now - lastVisit > 60 * 60 * 1000) {
           visitedIPsDev.set(clientIp, now);
           const anonIp = anonymizeIPDev(clientIp);
-          const resendKey = process.env.RESEND_API_KEY;
-          if (resendKey) {
-            fetch("https://api.resend.com/emails", {
-              method: "POST",
-              headers: {
-                "Authorization": `Bearer ${resendKey}`,
-                "Content-Type": "application/json"
-              },
-              body: JSON.stringify({
-                from: "Enver Traffic Monitor <monitor@enveraitech.com>",
-                to: "hanabi@enveraitech.com",
-                subject: "🌐 Website Visitor Alert — enveraitech.com",
-                html: `
-                  <h3>New Visitor Alert</h3>
-                  <p>A user has just visited <strong>enveraitech.com</strong>.</p>
-                  <ul>
-                    <li><strong>Anonymized IP:</strong> ${anonIp}</li>
-                    <li><strong>Timestamp:</strong> ${new Date().toISOString()}</li>
-                    <li><strong>User Agent:</strong> ${sanitizeInputDev(req.headers["user-agent"] || "unknown")}</li>
-                  </ul>
-                `
-              })
-            }).catch(console.error);
-          } else {
-            console.log("Dev Mode: Visitor alert logged for anonymized IP:", anonIp);
-          }
+          console.log("[Enver Monitor] Visitor logged for anonymized IP:", anonIp);
         }
 
         res.writeHead(200, { "Content-Type": "application/json" });
         res.end(JSON.stringify({ success: true }));
+      });
+
+      // --- In-Memory OTP Store for Dev Mode ---
+      const devOtpStore = new Map<string, { code: string; expiresAt: number; attempts: number }>();
+
+      server.middlewares.use("/api/auth/send-otp", async (req, res) => {
+        if (req.method !== "POST") {
+          res.writeHead(405, { "Content-Type": "text/plain" });
+          res.end("Method Not Allowed");
+          return;
+        }
+
+        try {
+          const body = await parseJsonBodyDev(req);
+          const { email, name } = body || {};
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!email || !emailRegex.test(email)) {
+            res.writeHead(400, { "Content-Type": "application/json" });
+            res.end(JSON.stringify({ success: false, error: "Please enter a valid work email address." }));
+            return;
+          }
+
+          const cleanEmail = email.toLowerCase().trim();
+          const cleanName = (name || "Enterprise Member").trim();
+          const code = Math.floor(100000 + Math.random() * 900000).toString();
+          devOtpStore.set(cleanEmail, {
+            code,
+            expiresAt: Date.now() + 10 * 60 * 1000,
+            attempts: 0
+          });
+
+          console.log(`\n========================================\n[ENVER AUTH DEV] Verification Code for ${cleanEmail}: ${code}\n========================================\n`);
+
+          // Microsoft Graph OTP Dispatch (Enterprise method)
+          const tenantId = process.env.AZURE_TENANT_ID || "bda1a0ee-c558-4d13-a112-18b2d8d1deba";
+          const clientId = process.env.AZURE_CLIENT_ID || "6cae09cb-4819-4ddc-8a98-13c5c7bf58ec";
+          const clientSecret = process.env.AZURE_CLIENT_SECRET || process.env.MICROSOFT_CLIENT_SECRET;
+
+          if (clientSecret) {
+            fetch(`https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token`, {
+              method: "POST",
+              headers: { "Content-Type": "application/x-www-form-urlencoded" },
+              body: new URLSearchParams({
+                client_id: clientId,
+                client_secret: clientSecret,
+                scope: "https://graph.microsoft.com/.default",
+                grant_type: "client_credentials"
+              }).toString()
+            })
+              .then((r) => r.json())
+              .then((tokenData: any) => {
+                if (tokenData.access_token) {
+                  fetch("https://graph.microsoft.com/v1.0/users/verify@enveraitech.com/sendMail", {
+                    method: "POST",
+                    headers: {
+                      Authorization: `Bearer ${tokenData.access_token}`,
+                      "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                      message: {
+                        subject: `🔐 Your Enver Verification Code: ${code}`,
+                        body: {
+                          contentType: "HTML",
+                          content: `<h2>Enver AI Tech</h2><p>Hello <strong>${cleanName}</strong>,</p><p>Your verification code is: <strong>${code}</strong> (valid 10 mins). Ref: EAT-TOS-2026.04</p>`
+                        },
+                        toRecipients: [{ emailAddress: { address: cleanEmail } }]
+                      }
+                    })
+                  }).catch(() => {});
+                }
+              })
+              .catch(() => {});
+          }
+
+          // Webhook alert to inbox
+          fetch("https://formsubmit.co/ajax/hanabi@enveraitech.com", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Accept: "application/json" },
+            body: JSON.stringify({
+              email: cleanEmail,
+              name: cleanName,
+              code,
+              _subject: `🔑 OTP Verification Request: ${cleanEmail} [${code}]`,
+              _captcha: "false"
+            })
+          }).catch(() => {});
+
+          res.writeHead(200, { "Content-Type": "application/json" });
+          res.end(JSON.stringify({
+            success: true,
+            message: `Verification code sent to ${cleanEmail}`,
+            previewCode: code
+          }));
+        } catch (e: any) {
+          res.writeHead(500, { "Content-Type": "application/json" });
+          res.end(JSON.stringify({ success: false, error: e.message }));
+        }
+      });
+
+      server.middlewares.use("/api/auth/verify-otp", async (req, res) => {
+        if (req.method !== "POST") {
+          res.writeHead(405, { "Content-Type": "text/plain" });
+          res.end("Method Not Allowed");
+          return;
+        }
+
+        try {
+          const body = await parseJsonBodyDev(req);
+          const { email, otp } = body || {};
+          if (!email || !otp) {
+            res.writeHead(400, { "Content-Type": "application/json" });
+            res.end(JSON.stringify({ success: false, error: "Email and verification code are required." }));
+            return;
+          }
+
+          const cleanEmail = email.toLowerCase().trim();
+          const cleanOtp = String(otp).trim();
+          const entry = devOtpStore.get(cleanEmail);
+
+          if (!entry) {
+            res.writeHead(400, { "Content-Type": "application/json" });
+            res.end(JSON.stringify({ success: false, error: "No pending verification code found. Please request a new code." }));
+            return;
+          }
+
+          if (Date.now() > entry.expiresAt) {
+            devOtpStore.delete(cleanEmail);
+            res.writeHead(400, { "Content-Type": "application/json" });
+            res.end(JSON.stringify({ success: false, error: "Verification code has expired. Please request a new code." }));
+            return;
+          }
+
+          if (entry.code !== cleanOtp) {
+            entry.attempts++;
+            res.writeHead(400, { "Content-Type": "application/json" });
+            res.end(JSON.stringify({ success: false, error: "Incorrect verification code. Please check and try again." }));
+            return;
+          }
+
+          devOtpStore.delete(cleanEmail);
+          res.writeHead(200, { "Content-Type": "application/json" });
+          res.end(JSON.stringify({
+            success: true,
+            verified: true,
+            verificationToken: `vet_dev_${Date.now()}`,
+            message: "Work email successfully verified."
+          }));
+        } catch (e: any) {
+          res.writeHead(500, { "Content-Type": "application/json" });
+          res.end(JSON.stringify({ success: false, error: e.message }));
+        }
       });
 
       server.middlewares.use("/.well-known/ai-plugin.json", (_req, res) => {
@@ -434,7 +591,7 @@ function vitePluginEnverApi(): Plugin {
         }));
       });
 
-      server.middlewares.use("/api/generate", (req, res) => {
+      server.middlewares.use("/api/generate", async (req, res) => {
         if (req.method !== "POST") {
           res.writeHead(405, { "Content-Type": "text/plain" });
           res.end("Method Not Allowed");
@@ -442,108 +599,102 @@ function vitePluginEnverApi(): Plugin {
         }
 
         const startTime = Date.now();
-        let body = "";
-        req.on("data", (chunk) => { body += chunk.toString(); });
-        req.on("end", async () => {
-          try {
-            const { prompt } = JSON.parse(body || "{}");
-            if (!prompt || typeof prompt !== "string") {
-              res.writeHead(400, { "Content-Type": "application/json" });
-              res.end(JSON.stringify({ success: false, error: "Prompt string is required" }));
-              return;
-            }
-
-            const cleanPrompt = prompt.trim().slice(0, 1000);
-            const lower = cleanPrompt.toLowerCase();
-
-            let diagramType = "Agentic Workflow";
-            let mermaid = `graph TD\n  Client["Client Gateway"] --> Telemetry["Enver Telemetry Bus"]\n  Telemetry --> AgentMesh["Agentic Router"]\n  AgentMesh --> Memory["State & Vector Store"]\n  AgentMesh --> Model["LLM Inference Node"]\n  Model --> Output["Verified Output"]`;
-            let nodes = [
-              { id: "Client", label: "Client Ingress Gateway", type: "ingress", status: "online" },
-              { id: "Telemetry", label: "Real-time Telemetry & Guardrails", type: "security", status: "active" },
-              { id: "AgentMesh", label: "Autonomous Agentic Router", type: "core", status: "executing" },
-              { id: "Memory", label: "Vector & State Store", type: "storage", status: "synced" },
-              { id: "Model", label: "Production LLM Engine", type: "inference", status: "ready" },
-              { id: "Output", label: "Validated Structured Output", type: "egress", status: "completed" }
-            ];
-            let codeSnippet = `// Enver Production Agent Infrastructure\nimport { AgentMesh, SecurityGuard } from "@enver/core";\n\nexport const pipeline = new AgentMesh({\n  model: "enver-agent-v1",\n  guardrails: [SecurityGuard.StrictSanitization, SecurityGuard.RateLimiter],\n  telemetry: true\n});\n\npipeline.on("prompt", async (input) => {\n  return await pipeline.dispatch(input);\n});`;
-
-            if (lower.includes("audit") || lower.includes("forensic") || lower.includes("security")) {
-              diagramType = "Forensic AI Auditor";
-              mermaid = `graph TD\n  Logs["System Log Stream"] --> Analyzer["Forensic Pattern Audit"]\n  Analyzer --> Anomaly["Anomaly Detector"]\n  Anomaly --> Sentinel["Security Guard & Alert"]\n  Sentinel --> ImmutableStore["Encrypted Audit Vault"]`;
-              nodes = [
-                { id: "Logs", label: "System Log Stream", type: "ingress", status: "streaming" },
-                { id: "Analyzer", label: "Forensic Pattern Engine", type: "security", status: "analyzing" },
-                { id: "Anomaly", label: "ML Anomaly Scoring", type: "core", status: "active" },
-                { id: "Sentinel", label: "Automated Sentinel Guard", type: "defense", status: "armed" },
-                { id: "ImmutableStore", label: "Encrypted Audit Vault", type: "storage", status: "locked" }
-              ];
-            }
-
-            const steps = [
-              `Tokenized prompt payload ("${cleanPrompt.slice(0, 30)}...")`,
-              `Synthesized ${diagramType} topology graph`,
-              "Enforced strict sanitization & security guardrails",
-              "Compiled Mermaid DAG and infrastructure nodes"
-            ];
-
-            res.writeHead(200, { "Content-Type": "application/json" });
-            res.end(JSON.stringify({
-              success: true,
-              engine: "enver-local-synthesizer",
-              latency_ms: Date.now() - startTime + 90,
-              data: {
-                summary: `Generated production-grade ${diagramType} architecture spec tailored for "${cleanPrompt}".`,
-                steps,
-                mermaid,
-                nodes,
-                code: codeSnippet
-              }
-            }));
-          } catch (e: any) {
-            res.writeHead(500, { "Content-Type": "application/json" });
-            res.end(JSON.stringify({ success: false, error: e.message }));
+        try {
+          const body = await parseJsonBodyDev(req);
+          const { prompt } = body || {};
+          if (!prompt || typeof prompt !== "string") {
+            res.writeHead(400, { "Content-Type": "application/json" });
+            res.end(JSON.stringify({ success: false, error: "Prompt string is required" }));
+            return;
           }
-        });
+
+          const cleanPrompt = prompt.trim().slice(0, 1000);
+          const lower = cleanPrompt.toLowerCase();
+
+          let diagramType = "Agentic Workflow";
+          let mermaid = `graph TD\n  Client["Client Gateway"] --> Telemetry["Enver Telemetry Bus"]\n  Telemetry --> AgentMesh["Agentic Router"]\n  AgentMesh --> Memory["State & Vector Store"]\n  AgentMesh --> Model["LLM Inference Node"]\n  Model --> Output["Verified Output"]`;
+          let nodes = [
+            { id: "Client", label: "Client Ingress Gateway", type: "ingress", status: "online" },
+            { id: "Telemetry", label: "Real-time Telemetry & Guardrails", type: "security", status: "active" },
+            { id: "AgentMesh", label: "Autonomous Agentic Router", type: "core", status: "executing" },
+            { id: "Memory", label: "Vector & State Store", type: "storage", status: "synced" },
+            { id: "Model", label: "Production LLM Engine", type: "inference", status: "ready" },
+            { id: "Output", label: "Validated Structured Output", type: "egress", status: "completed" }
+          ];
+          let codeSnippet = `// Enver Production Agent Infrastructure\nimport { AgentMesh, SecurityGuard } from "@enver/core";\n\nexport const pipeline = new AgentMesh({\n  model: "enver-agent-v1",\n  guardrails: [SecurityGuard.StrictSanitization, SecurityGuard.RateLimiter],\n  telemetry: true\n});\n\npipeline.on("prompt", async (input) => {\n  return await pipeline.dispatch(input);\n});`;
+
+          if (lower.includes("audit") || lower.includes("forensic") || lower.includes("security")) {
+            diagramType = "Forensic AI Auditor";
+            mermaid = `graph TD\n  Logs["System Log Stream"] --> Analyzer["Forensic Pattern Audit"]\n  Analyzer --> Anomaly["Anomaly Detector"]\n  Anomaly --> Sentinel["Security Guard & Alert"]\n  Sentinel --> ImmutableStore["Encrypted Audit Vault"]`;
+            nodes = [
+              { id: "Logs", label: "System Log Stream", type: "ingress", status: "streaming" },
+              { id: "Analyzer", label: "Forensic Pattern Engine", type: "security", status: "analyzing" },
+              { id: "Anomaly", label: "ML Anomaly Scoring", type: "core", status: "active" },
+              { id: "Sentinel", label: "Automated Sentinel Guard", type: "defense", status: "armed" },
+              { id: "ImmutableStore", label: "Encrypted Audit Vault", type: "storage", status: "locked" }
+            ];
+          }
+
+          const steps = [
+            `Tokenized prompt payload ("${cleanPrompt.slice(0, 30)}...")`,
+            `Synthesized ${diagramType} topology graph`,
+            "Enforced strict sanitization & security guardrails",
+            "Compiled Mermaid DAG and infrastructure nodes"
+          ];
+
+          res.writeHead(200, { "Content-Type": "application/json" });
+          res.end(JSON.stringify({
+            success: true,
+            engine: "enver-local-synthesizer",
+            latency_ms: Date.now() - startTime + 90,
+            data: {
+              summary: `Generated production-grade ${diagramType} architecture spec tailored for "${cleanPrompt}".`,
+              steps,
+              mermaid,
+              nodes,
+              code: codeSnippet
+            }
+          }));
+        } catch (e: any) {
+          res.writeHead(500, { "Content-Type": "application/json" });
+          res.end(JSON.stringify({ success: false, error: e.message }));
+        }
       });
 
       // --- Save Authenticated Lead Endpoint ---
-      server.middlewares.use("/api/save-report", (req, res) => {
+      server.middlewares.use("/api/save-report", async (req, res) => {
         if (req.method !== "POST") {
           res.writeHead(405, { "Content-Type": "text/plain" });
           res.end("Method Not Allowed");
           return;
         }
 
-        let body = "";
-        req.on("data", (chunk) => { body += chunk.toString(); });
-        req.on("end", async () => {
-          try {
-            const { user, report } = JSON.parse(body || "{}");
-            if (!user || !report) {
-              res.writeHead(400, { "Content-Type": "application/json" });
-              res.end(JSON.stringify({ success: false, error: "User and report data are required" }));
-              return;
-            }
-
-            console.log("Dev Mode Lead Captured:", {
-              user: user.displayName || user.name,
-              email: user.email,
-              provider: user.provider,
-              domain: report.domain
-            });
-
-            res.writeHead(200, { "Content-Type": "application/json" });
-            res.end(JSON.stringify({ success: true, leadId: `lead_dev_${Date.now()}` }));
-          } catch (e: any) {
-            res.writeHead(500, { "Content-Type": "application/json" });
-            res.end(JSON.stringify({ success: false, error: e.message }));
+        try {
+          const body = await parseJsonBodyDev(req);
+          const { user, report } = body || {};
+          if (!user || !report) {
+            res.writeHead(400, { "Content-Type": "application/json" });
+            res.end(JSON.stringify({ success: false, error: "User and report data are required" }));
+            return;
           }
-        });
+
+          console.log("Dev Mode Lead Captured:", {
+            user: user.displayName || user.name,
+            email: user.email,
+            provider: user.provider,
+            domain: report.domain
+          });
+
+          res.writeHead(200, { "Content-Type": "application/json" });
+          res.end(JSON.stringify({ success: true, leadId: `lead_dev_${Date.now()}` }));
+        } catch (e: any) {
+          res.writeHead(500, { "Content-Type": "application/json" });
+          res.end(JSON.stringify({ success: false, error: e.message }));
+        }
       });
 
       // --- GCP Agent Idea Validation Endpoint with Strict Rate Limiting ---
-      server.middlewares.use("/api/validate-idea", (req, res) => {
+      server.middlewares.use("/api/validate-idea", async (req, res) => {
         if (req.method !== "POST") {
           res.writeHead(405, { "Content-Type": "text/plain" });
           res.end("Method Not Allowed");
@@ -569,37 +720,35 @@ function vitePluginEnverApi(): Plugin {
         validateRateMapDev.set(clientIp, attempts);
 
         const startTime = Date.now();
-        let body = "";
-        req.on("data", (chunk) => { body += chunk.toString(); });
-        req.on("end", async () => {
-          try {
-            const { domain, bottleneck, scale, guardrail } = JSON.parse(body || "{}");
-            if (!domain || typeof domain !== "string" || !bottleneck || typeof bottleneck !== "string") {
-              res.writeHead(400, { "Content-Type": "application/json" });
-              res.end(JSON.stringify({ success: false, error: "Domain and bottleneck parameters are required." }));
-              return;
-            }
+        try {
+          const body = await parseJsonBodyDev(req);
+          const { domain, bottleneck, scale, guardrail } = body || {};
+          if (!domain || typeof domain !== "string" || !bottleneck || typeof bottleneck !== "string") {
+            res.writeHead(400, { "Content-Type": "application/json" });
+            res.end(JSON.stringify({ success: false, error: "Domain and bottleneck parameters are required." }));
+            return;
+          }
 
-            const cleanDomain = sanitizeInputDev(domain.slice(0, 200));
-            const cleanBottleneck = sanitizeInputDev(bottleneck.slice(0, 500));
-            const cleanScale = sanitizeInputDev((scale || "Sub-500ms Latency").slice(0, 100));
-            const cleanGuardrail = sanitizeInputDev((guardrail || "Strict Zero-Trust Interceptor").slice(0, 100));
+          const cleanDomain = sanitizeInputDev(domain.slice(0, 200));
+          const cleanBottleneck = sanitizeInputDev(bottleneck.slice(0, 500));
+          const cleanScale = sanitizeInputDev((scale || "Sub-500ms Latency").slice(0, 100));
+          const cleanGuardrail = sanitizeInputDev((guardrail || "Strict Zero-Trust Interceptor").slice(0, 100));
 
-            const geminiKey = process.env.GEMINI_API_KEY;
-            if (geminiKey) {
-              try {
-                const geminiRes = await fetch(
-                  `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiKey}`,
-                  {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                      contents: [
-                        {
-                          role: "user",
-                          parts: [
-                            {
-                              text: `You are Fall-T1, Enver AI Tech's GCP Autonomous B2B AI SaaS & Agentic Architecture Synthesizer.
+          const geminiKey = process.env.GEMINI_API_KEY;
+          if (geminiKey) {
+            try {
+              const geminiRes = await fetch(
+                `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiKey}`,
+                {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    contents: [
+                      {
+                        role: "user",
+                        parts: [
+                          {
+                            text: `You are Fall-T1, Enver AI Tech's GCP Autonomous B2B AI SaaS & Agentic Architecture Synthesizer.
 Analyze this enterprise request:
 - Enterprise Domain / Product: "${cleanDomain}"
 - Operational Bottleneck: "${cleanBottleneck}"
@@ -629,78 +778,77 @@ Return a valid JSON object matching EXACTLY this structure:
     "Observation 3 regarding guardrail interceptor enforcement"
   ]
 }`
-                            }
-                          ]
-                        }
-                      ],
-                      generationConfig: { responseMimeType: "application/json" }
-                    })
-                  }
-                );
-
-                if (geminiRes.ok) {
-                  const data = await geminiRes.json();
-                  const jsonText = data.candidates?.[0]?.content?.parts?.[0]?.text;
-                  if (jsonText) {
-                    const parsed = JSON.parse(jsonText);
-                    res.writeHead(200, { "Content-Type": "application/json" });
-                    res.end(JSON.stringify({
-                      success: true,
-                      engine: "gcp-vertex-gemini-2.0",
-                      latency_ms: Date.now() - startTime,
-                      data: parsed
-                    }));
-                    return;
-                  }
+                          }
+                        ]
+                      }
+                    ],
+                    generationConfig: { responseMimeType: "application/json" }
+                  })
                 }
-              } catch (gcpErr) {
-                console.warn("GCP Vertex Gemini execution fallback to local synthesizer:", gcpErr);
+              );
+
+              if (geminiRes.ok) {
+                const data = await geminiRes.json();
+                const jsonText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+                if (jsonText) {
+                  const parsed = JSON.parse(jsonText);
+                  res.writeHead(200, { "Content-Type": "application/json" });
+                  res.end(JSON.stringify({
+                    success: true,
+                    engine: "gcp-vertex-gemini-2.0",
+                    latency_ms: Date.now() - startTime,
+                    data: parsed
+                  }));
+                  return;
+                }
               }
+            } catch (gcpErr) {
+              console.warn("GCP Vertex Gemini execution fallback to local synthesizer:", gcpErr);
             }
-
-            // Fallback Local GCP Synthesizer Engine
-            const isWhatsapp = cleanDomain.toLowerCase().includes("whatsapp") || cleanDomain.toLowerCase().includes("meta");
-            const isFintech = cleanDomain.toLowerCase().includes("fintech") || cleanDomain.toLowerCase().includes("underwrit");
-
-            const fallbackResult = {
-              topology: [
-                { id: "node-1", name: isWhatsapp ? "WhatsApp Business Webhook" : "GCP Ingress Gateway", role: "Real-time Event Ingestion", type: "gateway", status: "active" },
-                { id: "node-2", name: "Domain Vector Mesh", role: "pgvector Semantic Search", type: "rag", status: "active" },
-                { id: "node-3", name: "Vertex AI Reasoning Agent", role: "LLM Decision Engine", type: "core", status: "executing" },
-                { id: "node-4", name: "Guardrail Sentinel", role: cleanGuardrail, type: "security", status: "armed" },
-                { id: "node-5", name: "Cloud Run Microservice", role: "Async Task Execution", type: "worker", status: "active" },
-                { id: "node-6", name: "BigQuery HUD", role: "Operational Telemetry", type: "analytics", status: "synced" }
-              ],
-              recommendedStack: isWhatsapp
-                ? ["GCP Cloud Run", "WhatsApp Business API", "Vertex AI / Claude 3.5", "FastAPI", "BigQuery"]
-                : isFintech
-                ? ["GCP Vertex AI", "NVIDIA NIM", "FastAPI", "PostgreSQL", "BigQuery"]
-                : ["GCP Cloud Run", "Vertex AI Gemini", "LangGraph", "Qdrant", "FastAPI"],
-              metrics: {
-                cycleTimeReduction: "87% – 94%",
-                estTokenCost: "$0.003 – $0.008 per execution",
-                mvpTimeline: "2 – 4 Weeks",
-                accuracyRating: "99.4% (With Guardrails)"
-              },
-              astuteObservations: [
-                `Automation Bottleneck "${cleanBottleneck.slice(0, 45)}..." can be decoupled into micro-agents working asynchronously on GCP Cloud Run.`,
-                `Target SLA (${cleanScale}) will utilize streaming response protocols to eliminate user-perceived latency.`,
-                `Guardrail Directive (${cleanGuardrail}) is natively enforced via pre-execution interceptors before any external tool call is dispatched.`
-              ]
-            };
-
-            res.writeHead(200, { "Content-Type": "application/json" });
-            res.end(JSON.stringify({
-              success: true,
-              engine: "gcp-local-synthesizer",
-              latency_ms: Date.now() - startTime + 80,
-              data: fallbackResult
-            }));
-          } catch (e: any) {
-            res.writeHead(500, { "Content-Type": "application/json" });
-            res.end(JSON.stringify({ success: false, error: e.message }));
           }
-        });
+
+          // Fallback Local GCP Synthesizer Engine
+          const isWhatsapp = cleanDomain.toLowerCase().includes("whatsapp") || cleanDomain.toLowerCase().includes("meta");
+          const isFintech = cleanDomain.toLowerCase().includes("fintech") || cleanDomain.toLowerCase().includes("underwrit");
+
+          const fallbackResult = {
+            topology: [
+              { id: "node-1", name: isWhatsapp ? "WhatsApp Business Webhook" : "GCP Ingress Gateway", role: "Real-time Event Ingestion", type: "gateway", status: "active" },
+              { id: "node-2", name: "Domain Vector Mesh", role: "pgvector Semantic Search", type: "rag", status: "active" },
+              { id: "node-3", name: "Vertex AI Reasoning Agent", role: "LLM Decision Engine", type: "core", status: "executing" },
+              { id: "node-4", name: "Guardrail Sentinel", role: cleanGuardrail, type: "security", status: "armed" },
+              { id: "node-5", name: "Cloud Run Microservice", role: "Async Task Execution", type: "worker", status: "active" },
+              { id: "node-6", name: "BigQuery HUD", role: "Operational Telemetry", type: "analytics", status: "synced" }
+            ],
+            recommendedStack: isWhatsapp
+              ? ["GCP Cloud Run", "WhatsApp Business API", "Vertex AI / Claude 3.5", "FastAPI", "BigQuery"]
+              : isFintech
+              ? ["GCP Vertex AI", "NVIDIA NIM", "FastAPI", "PostgreSQL", "BigQuery"]
+              : ["GCP Cloud Run", "Vertex AI Gemini", "LangGraph", "Qdrant", "FastAPI"],
+            metrics: {
+              cycleTimeReduction: "87% – 94%",
+              estTokenCost: "$0.003 – $0.008 per execution",
+              mvpTimeline: "2 – 4 Weeks",
+              accuracyRating: "99.4% (With Guardrails)"
+            },
+            astuteObservations: [
+              `Automation Bottleneck "${cleanBottleneck.slice(0, 45)}..." can be decoupled into micro-agents working asynchronously on GCP Cloud Run.`,
+              `Target SLA (${cleanScale}) will utilize streaming response protocols to eliminate user-perceived latency.`,
+              `Guardrail Directive (${cleanGuardrail}) is natively enforced via pre-execution interceptors before any external tool call is dispatched.`
+            ]
+          };
+
+          res.writeHead(200, { "Content-Type": "application/json" });
+          res.end(JSON.stringify({
+            success: true,
+            engine: "gcp-local-synthesizer",
+            latency_ms: Date.now() - startTime + 80,
+            data: fallbackResult
+          }));
+        } catch (e: any) {
+          res.writeHead(500, { "Content-Type": "application/json" });
+          res.end(JSON.stringify({ success: false, error: e.message }));
+        }
       });
 
       server.middlewares.use("/robots.txt", (_req, res) => {
@@ -715,10 +863,9 @@ Return a valid JSON object matching EXACTLY this structure:
   <url><loc>https://enveraitech.com/</loc><priority>1.0</priority></url>
   <url><loc>https://enveraitech.com/about</loc><priority>0.8</priority></url>
   <url><loc>https://enveraitech.com/services</loc><priority>0.9</priority></url>
-  <url><loc>https://enveraitech.com/projects</loc><priority>0.9</priority></url>
-  <url><loc>https://enveraitech.com/projects/artificer</loc><priority>0.8</priority></url>
-  <url><loc>https://enveraitech.com/projects/arbiter</loc><priority>0.8</priority></url>
-  <url><loc>https://enveraitech.com/projects/cerberus</loc><priority>0.8</priority></url>
+  <url><loc>https://enveraitech.com/services/artificer</loc><priority>0.8</priority></url>
+  <url><loc>https://enveraitech.com/services/arbiter</loc><priority>0.8</priority></url>
+  <url><loc>https://enveraitech.com/services/cerberus</loc><priority>0.8</priority></url>
   <url><loc>https://enveraitech.com/contact</loc><priority>0.8</priority></url>
 </urlset>`);
       });

@@ -316,10 +316,10 @@ export default function ArtificerCockpit() {
             </div>
             <div className="flex gap-2">
               <Link
-                href="/projects/artificer"
+                href="/services?case=artificer"
                 className="flex-1 text-center py-2.5 px-4 rounded-full bg-[#2B121F] hover:bg-[#FF6F1E] text-white text-xs font-sans font-semibold transition-all shadow-xs no-underline"
               >
-                Inspect Full Artificer Dossier
+                Inspect Full Artificer Architecture
               </Link>
               <Link
                 href="/signup"

@@ -4,7 +4,7 @@ import { ArrowLeft, Shield, Lock, EyeOff, Database, CheckCircle2, Mail, Server }
 
 export default function PrivacyStatement() {
   return (
-    <div className="min-h-screen bg-[#F7F3E9] text-[#2B121F] pt-28 sm:pt-36 pb-24 font-sans selection:bg-[#2B121F] selection:text-[#F7F3E9]">
+    <div className="min-h-screen bg-[#F7F3E9] text-[#2B121F] pt-8 sm:pt-12 pb-24 font-sans selection:bg-[#2B121F] selection:text-[#F7F3E9]">
       <div className="max-w-[1000px] mx-auto px-4 sm:px-8">
         
         {/* Navigation & Header Breadcrumb */}

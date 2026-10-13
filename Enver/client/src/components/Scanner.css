@@ -1,0 +1,37 @@
+.scanner-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.scanner-fallback {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(200, 151, 62, 0.15), rgba(43, 51, 34, 0.4) 60%, rgba(244, 239, 230, 0.05) 100%);
+  overflow: hidden;
+}
+
+.scanner-fallback-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #C8973E, #F4EFE6, #C8973E, transparent);
+  box-shadow: 0 0 16px #C8973E;
+  animation: scanner-sweep 4s ease-in-out infinite alternate;
+}
+
+@keyframes scanner-sweep {
+  0% {
+    top: 10%;
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    top: 90%;
+    opacity: 0.3;
+  }
+}

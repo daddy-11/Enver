@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useLocation } from "wouter";
-import { Mail, MapPin, Clock, Calendar, Send, CheckCircle2, AlertCircle, Loader2, Sparkles, ShieldCheck } from "lucide-react";
+import { Mail, MapPin, Clock, Calendar, Send, CheckCircle2, AlertCircle, Loader2, Sparkles, ShieldCheck, Copy, Check, X } from "lucide-react";
 
 export default function Contact() {
   const [, setLocation] = useLocation();
@@ -14,6 +14,8 @@ export default function Contact() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  const [callModalOpen, setCallModalOpen] = useState(false);
+  const [copiedEmail, setCopiedEmail] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,7 +42,20 @@ export default function Contact() {
         // Safe catch
       }
 
-      // 2. Direct Inbox Delivery to hanabi@enveraitech.com (cc amaan@enveraitech.com)
+      // 2. Dispatch to local /api/contact endpoint (Firestore + Internal alerting)
+      fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          company: formData.company,
+          message: formData.message,
+          _gotcha: formData._gotcha
+        })
+      }).catch((e) => console.warn("Local API contact backup notice:", e));
+
+      // 3. Direct Inbox Delivery to hanabi@enveraitech.com (cc amaan@enveraitech.com)
       const response = await fetch("https://formsubmit.co/ajax/hanabi@enveraitech.com", {
         method: "POST",
         headers: {
@@ -89,10 +104,17 @@ export default function Contact() {
       "Hi,\n\nI'd like to schedule an architecture discovery call to discuss our enterprise requirements.\n\nPlease let me know your availability.\n\nBest regards"
     );
     window.location.href = `mailto:hanabi@enveraitech.com?subject=${subject}&body=${body}`;
+    setCallModalOpen(true);
+  };
+
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText("hanabi@enveraitech.com");
+    setCopiedEmail(true);
+    setTimeout(() => setCopiedEmail(false), 2500);
   };
 
   return (
-    <div className="bg-[#F7F3E9] text-[#2B121F] min-h-screen pt-28 sm:pt-36 font-sans">
+    <div className="bg-[#F7F3E9] text-[#2B121F] min-h-screen pt-8 sm:pt-12 font-sans">
       {/* === HEADER === */}
       <section className="py-16 border-b border-[#E5DFD1] relative overflow-hidden bg-white">
         <div className="container relative z-10">
@@ -296,6 +318,75 @@ export default function Contact() {
           </div>
         </div>
       </section>
+      {/* Fallback Booking Modal */}
+      {callModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs animate-in fade-in duration-200">
+          <div className="w-full max-w-md bg-white border border-[#E5DFD1] rounded-3xl p-6 sm:p-8 shadow-2xl space-y-5 relative">
+            <button
+              type="button"
+              onClick={() => setCallModalOpen(false)}
+              className="absolute top-5 right-5 w-8 h-8 rounded-full bg-[#F7F3E9] border border-[#E5DFD1] flex items-center justify-center text-[#7A6F68] hover:text-[#2B121F] transition-colors cursor-pointer"
+            >
+              <X size={15} />
+            </button>
+
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-2xl bg-[#FF6F1E]/10 text-[#FF6F1E] flex items-center justify-center">
+                <Calendar size={20} />
+              </div>
+              <div>
+                <h3 className="text-base font-heading font-extrabold text-[#2B121F]">
+                  Request Architecture Call
+                </h3>
+                <p className="text-xs font-mono text-[#7A6F68]">
+                  Direct Founder &amp; Lead Engineer Calendar
+                </p>
+              </div>
+            </div>
+
+            <p className="text-xs font-sans text-[#7A6F68] leading-relaxed">
+              We have initiated a discovery meeting request draft. If your mail client did not open automatically, you can copy our direct inbox or email us with your preferred times:
+            </p>
+
+            <div className="p-4 rounded-xl bg-[#F7F3E9] border border-[#E5DFD1] flex items-center justify-between">
+              <div>
+                <span className="text-[10px] font-mono uppercase tracking-wider text-[#7A6F68] block">
+                  Direct Inquiries &amp; Calendar
+                </span>
+                <span className="text-xs sm:text-sm font-mono font-bold text-[#2B121F]">
+                  hanabi@enveraitech.com
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={handleCopyEmail}
+                className="px-3 py-1.5 rounded-lg bg-white border border-[#E5DFD1] text-xs font-mono text-[#2B121F] hover:bg-[#FAF8F2] flex items-center gap-1.5 transition-colors cursor-pointer shadow-2xs"
+              >
+                {copiedEmail ? <Check size={13} className="text-emerald-600" /> : <Copy size={13} />}
+                <span>{copiedEmail ? "Copied!" : "Copy"}</span>
+              </button>
+            </div>
+
+            <div className="text-[11px] font-mono text-[#7A6F68] space-y-1">
+              <div className="flex items-center gap-1.5 text-emerald-700 font-semibold">
+                <CheckCircle2 size={13} />
+                <span>24-Hour Guaranteed Turnaround</span>
+              </div>
+              <p>Subject: Book Architecture Call — Enver AI Tech</p>
+            </div>
+
+            <div className="pt-2 flex items-center justify-end">
+              <button
+                type="button"
+                onClick={() => setCallModalOpen(false)}
+                className="px-5 py-2.5 rounded-xl bg-[#2B121F] hover:bg-[#1E0C15] text-white text-xs font-mono font-semibold transition-all cursor-pointer"
+              >
+                Done / Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

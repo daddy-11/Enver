@@ -53,7 +53,61 @@ Enver ships a production-grade **Model Context Protocol (MCP)** server named **E
 
 ---
 
-## 2. Platform Architecture & Flagship Systems
+## 2. Autonomous Multi-Agent Brain Architecture (Tri-Model Pipeline)
+
+Enver employs a tri-model architectural DAG designed for sub-second reflex routing, autonomous live reconnaissance, and grounded System-2 reasoning:
+
+```
+                            User Prompt
+                                 │
+                                 ▼
+               ┌──────────────────────────────────┐
+               │      JEV (System 1 Engine)       │  <50ms Reflex Classifier
+               │   • TypeSafe AI (jev-1.13.0)     │  Evaluates domain & context sufficiency
+               └─────────────────┬────────────────┘
+                                 │
+              Does Envera have sufficient context?
+                                / \
+                     NO        /   \       YES
+                    ┌─────────┘     └─────────┐
+                    ▼                         ▼
+   ┌─────────────────────────┐   ┌─────────────────────────┐
+   │   GROK SCRAPER AGENT    │   │   Domain RAG Context    │
+   │   • xAI grok-4.6        │   │  (pgvector / Hybrid     │
+   │   • Azure AI Foundry    │   │   Dense + Lexical)      │
+   │     (daddy-4887-resource│   └────────────┬────────────┘
+   └────────────┬────────────┘                │
+                │ (Staged Fresh Recon)        │
+                └─────────────┬───────────────┘
+                              │
+                              ▼
+               ┌──────────────────────────────────┐
+               │    MAIN REASONER (System 2)      │  Google Gemini 3.5 Flash
+               │   • Deep, grounded reasoning     │  (Automatic 3.8 Flash failover)
+               │   • Deterministic math & quotes  │
+               └─────────────────┬────────────────┘
+                                 │
+                                 ▼
+                     Streaming Output + Audit Lock
+                     (SHA-256 Telemetry Signature)
+```
+
+### Tri-Model Specifications
+
+1. **System 1 Reflex Classifier (`TypeSafe AI / Jev`)**:
+   - Model: `jev-1.13.0` (`jev-latest`)
+   - Latency: **< 350ms**
+   - Purpose: Returns typed judgments (`noul` for `needs_web_context`, `choice` for operational domain).
+2. **Autonomous Scraper & Explorer (`xAI Grok-4.6 / Azure AI Foundry`)**:
+   - Model: `grok-4.6` deployed on Azure AI Foundry (`daddy-4887-resource` in `eastus2`).
+   - Purpose: Autonomous web discovery and targeted domain extraction when Jev signals context deficiency.
+3. **System 2 Main Reasoner (`Google Gemini 3.5 Flash`)**:
+   - Model: `gemini-3.5-flash` with resilient automated failover to `gemini-3.8-flash`.
+   - Purpose: Deep synthesis, grounded analysis, clean bullet formatting, and deterministic mathematical calculations.
+
+---
+
+## 3. Platform Architecture & Flagship Systems
 
 1. **Artificer (MSME Underwriting Citadel)**:
    - Autonomous MSME financial statement parsing (< 105s TAT, $0.02 cost/file, 99.8% extraction accuracy).

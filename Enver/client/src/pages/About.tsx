@@ -1,12 +1,13 @@
-import { Mail, ArrowRight, Award, GraduationCap, Cloud, Sparkles, ShieldCheck, Linkedin, CheckCircle2 } from "lucide-react";
+import { Mail, ArrowRight, Award, GraduationCap, Cloud, Sparkles, ShieldCheck, Linkedin, CheckCircle2, Lock, FileCheck } from "lucide-react";
 import SpotlightCard from "@/components/reactbits/SpotlightCard";
 import InstitutionalEndorsement from "@/components/InstitutionalEndorsement";
 import { Link } from "wouter";
 
 // @ts-ignore
+import SplitText from "@/components/reactbits/SplitText";
 import GhostFibers from "@/components/reactbits/GhostFibers";
 // @ts-ignore
-import SplitText from "@/components/reactbits/SplitText";
+import MetaBalls from "@/components/reactbits/MetaBalls";
 
 const team = [
   {
@@ -70,9 +71,36 @@ const team = [
 
 export default function About() {
   return (
-    <div className="bg-[#F7F3E9] text-[#2B121F] min-h-screen pt-28 sm:pt-36 font-sans">
+    <div className="relative bg-[#F7F3E9] text-[#2B121F] min-h-screen pt-8 sm:pt-12 font-sans selection:bg-[#2B121F] selection:text-[#F7F3E9] overflow-hidden">
+      {/* =========================================================================
+          FULL-PAGE SOVEREIGN GHOSTFIBERS NEURAL CANVAS BACKGROUND
+          Covers the entire About page continuously with sovereign fiber telemetry.
+          ========================================================================= */}
+      <div className="fixed inset-0 w-screen h-screen pointer-events-none z-0 overflow-hidden opacity-[0.24]">
+        <GhostFibers
+          className="w-full h-full"
+          lineColor="#4A2237"
+          glowColor="#FF6F1E"
+          speed={0.12}
+          scale={1.8}
+          rotationSpeed={0.08}
+          layers={4}
+          waveAmplitude={0.016}
+          waveFrequency={2.8}
+          waveSpeed={0.12}
+          layerSpeed={0.06}
+          glowIntensity={1.4}
+          brightness={1.8}
+          blueBoost={1.05}
+          vignette={0.4}
+          grain={0.03}
+          lightMode={true}
+        />
+      </div>
+
       {/* === HERO SECTION === */}
-      <section className="relative overflow-hidden py-16 lg:py-24 border-b border-[#E5DFD1]">
+      <section className="relative z-10 overflow-hidden py-16 lg:py-24 border-b border-[#E5DFD1]/80 bg-transparent">
+
         <div className="container relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
             {/* Left Content (7 cols) */}
@@ -118,73 +146,28 @@ export default function About() {
               </div>
             </div>
 
-            {/* Right Content: Interactive GhostFibers Showcase (5 cols) */}
-            <div className="lg:col-span-5 h-[400px] sm:h-[430px] w-full relative rounded-3xl bg-gradient-to-b from-[#180A14] via-[#140810] to-[#0D040A] border border-[#4A2237]/60 overflow-hidden shadow-[0_24px_60px_rgba(43,18,31,0.18)]">
-              {/* GhostFibers WebGL Background with Subtle Light Pink Tonal Shift */}
-              <div className="absolute inset-0 w-full h-full">
-                <GhostFibers
-                  lineColor="#6E2349"
-                  glowColor="#FFB3D9"
-                  speed={0.15}
-                  scale={1.85}
-                  rotationSpeed={0.12}
-                  layers={4}
-                  waveAmplitude={0.016}
-                  waveFrequency={3.0}
-                  waveSpeed={0.12}
-                  layerSpeed={0.06}
-                  glowIntensity={1.4}
-                  brightness={1.9}
-                  blueBoost={1.05}
-                  vignette={0.65}
-                  grain={0.03}
-                  lightMode={false}
-                />
-              </div>
-
-              {/* Overlay Gradient for depth */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0D040A]/90 via-transparent to-[#180A14]/50 pointer-events-none" />
-
-              {/* Top Status Badge */}
-              <div className="absolute top-4 left-4 z-20 flex items-center gap-2 px-3 py-1 rounded-full bg-black/50 border border-white/15 text-[10px] font-mono text-[#FFB3D9] backdrop-blur-md shadow-xs">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#FF6F1E] animate-pulse" />
-                <span>SOVEREIGN ARCHITECTURAL CORE</span>
-              </div>
-
-              {/* Central Interactive Crest Lockup */}
-              <div className="absolute inset-0 z-10 flex flex-col items-center justify-center p-6 text-center pointer-events-none">
-                <div className="relative group pointer-events-auto">
-                  <img
-                    src="/enver-enterprise-crest.png"
-                    alt="Enver AI Tech Enterprise Crest"
-                    className="w-24 sm:w-28 h-auto object-contain filter drop-shadow-[0_10px_24px_rgba(255,111,30,0.4)] transition-transform duration-300 group-hover:scale-105 select-none"
-                  />
-                </div>
-
-                <div className="mt-4 space-y-1.5 pointer-events-auto">
-                  <div className="text-xl sm:text-2xl font-heading font-bold text-white tracking-tight">
-                    Enver Intelligence Lab
-                  </div>
-                  <p className="text-xs font-mono text-[#E5DFD1]/80 max-w-[280px] mx-auto leading-relaxed">
-                    Deterministic Multi-Agent State Machines &amp; Enterprise Governance
-                  </p>
-                  <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
-                    <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-[10px] font-mono text-emerald-300 font-medium">
-                      0.00% Drift Guard
-                    </span>
-                    <span className="px-2.5 py-0.5 rounded-full bg-white/10 border border-white/15 text-[10px] font-mono text-[#FF802B] font-medium">
-                      Air-Gapped Sovereign Enclave
-                    </span>
-                  </div>
-                </div>
-              </div>
+            {/* Right Content: Interactive Sovereign MetaBalls Fluid Canvas (Desktop only, transparent, interactive cursor) */}
+            <div className="hidden lg:flex lg:col-span-5 w-full h-[480px] relative items-center justify-center select-none overflow-hidden">
+              <MetaBalls
+                className="w-full h-full"
+                color="#2B121F"
+                cursorBallColor="#FF6F1E"
+                speed={0.32}
+                ballCount={16}
+                clumpFactor={1.15}
+                cursorBallSize={3.4}
+                animationSize={28}
+                hoverSmoothness={0.06}
+                enableMouseInteraction={true}
+                enableTransparency={true}
+              />
             </div>
           </div>
         </div>
       </section>
 
       {/* === CREDIBILITY & VERIFIED BADGES SECTION === */}
-      <section className="py-20 border-b border-[#E5DFD1] relative bg-white">
+      <section className="py-20 border-b border-[#E5DFD1]/80 relative z-10 bg-transparent">
         <div className="container">
           <div className="mb-12">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F6EDF2] text-[#2B121F] text-xs font-mono font-bold mb-3 border border-[#E5DFD1]">
@@ -205,7 +188,7 @@ export default function About() {
               href="https://www.linkedin.com/in/tendo296/"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-6 rounded-2xl bg-[#F7F3E9] border border-[#E5DFD1] hover:border-[#2B121F] transition-all no-underline block group shadow-2xs hover:shadow-md"
+              className="p-6 rounded-2xl bg-white/85 backdrop-blur-md border border-[#E5DFD1] hover:border-[#2B121F] transition-all no-underline block group shadow-2xs hover:shadow-md"
             >
               <div className="w-12 h-12 rounded-xl bg-[#0A66C2]/10 text-[#0A66C2] flex items-center justify-center font-heading font-extrabold text-xl mb-4 group-hover:bg-[#0A66C2] group-hover:text-white transition-colors">
                 in
@@ -229,7 +212,7 @@ export default function About() {
               href="https://www.credly.com/users/hanabi"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-6 rounded-2xl bg-[#F7F3E9] border border-[#E5DFD1] hover:border-[#FF6F1E] transition-all no-underline block group shadow-2xs hover:shadow-md"
+              className="p-6 rounded-2xl bg-white/85 backdrop-blur-md border border-[#E5DFD1] hover:border-[#FF6F1E] transition-all no-underline block group shadow-2xs hover:shadow-md"
             >
               <div className="w-12 h-12 rounded-xl bg-[#FF6F1E]/15 text-[#FF6F1E] flex items-center justify-center font-heading font-extrabold text-xl mb-4 group-hover:bg-[#FF6F1E] group-hover:text-white transition-colors">
                 CR
@@ -249,7 +232,7 @@ export default function About() {
             </a>
 
             {/* Academic Degree Badge */}
-            <div className="p-6 rounded-2xl bg-[#F7F3E9] border border-[#E5DFD1] shadow-2xs">
+            <div className="p-6 rounded-2xl bg-white/85 backdrop-blur-md border border-[#E5DFD1] shadow-2xs">
               <div className="w-12 h-12 rounded-xl bg-[#1877F2]/10 text-[#1877F2] flex items-center justify-center font-heading font-extrabold text-lg mb-4">
                 B.E.
               </div>
@@ -268,7 +251,7 @@ export default function About() {
             </div>
 
             {/* Accelerator & Incubator Badge */}
-            <div className="p-6 rounded-2xl bg-[#F7F3E9] border border-[#E5DFD1] shadow-2xs">
+            <div className="p-6 rounded-2xl bg-white/85 backdrop-blur-md border border-[#E5DFD1] shadow-2xs">
               <div className="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center font-heading font-extrabold text-lg mb-4">
                 INC
               </div>
@@ -292,145 +275,10 @@ export default function About() {
         </div>
       </section>
 
-      {/* === 3-YEAR ACCOMPLISHMENTS & PRODUCTION MILESTONES (2023–2026) === */}
-      <section id="accomplishments" className="py-20 md:py-28 relative bg-[#F7F3E9] border-b border-[#E5DFD1]">
-        <div className="container">
-          <div className="max-w-3xl mb-14">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F6EDF2] border border-[#2B121F]/20 text-[#2B121F] text-xs font-mono font-bold mb-3 tracking-wider">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#FF6F1E] animate-pulse" />
-              [ 3-YEAR JOURNEY &amp; VERIFIED TRACK RECORD ]
-            </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-extrabold text-[#2B121F] tracking-tight leading-tight mb-3">
-              What We Have Accomplished.
-            </h2>
-            <p className="text-base sm:text-lg font-sans text-[#7A6F68] leading-relaxed">
-              From founding in Mumbai to institutional incubation under IIT Delhi and deploying production multi-agent systems across India's financial and cloud ecosystems.
-            </p>
-          </div>
 
-          {/* 4-Year Milestone Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* 2023 */}
-            <div className="p-8 rounded-3xl bg-white border border-[#E5DFD1] shadow-xs flex flex-col justify-between">
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-xs font-mono font-bold text-[#FF6F1E] bg-[#FF6F1E]/10 px-3 py-1 rounded-full">
-                    2023 // INCORPORATION &amp; FOUNDATION
-                  </span>
-                  <span className="text-xs font-mono text-[#7A6F68]">Mumbai, MH</span>
-                </div>
-                <h3 className="text-2xl font-heading font-bold text-[#2B121F] mb-3">
-                  Incorporated &amp; DPIIT Recognized
-                </h3>
-                <ul className="space-y-2.5 text-xs sm:text-sm font-sans text-[#7A6F68] leading-relaxed">
-                  <li className="flex items-start gap-2">
-                    <CheckCircle2 size={15} className="text-[#FF6F1E] shrink-0 mt-0.5" />
-                    <span><strong>Private Limited Entity</strong>: Founded Enver AI Tech Pvt Ltd as a sovereign enterprise AI engineering firm.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle2 size={15} className="text-[#FF6F1E] shrink-0 mt-0.5" />
-                    <span><strong>Startup India Recognition</strong>: Formally certified deep-tech enterprise under Startup India &amp; DPIIT.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle2 size={15} className="text-[#FF6F1E] shrink-0 mt-0.5" />
-                    <span><strong>Core R&amp;D</strong>: Engineered AST security firewalls and Shannon entropy algorithms for zero-trust code auditing.</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            {/* 2024 */}
-            <div className="p-8 rounded-3xl bg-white border border-[#E5DFD1] shadow-xs flex flex-col justify-between">
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-xs font-mono font-bold text-[#2B121F] bg-[#F6EDF2] border border-[#2B121F]/20 px-3 py-1 rounded-full">
-                    2024 // INSTITUTIONAL INCUBATION &amp; ARTIFICER MVP
-                  </span>
-                  <span className="text-xs font-mono text-[#7A6F68]">FITT IITD · BITSoM</span>
-                </div>
-                <h3 className="text-2xl font-heading font-bold text-[#2B121F] mb-3">
-                  Incubated &amp; Shipped Flagship XAI
-                </h3>
-                <ul className="space-y-2.5 text-xs sm:text-sm font-sans text-[#7A6F68] leading-relaxed">
-                  <li className="flex items-start gap-2">
-                    <CheckCircle2 size={15} className="text-[#2B121F] shrink-0 mt-0.5" />
-                    <span><strong>Institutional Backing</strong>: Selected for incubation under <strong>FITT IIT Delhi</strong> and <strong>Jubilant Bhartia Foundation</strong>.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle2 size={15} className="text-[#2B121F] shrink-0 mt-0.5" />
-                    <span><strong>BITSoM Vertex AI Accelerator</strong>: Selected into cohort backed by Google Cloud and AWS Activate.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle2 size={15} className="text-[#2B121F] shrink-0 mt-0.5" />
-                    <span><strong>Artificer Production MVP</strong>: High-throughput ingestion of multi-bank statement formats and GST challans with <strong>0.00% probabilistic drift</strong>.</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            {/* 2025 */}
-            <div className="p-8 rounded-3xl bg-white border border-[#E5DFD1] shadow-xs flex flex-col justify-between">
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-xs font-mono font-bold text-[#4A2237] bg-[#4A2237]/10 px-3 py-1 rounded-full">
-                    2025 // MULTI-CLOUD GOVERNANCE &amp; DEVSECOPS
-                  </span>
-                  <span className="text-xs font-mono text-[#7A6F68]">AWS · GCP · Azure</span>
-                </div>
-                <h3 className="text-2xl font-heading font-bold text-[#2B121F] mb-3">
-                  Arbiter &amp; Cerberus Deployments
-                </h3>
-                <ul className="space-y-2.5 text-xs sm:text-sm font-sans text-[#7A6F68] leading-relaxed">
-                  <li className="flex items-start gap-2">
-                    <CheckCircle2 size={15} className="text-[#4A2237] shrink-0 mt-0.5" />
-                    <span><strong>Arbiter Cloud Firewall</strong>: AST-level destructive command interceptor deployed for Slack/Teams ChatOps (0 accidental drops).</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle2 size={15} className="text-[#4A2237] shrink-0 mt-0.5" />
-                    <span><strong>Cerberus Sentinel</strong>: Continuous PR entropy scanner with SARIF standard compliance.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle2 size={15} className="text-[#4A2237] shrink-0 mt-0.5" />
-                    <span><strong>Global Acceleration</strong>: Selected into <strong>Hub71 Validation Workshop</strong> &amp; <strong>Microsoft Azure Founders Hub</strong>.</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            {/* 2026 */}
-            <div className="p-8 rounded-3xl bg-[#2B121F] text-white shadow-md flex flex-col justify-between">
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-xs font-mono font-bold text-[#FF6F1E] bg-white/10 px-3 py-1 rounded-full">
-                    2026 // SOVEREIGN AIR-GAPPED PRIVATE VPCS
-                  </span>
-                  <span className="text-xs font-mono text-white/70">NVIDIA TensorRT</span>
-                </div>
-                <h3 className="text-2xl font-heading font-bold text-white mb-3">
-                  Sovereign Enclaves &amp; Rural Synthesis
-                </h3>
-                <ul className="space-y-2.5 text-xs sm:text-sm font-sans text-white/80 leading-relaxed">
-                  <li className="flex items-start gap-2">
-                    <CheckCircle2 size={15} className="text-[#FF6F1E] shrink-0 mt-0.5" />
-                    <span><strong>Air-Gapped Private VPCs</strong>: Turnkey multi-agent DAG architectures on NVIDIA NIM with <strong>0 bytes outbound egress</strong>.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle2 size={15} className="text-[#FF6F1E] shrink-0 mt-0.5" />
-                    <span><strong>Rural Mandi OCR</strong>: Digitizing stamped APMC slips and agricultural trade invoices for regional commerce.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle2 size={15} className="text-[#FF6F1E] shrink-0 mt-0.5" />
-                    <span><strong>Unified Intelligence Core</strong>: Production RAG deliberation with real-time 3D neural thinking telemetry.</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* === TEAM SECTION === */}
-      <section className="py-20 relative bg-[#F7F3E9]">
+      <section className="py-20 relative z-10 bg-transparent border-b border-[#E5DFD1]/80">
         <div className="container">
           <div className="mb-12">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white text-[#2B121F] text-xs font-mono font-bold mb-3 border border-[#E5DFD1]">
@@ -513,8 +361,8 @@ export default function About() {
       </section>
 
       {/* === CTA SECTION === */}
-      <section className="py-20 text-center border-t border-[#E5DFD1] bg-white">
-        <div className="container max-w-2xl mx-auto">
+      <section className="py-20 text-center relative z-10 bg-transparent">
+        <div className="container max-w-2xl mx-auto p-8 sm:p-10 rounded-3xl bg-white/85 backdrop-blur-md border border-[#E5DFD1] shadow-xs">
           <h2 className="text-2xl md:text-4xl font-heading font-extrabold text-[#2B121F] mb-4">
             Want to collaborate with our architects?
           </h2>

@@ -32,6 +32,10 @@ import Marquee from "@/components/reactbits/Marquee";
 import Lightfall from "@/components/reactbits/Lightfall";
 import FlipCard from "@/components/reactbits/FlipCard";
 import InfiniteMenu from "@/components/reactbits/InfiniteMenu";
+import VisualErrorBoundary from "@/components/VisualErrorBoundary";
+import Particles from "@/components/reactbits/Particles";
+import ProgressiveBlur from "@/components/reactbits/ProgressiveBlur";
+import TiltedCard from "@/components/reactbits/TiltedCard";
 
 const ECOSYSTEM_INFINITE_ITEMS = [
   {
@@ -95,28 +99,40 @@ const ECOSYSTEM_INFINITE_ITEMS = [
     description: "Govt of India recognized deep-tech enterprise"
   }
 ];
-
 export default function Home() {
+  const [infiniteMenuMode, setInfiniteMenuMode] = useState<"webgl2" | "fallback">("webgl2");
 
   return (
     <div className="relative w-full text-[#2B121F] min-h-screen font-sans selection:bg-[#2B121F] selection:text-[#F7F3E9]">
-      {/* Full-Page Persistent Animated Lightfall Canvas Background */}
-      <div className="fixed inset-0 w-full h-full pointer-events-none z-0 overflow-hidden">
-        <Lightfall
-          backgroundColor="#F7F3E9"
-          colors={["#FF6F1E", "#FFA048", "#FFD285", "#FF802B", "#FFFFFF"]}
-          speed={1.2}
-          streakCount={110}
-          streakWidth={1.5}
-          streakLength={1.8}
-          glow={1.2}
-          twinkle={1.2}
-          mouseInteraction={true}
-          mouseStrength={1.2}
-          mouseRadius={170}
-          className="w-full h-full"
-        />
-      </div>
+      {/* =========================================================================
+          CONTINUOUS LIGHTFALL BACKBONE:
+          Spans from Top Hero through Slide 02 (Engineering Specialties),
+          smoothly fading out right below Engineering Specialties before Section 03.
+          ========================================================================= */}
+      <div className="relative w-full">
+        {/* Lightfall Canvas with bottom fade mask */}
+        <div
+          className="absolute top-0 inset-x-0 bottom-0 pointer-events-none z-0 overflow-hidden"
+          style={{
+            WebkitMaskImage: "linear-gradient(to bottom, black 0%, black calc(100% - 240px), transparent 100%)",
+            maskImage: "linear-gradient(to bottom, black 0%, black calc(100% - 240px), transparent 100%)"
+          }}
+        >
+          <Lightfall
+            backgroundColor="#F7F3E9"
+            colors={["#FF6F1E", "#FFA048", "#FFD285", "#FF802B", "#FFFFFF"]}
+            speed={1.2}
+            streakCount={110}
+            streakWidth={1.5}
+            streakLength={1.8}
+            glow={1.2}
+            twinkle={1.2}
+            mouseInteraction={true}
+            mouseStrength={1.2}
+            mouseRadius={170}
+            className="w-full h-full"
+          />
+        </div>
 
       {/* =========================================================================
           1. HERO SECTION — Full-Bleed Animated Lightfall on Camel/Mist Background
@@ -126,7 +142,7 @@ export default function Home() {
         <div className="absolute top-0 right-1/4 w-[600px] h-[600px] rounded-full bg-gradient-to-br from-[#4A2237]/10 via-[#F3EFE4]/50 to-transparent blur-[120px] pointer-events-none" />
         <div className="absolute bottom-5 left-10 w-[450px] h-[450px] rounded-full bg-gradient-to-tr from-[#FF6F1E]/8 to-transparent blur-[100px] pointer-events-none" />
 
-        <div className="max-w-[1080px] mx-auto px-4 sm:px-8 relative z-10 text-center flex flex-col items-center pointer-events-none">
+        <div className="max-w-[1140px] mx-auto px-4 sm:px-8 relative z-10 text-center flex flex-col items-center pointer-events-none">
           {/* Rounded Pill Badge (Clean, Focused) */}
           <motion.div
             initial={{ opacity: 0, y: 14 }}
@@ -135,7 +151,7 @@ export default function Home() {
             className="mb-6 inline-flex items-center justify-center gap-2 px-4 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-[#E5DFD1] text-xs font-mono text-[#2B121F] shadow-xs pointer-events-auto"
           >
             <span className="w-2 h-2 rounded-full bg-[#FF6F1E] shadow-[0_0_8px_#FF6F1E] animate-pulse" />
-            <span className="font-semibold text-[#2B121F]">Enver AI Tech Pvt Ltd.</span>
+            <span className="font-semibold text-[#2B121F]">Enver AI Tech Pvt Ltd. · DPIIT Recognized (DIPP193082)</span>
           </motion.div>
 
           {/* Main Headline (Punchy, Confident, Modern) */}
@@ -151,14 +167,18 @@ export default function Home() {
             </span>
           </motion.h1>
 
-          {/* Clean Subtitle (Clear, Punchy, Zero Jargon Clutter) */}
+          {/* Concrete Differentiators Subtitle (No Generic Fluff) */}
           <motion.p
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.16, ease: [0.16, 1, 0.3, 1] }}
-            className="text-base sm:text-xl font-sans text-[#7A6F68] max-w-2xl mx-auto leading-relaxed mb-10"
+            className="text-base sm:text-xl font-sans text-[#7A6F68] max-w-3xl mx-auto leading-relaxed mb-8"
           >
-            Building AI Infrastructure For Enterprise Operation — Underwriting Engines to CLoud Governance.
+            We build vertical AI solutions that understand the real complexities of your sector—whether{" "}
+            <span className="text-[#2B121F] font-semibold">manufacturing</span>,{" "}
+            <span className="text-[#2B121F] font-semibold">healthcare</span>,{" "}
+            <span className="text-[#2B121F] font-semibold">finance</span>,{" "}
+            <span className="text-[#2B121F] font-semibold">logistics</span>, or beyond. Generic models fall short. Our systems are trained on industry-specific data, integrate seamlessly with existing platforms, scale securely, and drive measurable outcomes.
           </motion.p>
 
           {/* Action Buttons */}
@@ -170,17 +190,17 @@ export default function Home() {
           >
             <Link
               href="/playground"
-              className="inline-flex items-center justify-center px-8 py-4 rounded-full bg-[#2B121F] hover:bg-[#FF6F1E] text-white font-semibold text-sm tracking-wide transition-all shadow-[0_4px_24px_rgba(43,18,31,0.25)] hover:shadow-[0_4px_30px_rgba(255,111,30,0.4)] no-underline"
+              className="inline-flex items-center justify-center px-8 py-4 rounded-full bg-[#2B121F] hover:bg-[#FF6F1E] text-white font-semibold text-sm tracking-wide transition-all shadow-[0_4px_24px_rgba(43,18,31,0.25)] hover:shadow-[0_4px_30px_rgba(255,111,30,0.4)] no-underline cursor-pointer"
             >
               <span>See Agent Console</span>
               <ArrowRight size={16} className="ml-2" />
             </Link>
-            <Link
-              href="/services?case=bespoke-sovereign#case-dossier"
-              className="inline-flex items-center justify-center px-7 py-4 rounded-full bg-white/90 hover:bg-white backdrop-blur-md border border-[#E5DFD1] hover:border-[#2B121F] text-[#2B121F] font-medium text-sm transition-all shadow-xs no-underline"
+            <a
+              href="#specialties"
+              className="inline-flex items-center justify-center px-7 py-4 rounded-full bg-white/90 hover:bg-white backdrop-blur-md border border-[#E5DFD1] hover:border-[#2B121F] text-[#2B121F] font-medium text-sm transition-all shadow-xs no-underline cursor-pointer"
             >
-              <span>Explore Bespoke</span>
-            </Link>
+              <span>Explore Specialties</span>
+            </a>
           </motion.div>
         </div>
       </section>
@@ -188,7 +208,7 @@ export default function Home() {
       {/* =========================================================================
           2. ACCREDITATION MARQUEE — Refined Glassmorphic Bridge
           ========================================================================= */}
-      <div className="relative z-10 bg-[#FAF7F0]/70 backdrop-blur-md py-4 border-b border-[#E5DFD1]/80 overflow-hidden">
+      <div className="relative z-10 bg-[#FAF7F0]/60 backdrop-blur-xs py-4 border-b border-[#E5DFD1]/80 overflow-hidden">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-8">
           <div className="flex items-center justify-center gap-2 text-center font-mono text-[11px] uppercase tracking-widest text-[#7A6F68] mb-2 font-medium">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
@@ -208,7 +228,7 @@ export default function Home() {
       {/* =========================================================================
           3. HOW WE OPERATE — FORWARD DEPLOYED AI ENGINEERING
           ========================================================================= */}
-      <section className="py-20 md:py-28 relative z-10 bg-gradient-to-b from-[#F7F3E9]/40 via-white/60 to-white/95">
+      <section className="pt-16 md:pt-20 pb-8 md:pb-10 relative z-10 bg-transparent">
         {/* Subtle Engineering Grid Backdrop */}
         <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[radial-gradient(#2B121F_1px,transparent_1px)] [background-size:24px_24px]" />
 
@@ -250,153 +270,160 @@ export default function Home() {
                   Private Sovereign VPCs
                 </span>
               </div>
-
-              {/* Interactive Operating Pillar Navigation Pills */}
-              <div className="hidden lg:flex flex-col gap-2.5 mt-8 pt-6 border-t border-[#E5DFD1]">
-                <div className="flex items-center justify-between text-xs font-mono text-[#7A6F68]">
-                  <span className="flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#FF6F1E] animate-pulse" />
-                    <span>3 Sovereign Pillars Beside</span>
-                  </span>
-                  <span className="text-[10px] uppercase tracking-wider text-[#FF6F1E] font-bold">Interactive</span>
-                </div>
-                <div className="flex flex-wrap gap-2 pt-1">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const el = document.getElementById("card-01");
-                      if (el) el.scrollIntoView({ behavior: "smooth" });
-                    }}
-                    className="px-3 py-1.5 rounded-xl bg-white/90 hover:bg-[#FAF7F0] border border-[#E5DFD1] hover:border-[#FF6F1E] text-xs font-mono text-[#2B121F] hover:text-[#FF6F1E] transition-all shadow-2xs cursor-pointer"
-                  >
-                    01 · Code Scoring
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const el = document.getElementById("card-02");
-                      if (el) el.scrollIntoView({ behavior: "smooth" });
-                    }}
-                    className="px-3 py-1.5 rounded-xl bg-white/90 hover:bg-[#FAF7F0] border border-[#E5DFD1] hover:border-[#FF6F1E] text-xs font-mono text-[#2B121F] hover:text-[#FF6F1E] transition-all shadow-2xs cursor-pointer"
-                  >
-                    02 · Safety Guard
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const el = document.getElementById("card-03");
-                      if (el) el.scrollIntoView({ behavior: "smooth" });
-                    }}
-                    className="px-3 py-1.5 rounded-xl bg-white/90 hover:bg-[#FAF7F0] border border-[#E5DFD1] hover:border-[#FF6F1E] text-xs font-mono text-[#2B121F] hover:text-[#FF6F1E] transition-all shadow-2xs cursor-pointer"
-                  >
-                    03 · Forensic Audit
-                  </button>
-                </div>
-              </div>
             </div>
 
-            {/* Right Column: Clean, Perfectly Sorted Specialty Cards (No Command Brackets) */}
-            <div className="lg:col-span-7 flex flex-col gap-6 relative pb-10">
+            {/* Right Column: Clean, Perfectly Sorted Specialty Cards (with TiltedCard 3D Spring Physics) */}
+            <div className="lg:col-span-7 flex flex-col gap-6 relative pb-2">
               {/* Sorted Card 1: Deterministic Rails */}
-              <div
-                id="card-01"
-                className="scroll-mt-28 rounded-3xl bg-white border border-[#E5DFD1] p-7 sm:p-9 shadow-[0_12px_36px_rgba(43,18,31,0.06)] hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
-              >
-                <div className="flex items-center justify-between mb-4">
-                  <span className="font-mono text-xs text-[#FF6F1E] font-bold bg-[#FAF7F0] px-3.5 py-1 rounded-full border border-[#E5DFD1]">
-                    01 · DETERMINISTIC RAILS
-                  </span>
-                  <Code2 size={20} className="text-[#FF6F1E]" />
+              <TiltedCard scaleOnHover={1.02} rotateAmplitude={9} containerHeight="auto">
+                <div
+                  id="card-01"
+                  className="scroll-mt-28 w-full rounded-3xl bg-white border border-[#E5DFD1] p-7 sm:p-9 shadow-[0_12px_36px_rgba(43,18,31,0.06)] hover:shadow-xl transition-all duration-300"
+                >
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="font-mono text-xs text-[#FF6F1E] font-bold bg-[#FAF7F0] px-3.5 py-1 rounded-full border border-[#E5DFD1]">
+                      01 · DETERMINISTIC RAILS
+                    </span>
+                    <Code2 size={20} className="text-[#FF6F1E]" />
+                  </div>
+                  <h3 className="text-2xl sm:text-3xl font-heading font-bold text-[#2B121F] mb-3">
+                    Code-Grounded Execution
+                  </h3>
+                  <p className="text-sm font-sans text-[#7A6F68] leading-relaxed">
+                    Enterprise operations cannot tolerate generative guessing. Ingestion, reconciliation, and decision workflows execute through deterministic logic in code—delivering 100% reliable results every single time.
+                  </p>
                 </div>
-                <h3 className="text-2xl sm:text-3xl font-heading font-bold text-[#2B121F] mb-3">
-                  Code-Grounded Execution
-                </h3>
-                <p className="text-sm font-sans text-[#7A6F68] leading-relaxed">
-                  Enterprise operations cannot tolerate generative guessing. Ingestion, reconciliation, and decision workflows execute through deterministic logic in code—delivering 100% reliable results every single time.
-                </p>
-              </div>
+              </TiltedCard>
 
               {/* Sorted Card 2: Safety First */}
-              <div
-                id="card-02"
-                className="scroll-mt-28 rounded-3xl bg-[#2B121F] text-white border border-[#4A2237] p-7 sm:p-9 shadow-[0_20px_48px_rgba(0,0,0,0.3)] hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
-              >
-                <div className="flex items-center justify-between mb-4">
-                  <span className="font-mono text-xs text-[#FF6F1E] font-bold bg-white/10 px-3.5 py-1 rounded-full border border-white/15">
-                    02 · SAFETY FIRST
-                  </span>
-                  <Shield size={20} className="text-[#FF6F1E]" />
+              <TiltedCard scaleOnHover={1.02} rotateAmplitude={9} containerHeight="auto">
+                <div
+                  id="card-02"
+                  className="scroll-mt-28 w-full rounded-3xl bg-[#2B121F] text-white border border-[#4A2237] p-7 sm:p-9 shadow-[0_20px_48px_rgba(0,0,0,0.3)] hover:shadow-2xl transition-all duration-300"
+                >
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="font-mono text-xs text-[#FF6F1E] font-bold bg-white/10 px-3.5 py-1 rounded-full border border-white/15">
+                      02 · SAFETY FIRST
+                    </span>
+                    <Shield size={20} className="text-[#FF6F1E]" />
+                  </div>
+                  <h3 className="text-2xl sm:text-3xl font-heading font-bold text-white mb-3">
+                    Zero-Destruction Firewalls
+                  </h3>
+                  <p className="text-sm font-sans text-white/80 leading-relaxed">
+                    Autonomous agents operate under hard-coded blast-radius boundaries. Abstract Syntax Tree parsers intercept and terminate irreversible commands (table drops, mass deletions, IAM overrides) across cloud tenancies.
+                  </p>
                 </div>
-                <h3 className="text-2xl sm:text-3xl font-heading font-bold text-white mb-3">
-                  Zero-Destruction Firewalls
-                </h3>
-                <p className="text-sm font-sans text-white/80 leading-relaxed">
-                  Autonomous agents operate under hard-coded blast-radius boundaries. Abstract Syntax Tree parsers intercept and terminate irreversible commands (table drops, mass deletions, IAM overrides) across cloud tenancies.
-                </p>
-              </div>
+              </TiltedCard>
 
               {/* Sorted Card 3: Citation Integrity */}
-              <div
-                id="card-03"
-                className="scroll-mt-28 rounded-3xl bg-white border border-[#E5DFD1] p-7 sm:p-9 shadow-[0_24px_56px_rgba(43,18,31,0.09)] hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
-              >
-                <div className="flex items-center justify-between mb-4">
-                  <span className="font-mono text-xs text-[#4A2237] font-bold bg-[#F6EDF2] px-3.5 py-1 rounded-full border border-[#2B121F]/15">
-                    03 · CITATION INTEGRITY
-                  </span>
-                  <Lock size={20} className="text-[#2B121F]" />
+              <TiltedCard scaleOnHover={1.02} rotateAmplitude={9} containerHeight="auto">
+                <div
+                  id="card-03"
+                  className="scroll-mt-28 w-full rounded-3xl bg-white border border-[#E5DFD1] p-7 sm:p-9 shadow-[0_24px_56px_rgba(43,18,31,0.09)] hover:shadow-xl transition-all duration-300"
+                >
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="font-mono text-xs text-[#4A2237] font-bold bg-[#F6EDF2] px-3.5 py-1 rounded-full border border-[#2B121F]/15">
+                      03 · CITATION INTEGRITY
+                    </span>
+                    <Lock size={20} className="text-[#2B121F]" />
+                  </div>
+                  <h3 className="text-2xl sm:text-3xl font-heading font-bold text-[#2B121F] mb-3">
+                    Forensic Audit Trails
+                  </h3>
+                  <p className="text-sm font-sans text-[#7A6F68] leading-relaxed">
+                    Every inference, risk flag, and credit assessment is pinned directly to original source lines — bank statement pages, tax challans, or git commit hashes — sealed with tamper-evident cryptographic hashes.
+                  </p>
                 </div>
-                <h3 className="text-2xl sm:text-3xl font-heading font-bold text-[#2B121F] mb-3">
-                  Forensic Audit Trails
-                </h3>
-                <p className="text-sm font-sans text-[#7A6F68] leading-relaxed">
-                  Every inference, risk flag, and credit assessment is pinned directly to original source lines — bank statement pages, tax challans, or git commit hashes — sealed with tamper-evident cryptographic hashes.
-                </p>
-              </div>
+              </TiltedCard>
             </div>
           </div>
         </div>
       </section>
+        {/* Seamless organic gradient bleed: Lightfall gently dissipates into base parchment */}
+        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-[#F7F3E9] pointer-events-none z-1" />
+        {/* Motion Primitives: Progressive feather blur across bottom threshold */}
+        <ProgressiveBlur
+          direction="bottom"
+          blurLayers={5}
+          maxBlur={10}
+          className="absolute inset-x-0 bottom-0 h-20 pointer-events-none z-2"
+        />
+      </div>
 
       {/* =========================================================================
-          2. ENTERPRISE SPECIALTIES IN 3D ORBIT — REACT BITS FLIPCARD DOSSIERS
+          LOWER STAGE: 02. ENTERPRISE SPECIALTIES TO PAGE BOTTOM (03. ACCREDITATIONS)
+          Continuous seamless light fade of saffron with 3D WebGL Point Cloud Particles.
+          Creative, subtle, zero-seam fluid blend starting from #F7F3E9.
           ========================================================================= */}
-      <section id="specialties" className="py-20 md:py-28 relative z-10 bg-white/90 backdrop-blur-md border-b border-[#E5DFD1]/50 overflow-hidden">
-        {/* Subtle grid accent */}
-        <div className="absolute inset-0 opacity-[0.02] pointer-events-none bg-[radial-gradient(#2B121F_1px,transparent_1px)] [background-size:24px_24px]" />
+      <div className="relative w-full overflow-hidden bg-gradient-to-b from-[#F7F3E9] via-[#FFF6ED] to-[#FAF7F0] -mt-px">
+        {/* Soft saffron ambient radial mists (centered smoothly inside section, not cut off at seam) */}
+        <div
+          className="absolute top-0 inset-x-0 h-[650px] pointer-events-none z-0"
+          style={{
+            background: "radial-gradient(ellipse 90% 65% at 50% 20%, rgba(255, 111, 30, 0.08), rgba(255, 160, 72, 0.03) 55%, transparent 80%)"
+          }}
+        />
+        <div
+          className="absolute bottom-0 inset-x-0 h-[500px] pointer-events-none z-0"
+          style={{
+            background: "radial-gradient(ellipse 70% 50% at 50% 100%, rgba(255, 111, 30, 0.07), transparent 70%)"
+          }}
+        />
 
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-12 relative z-10">
-          {/* Header Row */}
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-14 gap-8">
-            <div className="max-w-2xl">
-              <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#F6EDF2] border border-[#2B121F]/20 text-[#2B121F] font-mono text-xs font-bold mb-4 tracking-wider shadow-xs">
-                <Activity size={13} className="text-[#FF6F1E]" />
-                <span>02 · ENTERPRISE SPECIALTIES · 3D INTERACTIVE DOSSIERS</span>
-              </span>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-extrabold text-[#2B121F] leading-[1.12] tracking-tight">
-                Engineered Specialties in Continuous Motion.
-              </h2>
-              <p className="text-base sm:text-lg font-sans text-[#7A6F68] mt-4 leading-relaxed">
-                Autonomous underwriting fleets, zero-destruction firewalls, and cryptographic audit vaults. Hover for 3D cursor tilt &amp; glare sheen — click or drag to flip the dossier.
-              </p>
+        {/* 3D WebGL Point Cloud Particles — Ethereal Saffron, Amber & Ivory */}
+        <div
+          className="absolute inset-0 pointer-events-none z-0 overflow-hidden"
+          style={{
+            WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 120px, black 100%)",
+            maskImage: "linear-gradient(to bottom, transparent 0%, black 120px, black 100%)"
+          }}
+        >
+          <Particles
+            particleCount={210}
+            particleSpread={11}
+            speed={0.09}
+            particleColors={["#FF6F1E", "#FFA048", "#FFB566", "#2B121F", "#FFFFFF"]}
+            moveParticlesOnHover={true}
+            particleHoverFactor={0.75}
+            alphaParticles={true}
+            particleBaseSize={85}
+            sizeRandomness={1.15}
+            cameraDistance={22}
+            className="w-full h-full"
+          />
+        </div>
+
+        {/* Subtle grid pattern overlay */}
+        <div className="absolute inset-0 opacity-[0.025] pointer-events-none bg-[radial-gradient(#2B121F_1px,transparent_1px)] [background-size:24px_24px] z-0" />
+
+        {/* =========================================================================
+            2. ENTERPRISE SPECIALTIES IN 3D ORBIT — REACT BITS FLIPCARD DOSSIERS
+            ========================================================================= */}
+        <section id="specialties" className="pt-6 md:pt-10 pb-20 md:pb-28 relative z-10 bg-transparent text-[#2B121F]">
+          <div className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-12 relative z-10">
+            {/* Header Row */}
+            <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-14 gap-8">
+              <div className="max-w-2xl">
+                <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#2B121F]/20 bg-[#F6EDF2] text-[#2B121F] text-xs font-mono font-bold mb-4 tracking-wider shadow-xs">
+                  <Activity size={13} className="text-[#FF6F1E]" />
+                  <span>02 · ENTERPRISE SPECIALTIES · 3D INTERACTIVE DOSSIERS</span>
+                </span>
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-extrabold text-[#2B121F] leading-[1.12] tracking-tight">
+                  Engineered Specialties in Continuous Motion.
+                </h2>
+              </div>
+
+              {/* Shifted Writing into Right Space */}
+              <div className="max-w-md lg:self-end">
+                <p className="text-base sm:text-lg font-sans text-[#7A6F68] leading-relaxed">
+                  Autonomous underwriting fleets, zero-destruction firewalls, and cryptographic audit vaults. Hover for 3D cursor tilt &amp; glare sheen — click or drag to flip the dossier.
+                </p>
+              </div>
             </div>
 
-            {/* FlipCard Controls Hint & Live Status */}
-            <div className="flex flex-col items-start lg:items-end gap-2.5 shrink-0">
-              <div className="p-3.5 rounded-2xl bg-[#FAF7F0] border border-[#E5DFD1] flex items-center gap-3 shadow-2xs font-mono text-xs">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-[#2B121F] font-bold">3D Spring Physics</span>
-                <span className="text-[#7A6F68]">·</span>
-                <span className="text-[#FF6F1E] font-semibold">Flippable &amp; Draggable</span>
-              </div>
-              <div className="text-[11px] font-mono text-[#7A6F68]">
-                Hover to tilt · Click or drag card to flip
-              </div>
-            </div>
-          </div>
-
-          {/* Dynamic 3D Specialty FlipCard Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center items-center py-4">
+            {/* Dynamic 3D Specialty FlipCard Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center items-center py-4">
             {/* Card 1: Artificer Credit Citadel */}
             <FlipCard
               width={360}
@@ -793,49 +820,42 @@ export default function Home() {
       {/* =========================================================================
           3. ACCREDITED ECOSYSTEMS — 3D INFINITE ORBIT SPHERE (REACT BITS)
           ========================================================================= */}
-      <section id="accreditations" className="py-20 md:py-28 relative z-10 bg-white border-b border-[#E5DFD1]/50">
+      <section id="accreditations" className="py-20 md:py-28 relative z-10 bg-transparent border-t border-[#E5DFD1]/50">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-12">
           {/* Header Row */}
           <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-12 gap-8">
             <div className="max-w-2xl">
               <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#F6EDF2] border border-[#2B121F]/20 text-[#2B121F] font-mono text-xs font-bold mb-4 tracking-wider shadow-xs">
                 <ShieldCheck size={13} className="text-[#FF6F1E]" />
-                <span>03 · ACCREDITED ECOSYSTEMS · 3D INFINITE SPHERE</span>
+                <span>03 · ACCREDITED ECOSYSTEMS · RECOGNITION SPHERE</span>
               </span>
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-extrabold text-[#2B121F] leading-[1.12] tracking-tight">
                 Recognized by Global Deep-Tech Institutions.
               </h2>
-              <p className="text-base sm:text-lg font-sans text-[#7A6F68] mt-4 leading-relaxed">
-                Incubated and accelerated across Tier-1 venture studios, government research foundations, and sovereign cloud ecosystems. Drag and spin the spherical grid.
-              </p>
             </div>
 
-            <div className="flex flex-col items-start lg:items-end gap-2.5 shrink-0">
-              <div className="p-3.5 rounded-2xl bg-[#FAF7F0] border border-[#E5DFD1] flex items-center gap-3 shadow-2xs font-mono text-xs">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-[#2B121F] font-bold">WebGL2 3D Arcball Grid</span>
-                <span className="text-[#7A6F68]">·</span>
-                <span className="text-[#FF6F1E] font-semibold">Interactive</span>
-              </div>
-              <Link
-                href="/accreditations"
-                className="text-xs font-mono text-[#FF6F1E] hover:underline font-bold no-underline flex items-center gap-1"
-              >
-                <span>Inspect Full Sovereign Recognition Dossier →</span>
-              </Link>
+            {/* Shifted Writing in Right Space */}
+            <div className="max-w-md lg:self-end">
+              <p className="text-base sm:text-lg font-sans text-[#7A6F68] leading-relaxed">
+                Incubated and accelerated across Tier-1 venture studios, government research foundations, and sovereign cloud ecosystems.
+              </p>
             </div>
           </div>
 
-          {/* 3D Infinite Menu Canvas Stage (Pure White Crisp Background) */}
-          <div className="w-full h-[540px] sm:h-[620px] relative rounded-3xl overflow-hidden border border-[#E5DFD1] shadow-[0_20px_50px_rgba(43,18,31,0.04)] bg-white">
-            <InfiniteMenu
-              items={ECOSYSTEM_INFINITE_ITEMS}
-              scale={0.92}
-              backgroundColor="#FFFFFF"
-            />
+          {/* 3D Infinite Menu Canvas Stage — Borderless Widescreen Interactive Rectangle */}
+          <div className="w-full h-[400px] sm:h-[450px] md:h-[480px] relative rounded-3xl overflow-hidden border-none shadow-none bg-transparent">
+            <VisualErrorBoundary fallbackTitle="Accreditation Showcase (Safe Fallback Mode)">
+              <InfiniteMenu
+                items={ECOSYSTEM_INFINITE_ITEMS}
+                scale={0.88}
+                backgroundColor="transparent"
+                onModeChange={(mode: "webgl2" | "fallback") => setInfiniteMenuMode(mode)}
+              />
+            </VisualErrorBoundary>
           </div>
         </div>
       </section>
     </div>
-  );
+  </div>
+);
 }

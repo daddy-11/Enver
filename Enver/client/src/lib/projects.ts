@@ -41,7 +41,7 @@ export const projects: Project[] = [
     ],
     techStack: ["Google Cloud Vertex AI", "AWS Activate", "Azure Container Apps", "FastAPI", "PostgreSQL", "Docker"],
     image: "/idbi_fintech.png",
-    externalLink: "https://idbi.enveraitech.in",
+    externalLink: "https://artificer.enveraitech.in",
     dossier: {
       domain: "Financial Technology & Underwriting",
       coreModel: "Artificer XAI Reasoning Core",

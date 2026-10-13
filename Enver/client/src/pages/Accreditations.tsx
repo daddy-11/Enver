@@ -8,57 +8,55 @@ import {
   ExternalLink,
   ArrowRight
 } from "lucide-react";
+import DotGrid from "@/components/reactbits/DotGrid";
 
 const academicIncubators = [
   {
     name: "FITT IIT Delhi",
     fullTitle: "Foundation for Innovation and Technology Transfer",
     institution: "Indian Institute of Technology, Delhi",
-    role: "Apex Academic Research Incubation",
-    location: "Hauz Khas, New Delhi, India",
+    location: "New Delhi, India",
     link: "https://fitt-iitd.in/",
-    badge: "INCUBATOR",
+    badge: "ACADEMIC INCUBATOR",
     badgeColor: "text-[#FF6F1E] bg-[#FF6F1E]/10 border-[#FF6F1E]/20",
     description:
-      "Incubated under FITT at IIT Delhi, India's foremost engineering institute. Focuses on frontier deep-tech autonomous agent architectures, sovereign Indic language intelligence, and mathematical determinism in code generation.",
+      "Apex deep-tech research incubation under FITT at IIT Delhi. Research and engineering focus on autonomous agent state machines, sovereign Indic language intelligence, and AST-level deterministic execution.",
     metrics: [
       { label: "Track", value: "Deep-Tech AI" },
-      { label: "Tenure", value: "Multi-Year Incubation" },
+      { label: "Tenure", value: "Research Incubation" },
       { label: "Focus", value: "Autonomous Systems" }
     ]
   },
   {
     name: "Jubilant Bhartia Foundation",
-    fullTitle: "Jubilant Bhartia Social Innovation & Acceleration",
+    fullTitle: "Jubilant Bhartia Foundation",
     institution: "Jubilant Bhartia Group",
-    role: "Strategic Enterprise & Social Acceleration",
-    location: "Noida, Uttar Pradesh, India",
+    location: "Noida, UP, India",
     link: "https://www.jubilantbhartiafoundation.com/",
-    badge: "FOUNDATION",
+    badge: "ENTERPRISE INCUBATION",
     badgeColor: "text-[#4A2237] bg-[#4A2237]/10 border-[#4A2237]/20",
     description:
-      "Strategic incubation and acceleration partner supporting Enver's enterprise deployment pipelines, grassroots AI accessibility, and sovereign digital infrastructure across emerging commercial ecosystems.",
+      "Selected and partnered under the Jubilant Bhartia Foundation for strategic enterprise operational AI workflows, automated verification systems, and digital infrastructure across enterprise commercial ecosystems.",
     metrics: [
       { label: "Cohort", value: "Enterprise AI" },
-      { label: "Mandate", value: "Sovereign Scale" },
-      { label: "Advisory", value: "Executive Mentorship" }
+      { label: "Mandate", value: "Operational Scale" },
+      { label: "Advisory", value: "Enterprise Mentorship" }
     ]
   },
   {
-    name: "BITSoM Vertex AI Incubator",
-    fullTitle: "BITS School of Management & Google Cloud Incubator",
-    institution: "BITSoM (BITS Pilani) in partnership with Google Cloud",
-    role: "Flagship FinTech XAI Incubation",
-    location: "Mumbai, Maharashtra, India",
+    name: "BITSoM (BITS Pilani)",
+    fullTitle: "BITS School of Management & Google Cloud Ecosystem",
+    institution: "BITSoM (BITS Pilani)",
+    location: "Mumbai, MH, India",
     link: "https://www.bitsom.edu.in/",
-    badge: "FLAGSHIP MVP",
+    badge: "COMPETITION WINNER",
     badgeColor: "text-[#FF6F1E] bg-white border-[#E5DFD1]",
     description:
-      "Selected as the flagship enterprise incubatee for Artificer — our autonomous explainable underwriting citadel. Engineered on Google Cloud Vertex AI to ingest messy Indian bank PDFs and GST challans with line-level deterministic citations.",
+      "Participated and won at BITSoM (BITS Pilani); attending dedicated business incubation and acceleration support for the upcoming quarter for Artificer XAI.",
     metrics: [
-      { label: "Product", value: "Artificer Underwriting" },
-      { label: "Infra", value: "Google Vertex AI" },
-      { label: "Verification", value: "MSME Citadel" }
+      { label: "Result", value: "Competition Winner" },
+      { label: "Support", value: "Business Incubation" },
+      { label: "Cohort", value: "Upcoming Quarter" }
     ]
   }
 ];
@@ -104,14 +102,35 @@ const hyperscalerCloudEcosystems = [
 
 export default function Accreditations() {
   return (
-    <div className="bg-[#F7F3E9] text-[#2B121F] min-h-screen pt-28 sm:pt-36 font-sans selection:bg-[#2B121F] selection:text-[#F7F3E9]">
+    <div className="relative bg-[#F7F3E9] text-[#2B121F] min-h-screen pt-8 sm:pt-12 font-sans selection:bg-[#2B121F] selection:text-[#F7F3E9] overflow-hidden">
+      {/* =========================================================================
+          FULL-PAGE INTERACTIVE DOTGRID CANVAS BACKGROUND
+          Precision institutional matrix with cursor inertia and click shockwaves.
+          ========================================================================= */}
+      <div className="fixed inset-0 w-screen h-screen pointer-events-none z-0 overflow-hidden opacity-90">
+        <DotGrid
+          className="w-full h-full"
+          dotSize={5}
+          gap={32}
+          baseColor="#D5CDBC"
+          activeColor="#FF6F1E"
+          proximity={150}
+          speedTrigger={70}
+          shockRadius={260}
+          shockStrength={6}
+          maxSpeed={5000}
+          resistance={750}
+          returnDuration={1.4}
+        />
+      </div>
+
       {/* =========================================================================
           HERO SECTION — Institutional Accreditations
           ========================================================================= */}
-      <section className="relative overflow-hidden py-14 lg:py-20 border-b border-[#E5DFD1]">
+      <section className="relative z-10 overflow-hidden py-14 lg:py-20 border-b border-[#E5DFD1]/80 bg-transparent">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-8 relative z-10">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-[#E5DFD1] text-[#2B121F] text-xs font-mono font-semibold shadow-2xs mb-6">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-[#E5DFD1] text-[#2B121F] text-xs font-mono font-semibold shadow-2xs mb-6">
               <span className="w-2 h-2 rounded-full bg-[#FF6F1E] shadow-[0_0_8px_#FF6F1E] animate-pulse" />
               <span>INSTITUTIONAL ACCREDITATIONS &amp; SOVEREIGN ECOSYSTEMS</span>
             </div>
@@ -123,43 +142,27 @@ export default function Accreditations() {
               </span>
             </h1>
 
-            <p className="text-base sm:text-xl font-sans text-[#7A6F68] leading-relaxed mb-8">
+            <p className="text-base sm:text-xl font-sans text-[#7A6F68] leading-relaxed">
               Enver AI Tech is accelerated, incubated, and formally recognized by India&apos;s apex academic institutes, statutory startup authorities, and tier-1 hyperscaler cloud ecosystems. We engineer autonomous systems with mathematical determinism, audited security, and zero-drift execution.
             </p>
-
-            {/* Quick Verification Badges Strip */}
-            <div className="flex flex-wrap items-center gap-2.5 pt-2">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-[#E5DFD1] text-xs font-mono text-[#2B121F] font-semibold">
-                <ShieldCheck size={14} className="text-[#4A2237]" /> DPIIT Recognized Startup
-              </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-[#E5DFD1] text-xs font-mono text-[#2B121F] font-semibold">
-                <Sparkles size={14} className="text-[#FF6F1E]" /> FITT IIT Delhi Incubated
-              </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-[#E5DFD1] text-xs font-mono text-[#2B121F] font-semibold">
-                <Award size={14} className="text-[#2B121F]" /> BITSoM Vertex AI Citadel
-              </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-[#E5DFD1] text-xs font-mono text-[#2B121F] font-semibold">
-                <Cloud size={14} className="text-[#FF6F1E]" /> Microsoft · Google · AWS
-              </span>
-            </div>
           </div>
         </div>
       </section>
 
       {/* =========================================================================
-          SECTION 1 — APEX ACADEMIC INCUBATORS
+          SECTION 1 — APEX ACADEMIC & ENTERPRISE INCUBATORS
           ========================================================================= */}
-      <section className="py-16 md:py-24 relative border-b border-[#E5DFD1] bg-white">
+      <section className="py-16 md:py-24 relative z-10 border-b border-[#E5DFD1]/80 bg-transparent">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-8">
           <div className="max-w-2xl mb-12">
-            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F6EDF2] border border-[#2B121F]/20 text-[#2B121F] font-mono text-xs font-bold mb-3 tracking-wider">
-              [ 01 // ACADEMIC RESEARCH &amp; INCUBATION ]
+            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/90 backdrop-blur-md border border-[#2B121F]/20 text-[#2B121F] font-mono text-xs font-bold mb-3 tracking-wider shadow-2xs">
+              [ 01 // RESEARCH &amp; ENTERPRISE INCUBATION ]
             </span>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-bold text-[#2B121F] leading-tight">
-              Incubated at Apex Research Centers.
+              Incubated at Apex Research &amp; Enterprise Centers.
             </h2>
             <p className="text-base font-sans text-[#7A6F68] mt-3 leading-relaxed">
-              Our engineering thesis and sovereign agent pipelines are developed in close alignment with premier academic institutes and corporate foundation programs.
+              Our engineering thesis and sovereign agent pipelines are developed in close alignment with premier academic institutes and corporate foundation acceleration programs.
             </p>
           </div>
 
@@ -167,14 +170,15 @@ export default function Accreditations() {
             {academicIncubators.map((incubator) => (
               <div
                 key={incubator.name}
-                className="p-8 rounded-3xl bg-[#F7F3E9] border border-[#E5DFD1] hover:border-[#FF6F1E] hover:shadow-lg transition-all duration-300 flex flex-col justify-between"
+                className="p-8 rounded-3xl bg-white/85 backdrop-blur-md border border-[#E5DFD1] hover:border-[#FF6F1E] hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
               >
                 <div>
+                  {/* Clean unbloated header row */}
                   <div className="flex items-center justify-between mb-4">
                     <span className={`text-[10px] font-mono font-bold px-2.5 py-0.5 rounded tracking-wider uppercase border ${incubator.badgeColor}`}>
                       {incubator.badge}
                     </span>
-                    <span className="text-xs font-mono text-[#7A6F68]">{incubator.role}</span>
+                    <span className="text-xs font-mono text-[#7A6F68] font-medium">{incubator.location}</span>
                   </div>
 
                   <h3 className="text-2xl font-heading font-bold text-[#2B121F] mb-1">
@@ -219,10 +223,10 @@ export default function Accreditations() {
       {/* =========================================================================
           SECTION 2 — HYPERSCALER CLOUD ECOSYSTEMS & ACCELERATION
           ========================================================================= */}
-      <section className="py-16 md:py-24 relative border-b border-[#E5DFD1] bg-[#F7F3E9]">
+      <section className="py-16 md:py-24 relative z-10 border-b border-[#E5DFD1]/80 bg-transparent">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-8">
           <div className="max-w-2xl mb-12">
-            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F6EDF2] border border-[#2B121F]/20 text-[#2B121F] font-mono text-xs font-bold mb-3 tracking-wider">
+            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/90 backdrop-blur-md border border-[#2B121F]/20 text-[#2B121F] font-mono text-xs font-bold mb-3 tracking-wider shadow-2xs">
               [ 02 // HYPERSCALER ENTERPRISE TENANCIES ]
             </span>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-bold text-[#2B121F] leading-tight">
@@ -237,11 +241,11 @@ export default function Accreditations() {
             {hyperscalerCloudEcosystems.map((cloud) => (
               <div
                 key={cloud.name}
-                className="p-6 rounded-2xl bg-white border border-[#E5DFD1] hover:border-[#2B121F] transition-all flex flex-col justify-between"
+                className="p-6 rounded-2xl bg-white/85 backdrop-blur-md border border-[#E5DFD1] hover:border-[#2B121F] hover:shadow-lg transition-all flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center justify-between mb-3">
-                    <span className="text-[10px] font-mono font-bold text-[#FF6F1E] uppercase tracking-wider bg-[#F7F3E9] px-2 py-0.5 rounded border border-[#E5DFD1]">
+                    <span className="text-[10px] font-mono font-bold text-[#FF6F1E] uppercase tracking-wider bg-[#FAF7F0] px-2 py-0.5 rounded border border-[#E5DFD1]">
                       {cloud.badge}
                     </span>
                     <Cloud size={16} className="text-[#2B121F]" />
@@ -275,9 +279,9 @@ export default function Accreditations() {
       {/* =========================================================================
           CONCISE CLOSING ACTION BAR
           ========================================================================= */}
-      <section className="py-14 text-center bg-white">
+      <section className="py-14 text-center relative z-10 bg-transparent">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-8">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-6 p-6 sm:p-8 rounded-2xl bg-[#F7F3E9] border border-[#E5DFD1]">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-6 p-6 sm:p-8 rounded-2xl bg-white/85 backdrop-blur-md border border-[#E5DFD1] shadow-xs">
             <div className="text-left">
               <h3 className="text-xl sm:text-2xl font-heading font-bold text-[#2B121F] mb-1">
                 Explore Enterprise Architectures

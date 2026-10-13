@@ -633,10 +633,14 @@ class InfiniteGridMenu {
   }
 
   #init(onInit) {
-    this.gl = this.canvas.getContext('webgl2', { antialias: true, alpha: true });
+    try {
+      this.gl = this.canvas.getContext('webgl2', { antialias: true, alpha: true });
+    } catch (e) {
+      this.gl = null;
+    }
     const gl = this.gl;
     if (!gl) {
-      throw new Error('No WebGL 2 context!');
+      throw new Error('No WebGL 2 context available on this device');
     }
 
     this.viewportSize = vec2.fromValues(this.canvas.clientWidth, this.canvas.clientHeight);
@@ -920,34 +924,69 @@ const defaultItems = [
   }
 ];
 
-export default function InfiniteMenu({ items = [], scale = 1.0, backgroundColor = '#FAF7F0' }) {
+export function isWebGL2Available() {
+  if (typeof window === 'undefined') return false;
+  if (typeof sessionStorage !== 'undefined' && sessionStorage.getItem('enver_safe_mode') === 'true') {
+    return false;
+  }
+  try {
+    const c = document.createElement('canvas');
+    return !!(window.WebGL2RenderingContext && (c.getContext('webgl2', { antialias: false }) || c.getContext('experimental-webgl2')));
+  } catch (e) {
+    return false;
+  }
+}
+
+export default function InfiniteMenu({ items = [], scale = 1.0, backgroundColor = '#FAF7F0', onModeChange = null }) {
   const canvasRef = useRef(null);
   const [activeItem, setActiveItem] = useState(null);
   const [isMoving, setIsMoving] = useState(false);
+  const [hasWebGL2, setHasWebGL2] = useState(true);
+  const [carouselIndex, setCarouselIndex] = useState(0);
+
+  const rawItems = items && items.length ? items : defaultItems;
 
   useEffect(() => {
+    if (!isWebGL2Available()) {
+      setHasWebGL2(false);
+      if (onModeChange) onModeChange('fallback');
+      return;
+    }
+
     const canvas = canvasRef.current;
     let sketch;
 
     const handleActiveItem = index => {
-      const itemIndex = index % items.length;
-      setActiveItem(items[itemIndex]);
+      const itemIndex = index % rawItems.length;
+      setActiveItem(rawItems[itemIndex]);
     };
 
     if (canvas) {
-      sketch = new InfiniteGridMenu(
-        canvas,
-        items.length ? items : defaultItems,
-        handleActiveItem,
-        setIsMoving,
-        sk => sk.run(),
-        scale
-      );
+      try {
+        sketch = new InfiniteGridMenu(
+          canvas,
+          rawItems,
+          handleActiveItem,
+          setIsMoving,
+          sk => sk.run(),
+          scale
+        );
+        if (onModeChange) onModeChange('webgl2');
+      } catch (err) {
+        console.warn('WebGL 2 initialization failed, activating adaptive CSS fallback:', err);
+        setHasWebGL2(false);
+        if (onModeChange) onModeChange('fallback');
+        return;
+      }
     }
 
     const handleResize = () => {
       if (sketch) {
-        sketch.resize();
+        try {
+          sketch.resize();
+        } catch {
+          /* ignore */
+        }
       }
     };
 
@@ -957,16 +996,124 @@ export default function InfiniteMenu({ items = [], scale = 1.0, backgroundColor 
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, [items, scale]);
+  }, [items, scale, onModeChange]);
 
-  const handleButtonClick = () => {
-    if (!activeItem?.link) return;
-    if (activeItem.link.startsWith('http')) {
-      window.open(activeItem.link, '_blank');
+  const handleButtonClick = (item) => {
+    const target = item || activeItem;
+    if (!target?.link) return;
+    if (target.link.startsWith('http')) {
+      window.open(target.link, '_blank');
     } else {
-      window.location.href = activeItem.link;
+      window.location.href = target.link;
     }
   };
+
+  // Graceful CSS Fallback Stage if WebGL2 is unavailable or disabled
+  if (!hasWebGL2) {
+    const currentItem = rawItems[carouselIndex] || rawItems[0];
+    return (
+      <div
+        className="w-full h-full relative flex flex-col justify-between p-6 sm:p-8 select-none overflow-hidden"
+        style={{ backgroundColor }}
+      >
+        {/* Top Header & Navigation Bar */}
+        <div className="flex items-center justify-between z-10 border-b border-[#E5DFD1]/80 pb-3">
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#FF6F1E] animate-pulse" />
+            <span className="text-xs font-mono font-bold text-[#2B121F]">
+              Adaptive Interactive Grid
+            </span>
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#FAF7F0] border border-[#E5DFD1] text-[#7A6F68]">
+              CSS Accelerated
+            </span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-mono text-[#7A6F68] hidden sm:inline">
+              {carouselIndex + 1} / {rawItems.length}
+            </span>
+            <button
+              type="button"
+              onClick={() => setCarouselIndex((prev) => (prev > 0 ? prev - 1 : rawItems.length - 1))}
+              className="p-1.5 rounded-xl border border-[#E5DFD1] bg-white hover:bg-[#FAF7F0] text-[#2B121F] shadow-2xs transition cursor-pointer"
+              title="Previous item"
+            >
+              ←
+            </button>
+            <button
+              type="button"
+              onClick={() => setCarouselIndex((prev) => (prev < rawItems.length - 1 ? prev + 1 : 0))}
+              className="p-1.5 rounded-xl border border-[#E5DFD1] bg-white hover:bg-[#FAF7F0] text-[#2B121F] shadow-2xs transition cursor-pointer"
+              title="Next item"
+            >
+              →
+            </button>
+          </div>
+        </div>
+
+        {/* Centerpiece Hero Card */}
+        <div className="my-auto py-4 flex flex-col md:flex-row items-center gap-6 md:gap-10 max-w-4xl mx-auto w-full z-10">
+          <div className="w-full md:w-1/2 aspect-square max-w-[340px] rounded-2xl overflow-hidden border border-[#E5DFD1] shadow-[0_12px_32px_rgba(43,18,31,0.08)] relative group bg-black/5">
+            <img
+              src={currentItem.image}
+              alt={currentItem.title}
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60" />
+            <div className="absolute bottom-3 left-3 right-3 text-white">
+              <span className="text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded-full bg-black/50 backdrop-blur-md border border-white/20">
+                Institutional Cohort
+              </span>
+            </div>
+          </div>
+
+          <div className="w-full md:w-1/2 flex flex-col justify-center space-y-4 text-left">
+            <div className="space-y-1.5">
+              <span className="text-[11px] font-mono uppercase tracking-widest text-[#FF6F1E] font-bold">
+                PARTNER ECOSYSTEM
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-heading font-extrabold text-[#2B121F] tracking-tight">
+                {currentItem.title}
+              </h2>
+            </div>
+
+            <p className="text-sm font-sans text-[#7A6F68] leading-relaxed">
+              {currentItem.description}
+            </p>
+
+            <div className="pt-2">
+              <button
+                type="button"
+                onClick={() => handleButtonClick(currentItem)}
+                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#2B121F] hover:bg-[#FF6F1E] text-white text-xs font-mono font-bold tracking-wider transition-all shadow-sm cursor-pointer"
+              >
+                <span>Inspect Dossier</span>
+                <span>↗</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Horizontal Scrubber Strip */}
+        <div className="z-10 pt-2 border-t border-[#E5DFD1]/80 overflow-x-auto pb-1 scrollbar-none flex items-center gap-2">
+          {rawItems.map((item, idx) => (
+            <button
+              key={idx}
+              type="button"
+              onClick={() => setCarouselIndex(idx)}
+              className={`px-3 py-1.5 rounded-xl text-xs font-mono whitespace-nowrap transition-all border cursor-pointer ${
+                carouselIndex === idx
+                  ? 'bg-[#2B121F] text-white border-[#2B121F] font-bold shadow-xs'
+                  : 'bg-white/80 hover:bg-white text-[#7A6F68] border-[#E5DFD1]'
+              }`}
+            >
+              {item.title}
+            </button>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -986,7 +1133,7 @@ export default function InfiniteMenu({ items = [], scale = 1.0, backgroundColor 
 
           <p className={`face-description ${isMoving ? 'inactive' : 'active'}`}>{activeItem.description}</p>
 
-          <div onClick={handleButtonClick} className={`action-button ${isMoving ? 'inactive' : 'active'}`}>
+          <div onClick={() => handleButtonClick(activeItem)} className={`action-button ${isMoving ? 'inactive' : 'active'}`}>
             <p className="action-button-icon">&#x2197;</p>
           </div>
         </>

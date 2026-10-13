@@ -9,7 +9,7 @@
    ============================================ */
 
 import { Link, useParams } from "wouter";
-import { ArrowLeft, CheckCircle } from "lucide-react";
+import { ArrowLeft, CheckCircle, ExternalLink, Sparkles } from "lucide-react";
 import Marquee from "@/components/reactbits/Marquee";
 import { projects } from "@/lib/projects";
 
@@ -26,8 +26,8 @@ export default function ProjectDetail() {
         <p className="font-mono text-muted-foreground mb-6">
           ACCESS DENIED — No matching system in registry.
         </p>
-        <Link href="/projects" className="brutal-btn brutal-btn-outline no-underline">
-          <ArrowLeft size={16} /> Return to Registry
+        <Link href="/services" className="brutal-btn brutal-btn-outline no-underline">
+          <ArrowLeft size={16} /> Return to Capabilities
         </Link>
       </div>
     );
@@ -37,16 +37,16 @@ export default function ProjectDetail() {
   const marqueeText = project.techStack.join(" // ");
 
   return (
-    <div className="min-h-screen bg-[#F7F3E9] text-[#2B121F] pt-28 sm:pt-36">
+    <div className="min-h-screen bg-[#F7F3E9] text-[#2B121F] pt-8 sm:pt-12">
       {/* === DOSSIER HEADER === */}
       <section className="pt-16 pb-12 bg-white border-b border-[#E5DFD1]">
         <div className="container">
           {/* Back nav */}
           <Link
-            href="/projects"
+            href="/services"
             className="inline-flex items-center gap-2 text-xs font-mono text-[#7A6F68] hover:text-[#2B121F] no-underline mb-6 transition-colors font-medium"
           >
-            <ArrowLeft size={14} /> BACK TO REGISTRY
+            <ArrowLeft size={14} /> BACK TO CAPABILITIES &amp; ENGINES
           </Link>
 
           {/* Classification badge */}
@@ -115,6 +115,55 @@ export default function ProjectDetail() {
                   ))}
                 </div>
               </div>
+
+              {/* Live Sandbox / Citadel Launch CTA (Below Stack) */}
+              {(project.slug === "artificer" || project.externalLink) && (
+                <div className="mt-8 pt-6 border-t border-[#E5DFD1]">
+                  <div className="p-5 rounded-2xl bg-[#F8F5EE] border border-[#E5DFD1] shadow-xs">
+                    <div className="flex items-center justify-between mb-2.5">
+                      <div className="flex items-center gap-2">
+                        <span className="relative flex h-2 w-2">
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                        </span>
+                        <span className="text-[11px] font-mono uppercase tracking-wider text-emerald-800 font-bold">
+                          Live Active MVP
+                        </span>
+                      </div>
+                      <span className="text-[10px] font-mono text-[#7A6F68] bg-white px-2 py-0.5 rounded border border-[#E5DFD1]">
+                        Standalone Citadel
+                      </span>
+                    </div>
+
+                    <h4 className="text-sm font-heading font-extrabold text-[#2B121F] mb-1.5">
+                      Test Out {project.slug === "artificer" ? "Artificer Citadel" : project.title}
+                    </h4>
+
+                    <p className="text-xs font-sans text-[#7A6F68] mb-4 leading-relaxed">
+                      {project.slug === "artificer"
+                        ? "Execute live MSME balance sheet extractions, deterministic DSCR scoring, and forensic audit trail generation directly."
+                        : `Launch the interactive production environment for ${project.title}.`}
+                    </p>
+
+                    <a
+                      href={project.externalLink || (project.slug === "artificer" ? "https://artificer.enveraitech.in" : "#")}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full inline-flex items-center justify-between py-3 px-4 rounded-xl bg-[#2B121F] hover:bg-[#1E0C15] text-white text-xs font-mono font-semibold transition-all group no-underline shadow-sm"
+                    >
+                      <span>Launch {project.slug === "artificer" ? "Artificer Citadel" : "Engine"}</span>
+                      <ExternalLink size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform text-[#FF6F1E]" />
+                    </a>
+
+                    <div className="mt-3 flex items-center justify-between text-[10px] font-mono text-[#7A6F68] px-1">
+                      <span>Live Engine:</span>
+                      <span className="text-[#2B121F] font-semibold truncate max-w-[180px]">
+                        {project.slug === "artificer" ? "artificer.enveraitech.in" : project.externalLink?.replace(/^https?:\/\//, "")}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* RIGHT COLUMN — Operational Overview (70%) */}

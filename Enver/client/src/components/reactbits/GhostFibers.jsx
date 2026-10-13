@@ -187,12 +187,24 @@ const GhostFibers = ({
     const container = containerRef.current;
     if (!container) return;
 
-    const renderer = new Renderer({
-      webgl: 2,
-      alpha: false,
-      antialias: false,
-      dpr: Math.min(Math.max(dpr, 0.5), 2)
-    });
+    let renderer;
+    try {
+      renderer = new Renderer({
+        webgl: 2,
+        alpha: false,
+        antialias: false,
+        dpr: Math.min(Math.max(dpr, 0.5), 2)
+      });
+      if (!renderer.gl) {
+        throw new Error("No WebGL 2 context");
+      }
+    } catch (e) {
+      console.warn("GhostFibers WebGL2 context initialization failed, falling back to CSS background:", e);
+      if (container) {
+        container.style.background = "radial-gradient(ellipse at 50% 50%, #4A2237 0%, #180A14 65%, #0D040A 100%)";
+      }
+      return;
+    }
     const gl = renderer.gl;
     const canvas = gl.canvas;
     canvas.style.width = '100%';

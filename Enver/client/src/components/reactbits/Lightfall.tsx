@@ -166,9 +166,12 @@ export default function Lightfall({
         mouse.y = -9999;
       }
 
-      // 1. Draw Camel / Mist Background
-      ctx.fillStyle = backgroundColor;
-      ctx.fillRect(0, 0, width, height);
+      // 1. Clear Frame & Draw Background
+      ctx.clearRect(0, 0, width, height);
+      if (backgroundColor && backgroundColor !== "transparent") {
+        ctx.fillStyle = backgroundColor;
+        ctx.fillRect(0, 0, width, height);
+      }
 
       // 2. Subtle Ambient Glow (Radial mist & warmth)
       if (backgroundGlow > 0) {

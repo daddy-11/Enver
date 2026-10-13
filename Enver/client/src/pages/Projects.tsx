@@ -11,6 +11,7 @@ import { ArrowUpRight, ArrowRight, Shield, Layers, Bot, BarChart3, Terminal, Com
 import { projects } from "@/lib/projects";
 // @ts-ignore
 import SpotlightCard from "@/components/reactbits/SpotlightCard";
+import Topography from "@/components/reactbits/Topography";
 
 const categoryIcons: Record<string, any> = {
   "artificer": BarChart3,
@@ -31,10 +32,29 @@ export default function Projects() {
   });
 
   return (
-    <div className="min-h-screen bg-[#F7F3E9] text-[#2B121F] pt-28 sm:pt-36">
+    <div className="min-h-screen bg-[#F7F3E9] text-[#2B121F] pt-8 sm:pt-12">
       {/* === HEADER === */}
-      <section className="py-20 bg-white border-b border-[#E5DFD1]">
-        <div className="container">
+      <section className="py-20 bg-white border-b border-[#E5DFD1] relative overflow-hidden">
+        {/* Dynamic Topography Contour Shader Background */}
+        <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden opacity-25">
+          <Topography
+            lowColor="#2B121F"
+            midColor="#FF6F1E"
+            highColor="#FFA048"
+            speed={0.2}
+            bands={2.4}
+            thickness={0.012}
+            scale={1.1}
+            glow={0.35}
+            contrast={2.8}
+            brightness={1.05}
+            mouseInteraction={true}
+            mouseRadius={0.35}
+            mouseStrength={0.35}
+          />
+        </div>
+
+        <div className="container relative z-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F6EDF2] border border-[#E5DFD1] text-[10px] font-mono text-[#FF6F1E] font-bold uppercase tracking-widest mb-4">
             System Registry
           </div>

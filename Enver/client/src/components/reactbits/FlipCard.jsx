@@ -76,6 +76,14 @@ export default function FlipCard({
   const turnY = useMotionTemplate`perspective(${perspective}px) scale(${lift}) rotateX(${tiltX}deg) rotateY(${sumY}deg)`;
   const turnX = useMotionTemplate`perspective(${perspective}px) scale(${lift}) rotateY(${tiltY}deg) rotateX(${sumX}deg)`;
   const facing = useTransform(turn, t => Math.abs(Math.cos((t * Math.PI) / 180)));
+  const isFrontFacing = useTransform(turn, t => {
+    const norm = (((t % 360) + 360) % 360);
+    return norm < 90 || norm > 270;
+  });
+  const frontVisibility = useTransform(isFrontFacing, f => (f ? 'visible' : 'hidden'));
+  const backVisibility = useTransform(isFrontFacing, f => (f ? 'hidden' : 'visible'));
+  const frontOpacity = useTransform(isFrontFacing, f => (f ? 1 : 0));
+  const backOpacity = useTransform(isFrontFacing, f => (f ? 0 : 1));
   const spread = useTransform(facing, f => 0.08 + 0.92 * f);
   const shade = useTransform(facing, f => 0.1 + 0.9 * f * f);
   const gxPct = useMotionTemplate`${gx}%`;
@@ -251,14 +259,22 @@ export default function FlipCard({
         />
       ) : null}
       <motion.div className="flip-card__rotor" style={reduce ? undefined : rotorStyle}>
-        <div className="flip-card__face flip-card__face--front" aria-hidden={shown}>
+        <motion.div
+          className="flip-card__face flip-card__face--front"
+          aria-hidden={shown}
+          style={reduce ? undefined : { visibility: frontVisibility, opacity: frontOpacity }}
+        >
           {front}
           {glare ? <span className="flip-card__glare" aria-hidden="true" /> : null}
-        </div>
-        <div className="flip-card__face flip-card__face--back" aria-hidden={!shown}>
+        </motion.div>
+        <motion.div
+          className="flip-card__face flip-card__face--back"
+          aria-hidden={!shown}
+          style={reduce ? undefined : { visibility: backVisibility, opacity: backOpacity }}
+        >
           {back}
           {glare ? <span className="flip-card__glare" aria-hidden="true" /> : null}
-        </div>
+        </motion.div>
       </motion.div>
     </div>
   );

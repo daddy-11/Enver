@@ -10,10 +10,14 @@
 ## 1. System Overview
 
 Enver AI Tech is a production-grade enterprise AI Operations, Autonomous Engineering, and Sovereign Agent platform. Key subsystems:
-1. **Envera Enterprise MCP Server (v2.0)**: Official Model Context Protocol server exposing real-time financial underwriting, multi-cloud AST firewalls, and dynamic dataset hot-reloading over persistent Server-Sent Events (SSE).
-2. **Microsoft Entra External ID Gateway**: Zero-trust authentication with tenant isolation (`tid`), user identity auditing (`oid`), and team-exclusive authorization (`@enveraitech.com`).
-3. **Unified 3D Playground Console (`/playground`)**: Interactive agent console featuring 3D particle sphere, ThoughtLine reasoning streaming, live MCP tool execution, and 1-click config exporter for Cursor & Claude Desktop.
-4. **Artistic Oat Silk Design System**: Luxury layout with warm Oat Silk (`#F7F3E9`), Plum Wine (`#2B121F`), and Solar Amber (`#FF6F1E`).
+1. **Tri-Model Multi-Agent Brain Pipeline**:
+   - **System 1 Reflex Classifier**: TypeSafe AI (`jev-1.13.0`) evaluates intent & context sufficiency in <350ms.
+   - **Autonomous Scraper / Explorer**: xAI `grok-4.6` deployed in Microsoft Azure AI Foundry (`daddy-4887-resource`) conducts targeted web reconnaissance when context is deficient.
+   - **System 2 Main Reasoner**: Google Gemini 3.5 Flash (with automatic 3.8 Flash failover) synthesizes grounded, mathematically verifiable responses.
+2. **Envera Enterprise MCP Server (v2.0)**: Official Model Context Protocol server exposing real-time financial underwriting, multi-cloud AST firewalls, and dynamic dataset hot-reloading over persistent Server-Sent Events (SSE).
+3. **Microsoft Entra External ID Gateway**: Zero-trust authentication with tenant isolation (`tid`), user identity auditing (`oid`), and team-exclusive authorization (`@enveraitech.com`).
+4. **Unified Playground Console (`/playground`)**: Enterprise agent console featuring live multi-agent DAG deliberation, real-time activity ledgers, MCP tool suite runner, and cryptographic audit signatures.
+5. **Artistic Oat Silk Design System**: Luxury layout with warm Oat Silk (`#F7F3E9`), Plum Wine (`#2B121F`), and Solar Amber (`#FF6F1E`).
 
 ---
 

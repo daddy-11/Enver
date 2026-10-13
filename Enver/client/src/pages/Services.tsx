@@ -197,8 +197,12 @@ export default function Services() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#F7F3E9] text-[#2B121F] pt-28 sm:pt-36 pb-24 font-sans">
-      <div className="max-w-[1280px] mx-auto px-4 sm:px-8">
+    <div className="min-h-screen bg-[#F7F3E9] text-[#2B121F] pt-8 sm:pt-12 pb-24 font-sans relative overflow-hidden">
+      {/* Subtle ambient architectural glows */}
+      <div className="absolute top-0 right-1/4 w-[600px] h-[600px] rounded-full bg-gradient-to-br from-[#4A2237]/8 via-[#F3EFE4]/40 to-transparent blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-1/3 left-10 w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-[#FF6F1E]/6 to-transparent blur-[120px] pointer-events-none" />
+
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-8 relative z-10">
         
         {/* =========================================================================
             HEADER SECTION — Enterprise Use Cases & System Circuits
@@ -492,10 +496,10 @@ export default function Services() {
             <div className="flex items-center gap-3 shrink-0">
               {activeCase.projectSlug && (
                 <Link
-                  href={`/projects/${activeCase.projectSlug}`}
+                  href={`/services/${activeCase.projectSlug}`}
                   className="inline-flex items-center gap-1.5 py-3 px-5 rounded-full bg-white border border-[#E5DFD1] hover:border-[#2B121F] text-[#2B121F] text-xs font-sans font-semibold transition-all no-underline shadow-2xs"
                 >
-                  <span>Complete Dossier</span>
+                  <span>Architecture Dossier</span>
                   <ArrowRight size={13} />
                 </Link>
               )}

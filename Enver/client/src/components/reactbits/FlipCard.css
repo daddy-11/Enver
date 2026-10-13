@@ -53,6 +53,7 @@
   position: absolute;
   inset: 0;
   transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
 }
 
 .flip-card__face {
@@ -64,18 +65,27 @@
   color: var(--fc-ink);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+  transform: translate3d(0, 0, 1px);
+  -webkit-transform: translate3d(0, 0, 1px);
 }
 
 .flip-card__face img {
   -webkit-user-drag: none;
 }
 
+.flip-card__face--front {
+  transform: rotateY(0deg) translate3d(0, 0, 1px);
+  -webkit-transform: rotateY(0deg) translate3d(0, 0, 1px);
+}
+
 .flip-card__face--back {
-  transform: rotateY(180deg);
+  transform: rotateY(180deg) translate3d(0, 0, 1px);
+  -webkit-transform: rotateY(180deg) translate3d(0, 0, 1px);
 }
 
 .flip-card[data-axis='x'] .flip-card__face--back {
-  transform: rotateX(180deg);
+  transform: rotateX(180deg) translate3d(0, 0, 1px);
+  -webkit-transform: rotateX(180deg) translate3d(0, 0, 1px);
 }
 
 .flip-card__glare {
