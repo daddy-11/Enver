@@ -12,7 +12,8 @@ import {
   acceptLegalTermsForUser,
   signOutUser,
   requestEmailOtp,
-  verifyEmailOtp
+  verifyEmailOtp,
+  checkAzureStaticWebAppsAuth
 } from "@/lib/auth";
 
 interface AuthContextType {
@@ -42,6 +43,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } catch {}
     return null;
   });
+
+  // Check Azure Static Web Apps native AAD auth if not already logged in
+  useEffect(() => {
+    if (!user) {
+      checkAzureStaticWebAppsAuth().then((azureUser) => {
+        if (azureUser) setUser(azureUser);
+      });
+    }
+  }, []);
 
   useEffect(() => {
     if (user) {

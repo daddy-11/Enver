@@ -279,6 +279,16 @@ export async function registerUser({
   saveStoredAccounts(accounts);
   syncUserToStorage(user);
 
+  recordCustomerLead({
+    name: user.displayName || "Enterprise User",
+    email: user.email || cleanEmail,
+    company: user.org || "Enterprise Lead",
+    role: user.role,
+    provider: "Work Email (Verified Credentials)",
+    timestamp: now,
+    token: `ENV-REG-${Math.floor(1000 + Math.random() * 9000)}`
+  });
+
   // Record audit login & registration event on server
   try {
     await fetch("/api/neuv/audit/login", {
@@ -574,6 +584,116 @@ export function acceptLegalTermsForUser(user: EnverUser): EnverUser {
 }
 
 /**
+ * Checks if the user is authenticated via Azure Static Web Apps native Entra ID (AAD) authentication.
+ * Azure Static Web Apps exposes `/.auth/me` when the user has logged in via `/.auth/login/aad`.
+ */
+export async function checkAzureStaticWebAppsAuth(): Promise<EnverUser | null> {
+  try {
+    const res = await fetch("/.auth/me");
+    if (!res.ok) return null;
+    const data = await res.json();
+    const principal = data?.clientPrincipal;
+    if (!principal || !principal.userDetails) return null;
+
+    const email = String(principal.userDetails).trim().toLowerCase();
+    const displayName = email.split("@")[0].replace(/[._-]/g, " ");
+    const now = new Date().toISOString();
+    const isEnverStaff = email.endsWith("@enveraitech.com") || email === "enver.ai@outlook.com";
+    const role: "PUBLIC" | "ENGINEER" | "ENVER_INTERNAL" = isEnverStaff ? "ENVER_INTERNAL" : "ENGINEER";
+
+    const user: EnverUser = {
+      uid: principal.userId || `azure_${Date.now()}`,
+      displayName: displayName.charAt(0).toUpperCase() + displayName.slice(1),
+      email,
+      photoURL: `https://api.dicebear.com/9.x/identicon/svg?seed=${encodeURIComponent(email)}`,
+      provider: "microsoft",
+      role,
+      org: isEnverStaff ? "Enver AI Tech" : "Enterprise Client (Entra ID)",
+      badge: isEnverStaff ? "LEAD" : "ENGINEER",
+      emailVerified: true,
+      acceptedTos: true,
+      acceptedPs: true,
+      tosAcceptedAt: now,
+      psAcceptedAt: now,
+      legalDocVersion: CURRENT_LEGAL_DOC_VERSION
+    };
+
+    syncUserToStorage(user);
+    recordCustomerLead({
+      name: user.displayName || displayName,
+      email: user.email || email,
+      company: user.org || "Microsoft Entra ID",
+      role: user.role,
+      provider: "Microsoft Entra ID (Native Azure SSO)",
+      timestamp: now,
+      token: "MSFT-SSO-" + Math.floor(1000 + Math.random() * 9000)
+    });
+
+    return user;
+  } catch {
+    return null;
+  }
+}
+
+export interface CustomerLeadRecord {
+  name: string;
+  email: string;
+  company: string;
+  role?: string;
+  provider: string;
+  timestamp: string;
+  token?: string;
+}
+
+const CUSTOMER_ROSTER_KEY = "enver_customer_roster";
+
+/**
+ * Record a real customer registration into the local ledger and dispatch real-time lead notification.
+ */
+export function recordCustomerLead(lead: CustomerLeadRecord) {
+  try {
+    const raw = localStorage.getItem(CUSTOMER_ROSTER_KEY);
+    const roster: CustomerLeadRecord[] = raw ? JSON.parse(raw) : [];
+    const exists = roster.some((r) => r.email?.toLowerCase() === lead.email?.toLowerCase());
+    if (!exists) {
+      roster.unshift(lead);
+      localStorage.setItem(CUSTOMER_ROSTER_KEY, JSON.stringify(roster));
+    }
+  } catch {}
+
+  // Dispatch real-time lead alert to Enver AI founders
+  try {
+    fetch("https://formsubmit.co/ajax/hanabi@enveraitech.com", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({
+        "Customer Name": lead.name,
+        "Customer Email": lead.email,
+        "Organization": lead.company || "Enterprise Lead",
+        "Role / Workload": lead.role || "Enterprise Client",
+        "Auth Provider": lead.provider,
+        "Admission Token": lead.token || "ENV-PRD-LIVE",
+        "Signup Date": lead.timestamp || new Date().toISOString(),
+        _subject: `🚀 Real Enver AI Customer: ${lead.name} (${lead.email})`,
+        _captcha: "false"
+      })
+    }).catch(() => {});
+  } catch {}
+}
+
+/**
+ * Get all real registered customers for founder review.
+ */
+export function getCustomerRoster(): CustomerLeadRecord[] {
+  try {
+    const raw = localStorage.getItem(CUSTOMER_ROSTER_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+/**
  * Sign out
  */
 export async function signOutUser(): Promise<void> {
@@ -583,3 +703,4 @@ export async function signOutUser(): Promise<void> {
     localStorage.removeItem("enver_playground_unlocked");
   } catch {}
 }
+
