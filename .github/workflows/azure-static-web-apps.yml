@@ -39,24 +39,7 @@ jobs:
         run: pnpm run build
 
       - name: Deploy to Azure Static Web Apps
-        id: builddeploy
-        uses: Azure/static-web-apps-deploy@v1
-        with:
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN || secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_NICE_MEADOW_010692200 || 'a72a18fb97b20ee786a868bb133debc159217e43d10000a479c8de5b5580696205-af93067d-a102-4802-8ccc-d88c7fa73ce90002410010692200' }}
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          action: "upload"
-          app_location: "Enver"
-          output_location: "dist/public"
-          skip_app_build: true
-
-  close_pull_request_job:
-    if: github.event_name == 'pull_request' && github.event.action == 'closed'
-    runs-on: ubuntu-latest
-    name: Close Pull Request Job
-    steps:
-      - name: Close Pull Request
-        id: closepullrequest
-        uses: Azure/static-web-apps-deploy@v1
-        with:
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN || secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_NICE_MEADOW_010692200 || 'a72a18fb97b20ee786a868bb133debc159217e43d10000a479c8de5b5580696205-af93067d-a102-4802-8ccc-d88c7fa73ce90002410010692200' }}
-          action: "close"
+        working-directory: Enver
+        run: npx -y @azure/static-web-apps-cli deploy ./dist/public --env production
+        env:
+          SWA_CLI_DEPLOYMENT_TOKEN: a72a18fb97b20ee786a868bb133debc159217e43d10000a479c8de5b5580696205-af93067d-a102-4802-8ccc-d88c7fa73ce90002410010692200
