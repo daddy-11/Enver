@@ -697,11 +697,15 @@ export default function AgentGateway() {
                           </p>
                         </div>
 
-                        {/* Dev / Test mode instant filler */}
-                        {previewOtp && (
+                        <p className="text-xs text-[#756E65] text-center px-2">
+                          We've sent a 6-digit confirmation code to your inbox. Check your email (including spam/junk folder) and enter it below.
+                        </p>
+
+                        {/* Internal developer debug bypass (only if ?debug=true in URL) */}
+                        {typeof window !== "undefined" && window.location.search.includes("debug=true") && previewOtp && (
                           <div className="p-2.5 rounded-xl bg-amber-50 border border-amber-200 text-center flex items-center justify-between px-4">
                             <span className="text-[11px] font-mono text-amber-800">
-                              Test Code: <strong>{previewOtp}</strong>
+                              Debug Code: <strong>{previewOtp}</strong>
                             </span>
                             <button
                               type="button"

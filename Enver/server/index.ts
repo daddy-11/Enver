@@ -395,12 +395,15 @@ async function recordLeadToFirestoreMail(entry: {
       })
     }).catch(() => {});
 
-    // Return success response with dev preview code for zero-friction local testing
-    return res.json({
+    // Return success response (preview code only in dev mode for automated testing)
+    const responsePayload: any = {
       success: true,
-      message: `Verification code sent to ${cleanEmail}`,
-      previewCode: otpCode // Available in dev & preview for immediate instant testing
-    });
+      message: `Verification code sent to ${cleanEmail}`
+    };
+    if (process.env.NODE_ENV !== "production") {
+      responsePayload.previewCode = otpCode;
+    }
+    return res.json(responsePayload);
   });
 
   // Endpoint: Verify OTP code
