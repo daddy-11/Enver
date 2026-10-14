@@ -57,14 +57,19 @@ When documentation updates in Azure Blob Storage:
    - **Domain Validation TXT Token**: `_muk37rt7gdhfj59fni4v3jun1dnu2ux` (Host `@`).
    - **DNS Target**: CNAME to `nice-meadow-010692200.5.azurestaticapps.net`.
 
-2. **Decoupled Architecture & Priority Gateway**:
-   - **Decoupled Marketing Website**: Fast static delivery with 0ms cold starts, zero server costs, and global edge caching via `staticwebapp.config.json`.
-   - **Agent Console Gateway**: `/playground` and `/signup` route to `AgentGateway.tsx`, capturing enterprise leads into a staged pilot queue (`ENV-PRD-XXXX`) and automatically returning visitors to the homepage.
-   - **Internal Developer Access**: The live 3D Neuv deliberation console remains accessible to authorized team members using `?access=root` or `?preview=true`.
+2. **Real Customer Onboarding & Sovereign Agent Gateway**:
+   - **Production Routes**: `/agent-gateway`, `/gateway`, `/signup`, `/login`, `/signin` route to `AgentGateway.tsx`.
+   - **Native Microsoft Entra ID (Azure AD) SSO**: Direct OAuth federated routing via `/.auth/login/aad?post_login_redirect_uri=/agent-gateway`. Validates real enterprise Microsoft 365 / Outlook identities with cryptographic tokens directly from Azure.
+   - **Direct Enterprise Registration**: Genuine onboarding flow capturing Full Name, Work Email, Organization, Passcode, and ToS consent without broken OTP simulations.
+   - **Admitted Multi-Entity Hub**: Displays admission token (`ENV-PRD-XXXX`), verified clearance status, and provides 1-click access to:
+     - **Artificer Citadel**: Live on Azure Container Apps (`https://artificer-enverai.thankfulbay-87f2ee82.centralindia.azurecontainerapps.io`).
+     - **Agentic Console**: Interactive agent mesh deliberation (`/playground`).
+     - **Deep Research Papers**: Formal AST verification theorems (`/research`).
+   - **Admin Customer Directory**: Live customer roster with export to CSV accessible to Enver administrators.
 
-3. **Form Delivery & Lead Capture Pipeline**:
-   - **Direct Inbox Delivery**: Inquiries on `/contact` and pilot registrations on `/playground` dispatch directly to `hanabi@enveraitech.com` (CC `amaan@enveraitech.com`) via FormSubmit.
-   - **Durable Local Backup**: Inquiries and queue tokens are persisted in browser storage (`enver_inquiries` / `enver_pilot_queue_token`) so zero leads are dropped.
+3. **Form Delivery & Real-Time Lead Pipeline**:
+   - **Direct Founder Alerts**: Every registered customer and contact submission dispatches an immediate notification to `hanabi@enveraitech.com` (and `Enver.AI@outlook.com`).
+   - **Durable Local Ledger**: Registrations are preserved in local ledger storage (`enver_customer_roster` / `enver_inquiries`) ensuring zero dropped customer leads.
 
 4. **Microsoft Entra ID / Azure AD Authentication**:
    - **App Registration**: `Enver AI`

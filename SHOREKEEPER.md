@@ -43,11 +43,10 @@
     *   **Live Hostname**: [https://nice-meadow-010692200.5.azurestaticapps.net](https://nice-meadow-010692200.5.azurestaticapps.net)
     *   **Custom Domain**: `enveraitech.com` & `www.enveraitech.com` (DNS validated via TXT token `_muk37rt7gdhfj59fni4v3jun1dnu2ux` and CNAME pointing to `nice-meadow-010692200.5.azurestaticapps.net`)
     *   **Deployment Vector**: SWA CLI (`npx @azure/static-web-apps-cli deploy ./dist/public --app-name enveraitech-web --resource-group rg-enveraitech-prod --env production`)
-*   **Decoupled Launch Protocol**:
-    *   **Edge Marketing Site**: Static SPA served from edge CDN with sub-second response times and 0ms cold start.
-    *   **Agent Console Gateway**: Public visits to `/playground` or `/signup` route to `AgentGateway.tsx`, issuing an enterprise staging queue ticket (`ENV-PRD-XXXX`), notifying founders, and auto-returning to the home portal after 10s with pause/cancel controls.
-    *   **Internal Root Override**: The live 3D Neuvlette deliberation console remains accessible to authorized operators using query parameters `?access=root` or `?preview=true`.
-*   **Form & Lead Delivery Pipeline**:
-    *   Submissions on `/contact` and `/playground` dispatch directly to `hanabi@enveraitech.com` (CC `amaan@enveraitech.com`) via FormSubmit AJAX.
-    *   Submissions cache automatically to local browser storage (`enver_inquiries` / `enver_pilot_queue_token`) ensuring zero dropped leads.
-*   **Active Objective**: Production launch verified, DNS cutover complete, zero secret exposure, and documentation synchronized.
+*   **Real Customer Onboarding & Sovereign Authentication Protocol**:
+    *   **Native Microsoft Entra ID (Azure AD) SSO**: Direct OAuth federated routing via `/.auth/login/aad?post_login_redirect_uri=/agent-gateway`. Validates enterprise Microsoft 365 / Outlook identities with cryptographic tokens directly from Azure.
+    *   **Direct Enterprise Registration**: Genuine onboarding flow capturing Name, Work Email, Organization, Passcode, and ToS consent without broken OTP simulations.
+    *   **Dual Lead Dispatching & Admin Customer Roster**: Every registered customer triggers real-time lead notification to `hanabi@enveraitech.com` and `Enver.AI@outlook.com`. The gateway includes an administrative customer directory with CSV export capabilities.
+    *   **Live Cloud Routing**: Authenticated clearance grants single-click access to **Artificer Citadel** (running live on Azure Container Apps in Central India: `artificer-enverai.thankfulbay-87f2ee82.centralindia.azurecontainerapps.io`), the **Agentic Console** (`/playground`), and **Deep Research** (`/research`).
+*   **Active Objective**: Production launch verified, real Microsoft Entra ID authentication active, customer roster recording live, zero secret exposure, and documentation synchronized.
+

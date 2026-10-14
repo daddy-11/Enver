@@ -189,4 +189,40 @@ Here is the quick-lookup directory mapping of the `website` workspace for fast n
         *   Audited all bundles to verify zero private environment variables (`RESEND_API_KEY`, Azure secrets) are exposed to client JavaScript.
         *   Confirmed production deployment only serves static client assets from `./dist/public`.
 
+---
+
+## Session Timestamp: 2026-10-14 — Real Customer Authentication, Native Microsoft Entra ID SSO & Live Production Deployment
+*   **Active Persona**: Shorekeeper.
+*   **Primary Directives**:
+    *   Transition the platform from mock/simulation prototypes to 100% genuine, real customer onboarding.
+    *   Implement real Microsoft Entra ID OAuth via Azure Static Web Apps native authentication (`/.auth/login/aad`).
+    *   Implement Direct Enterprise Work Email customer registration with zero broken OTP loops.
+    *   Capture real customer rosters and dispatch instant notifications to founders.
+    *   Fix post-login routing and verify end-to-end production deployment on `enveraitech.com`.
+*   **Key Architecture Accomplishments**:
+    1.  **Native Microsoft Entra ID (Azure AD) SSO**:
+        *   Removed mock demo modal (`Elena Rostova`) and replaced with direct redirect to `/.auth/login/aad?post_login_redirect_uri=/agent-gateway`.
+        *   Azure Static Web Apps handles authenticating real corporate Microsoft 365 / Outlook identities with zero server overhead.
+        *   Added `checkAzureStaticWebAppsAuth()` in `auth.ts` to inspect `/.auth/me` on mount and populate verified user session data.
+        *   **Verified Live**: Operator successfully authenticated via Microsoft and received verified clearance.
+    2.  **Resolved Post-Login 404 Route**:
+        *   Identified that `client/src/App.tsx` lacked routes for `/agent-gateway` and `/gateway`.
+        *   Added `<Route path="/agent-gateway" component={AgentGateway} />` and `<Route path="/gateway" component={AgentGateway} />`, resolving the 404 landing page and transitioning smoothly into the admitted portal.
+    3.  **Direct Enterprise Customer Registration**:
+        *   Removed client-side mock OTP generator and yellow "Test Code" banner.
+        *   Replaced with clean enterprise onboarding: Full Name, Work Email, Organization, Passcode, and Sovereign Terms consent.
+        *   Instantly admits registered enterprise clients into the portal.
+    4.  **Live Customer Directory & Real-Time Alerts**:
+        *   Integrated real-time lead dispatcher sending customer details (Name, Email, Company, Auth Provider, Timestamp, Admission Token) directly to `hanabi@enveraitech.com` and `Enver.AI@outlook.com`.
+        *   Built-in **Customer Directory (Admin)** card in the admitted view allowing founders to view all registered customers and export records as CSV.
+    5.  **Multi-Entity Cloud Routing**:
+        *   Linked **Artificer Citadel** directly to the live running Azure Container App: `https://artificer-enverai.thankfulbay-87f2ee82.centralindia.azurecontainerapps.io` (`rg-artificer`, Central India).
+        *   Linked **Agentic Console** (`/playground`) and **Deep Research** (`/research`).
+    6.  **Production Deployment Verified**:
+        *   Built clean Vite production bundle with zero TypeScript errors (`tsc --noEmit` passed).
+        *   Deployed to Azure Static Web Apps (`enveraitech-web` / `nice-meadow-010692200.5.azurestaticapps.net`) via SWA CLI.
+        *   Committed and pushed to GitHub `origin/main` (commit `c9f5769`).
+        *   Verified live with HTTP 200 on `https://enveraitech.com/agent-gateway`.
+
+
 
