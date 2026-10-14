@@ -69,6 +69,8 @@ function Router() {
         <Switch>
           {/* Decoupled Gateway for Agent Console */}
           <Route path="/playground" component={DecoupledConsoleRoute} />
+          <Route path="/agent-gateway" component={AgentGateway} />
+          <Route path="/gateway" component={AgentGateway} />
           <Route path="/signup" component={AgentGateway} />
           <Route path="/login" component={AgentGateway} />
           <Route path="/signin" component={AgentGateway} />
