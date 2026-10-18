@@ -92,6 +92,12 @@ export default function Navbar() {
           onClick: (e: React.MouseEvent<HTMLAnchorElement>) => handleNavigate("/accreditations", e)
         },
         {
+          label: "Research & Theorems",
+          href: "/research",
+          ariaLabel: "Formal Verification Theorems & Research Papers",
+          onClick: (e: React.MouseEvent<HTMLAnchorElement>) => handleNavigate("/research", e)
+        },
+        {
           label: "About Us",
           href: "/about",
           ariaLabel: "About Us · Engineering Core",

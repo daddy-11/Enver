@@ -1,0 +1,93 @@
+# Enver AI Tech
+> Sovereign AI Operations, Autonomous Engineering & Deterministic Infrastructure
+
+Enver AI Tech is a licensed independent enterprise AI research laboratory and sovereign engineering consultancy based in India. We design, build, and deploy deterministic multi-agent architectures, forensic financial underwriting systems, and zero-trust cloud governance firewalls for regulated institutions and engineering enterprises.
+
+- Official Domain: https://enveraitech.com
+- Edge Endpoint: https://nice-meadow-010692200.5.azurestaticapps.net
+- DPIIT Recognition: #DIPP193082 (Government of India)
+- Incubator & Accelerators: BITSoM Vertex AI Incubator, FITT IIT Delhi, Azure Founders Hub
+- Primary Contact: hanabi@enveraitech.com | daddy@enveraitech.com
+- Founders: Amaan Kaiser Shaikh (Lead AI Engineer) / Needa Shaikh (Cybersecurity Expert)
+
+---
+
+## 1. What Does Enver AI Do?
+Enver AI Develops AI forward solutions for Enterprises,focused on solving Real world probles using Applied AI and counter operational cloud chaos by replacing fragile, naive LLM wrappers with mathematically verifiable, deterministic multi-agent systems and AST-enforced security sentinels.
+
+Our core capabilities span:
+1. **Autonomous Financial Underwriting & Cash-Flow Auditing**: Real-time parsing and forensic verification of messy financial statements, bank records, and GST filings with zero hallucination.
+2. **Multi-Cloud AST Destructive Command Firewalls**: ChatOps compute governance across AWS, GCP, and Azure that intercepts and hard-blocks catastrophic commands (`DROP TABLE`, `rm -rf`, unbudgeted cluster spins).
+3. **Rogue AI, Scraper & Zero-Trust Defense**: Dynamic cryptographic proof-of-work (PoW) challenges, TLS fingerprinting, and pre-commit entropy scanners that neutralize automated scraping bot swarms and prompt injection vectors.
+4. **Bespoke Sovereign AI Architectures**: Custom private-VPC or on-premise AI deployments using localized open weights, NVIDIA TensorRT-LLM optimization, and deterministic DAG state machines with 100% data residency and zero external data egress.
+
+---
+
+## 2. Who Is It For?
+Enver AI serves institutional enterprises operating in high-stakes, regulated environments where mistakes carry severe financial or legal consequences:
+- **Commercial Banks & Non-Banking Financial Companies (NBFCs)**: Lending institutions requiring sub-2-minute MSME credit underwriting with 100% RBI Digital Lending compliance and line-level audit trails.
+- **Enterprise Engineering & DevOps Teams**: Cloud architects managing multi-million-dollar AWS/GCP/Azure footprints requiring automated budget guardrails and catastrophic failure prevention.
+- **Fintech & Regulated BFSI Organizations**: Companies handling confidential customer PII, trade secrets, and alternative financial ledgers barred from sending data over public LLM APIs.
+- **Cybersecurity & Defense Operators**: Teams defending high-value proprietary data against autonomous AI crawlers, headless browser swarms, and adversarial prompt attacks.
+
+---
+
+## 3. What Specific Problems Do We Solve?
+
+### A. The MSME Underwriting Chasm (Artificer Citadel)
+- **Problem**: 70% of New-to-Credit (NTC) MSMEs in India are rejected due to empty credit bureau scorecards despite robust cash flows. Human loan officers spend 3 to 5 days manually reviewing 100+ page statements at $80–$110 per dossier, routinely missing circular trading and GSTR-1 vs. GSTR-3B revenue discrepancies.
+- **Solution**: Artificer deploys a 4-agent fleet on Google Vertex AI. It parses complex Indian bank statements and GST challans, evaluates 5 deterministic financial pillars strictly in code (liquidity, revenue, stability, leverage, behavior), and cross-checks alternative ledgers with an automated credit committee. Every number links directly to a highlighted line citation locked with a SHA-256 cryptographic seal.
+
+### B. Catastrophic Cloud Human Errors & GPU Sprawl (Arbiter Sentinel)
+- **Problem**: Accidental database wipes (`DROP TABLE`, `rm -rf`) during high-pressure outages and unmonitored GPU instance sprawl draining cloud budgets by tens of thousands of dollars monthly.
+- **Solution**: Arbiter operates as a Slack/Teams ChatOps sentinel. It inspects CLI and compute provisioning through an Abstract Syntax Tree (AST) parser that hard-blocks destructive commands, calculates exact cost impacts prior to execution, and automates approvals through engineering leads.
+
+### C. Bot Swarms, Scraping & Rogue AI Probing (Cerberus Program)
+- **Problem**: Traditional CAPTCHAs and static rate-limiters fail against modern LLM-driven autonomous scraping bots, headless browser clusters, and token abuse.
+- **Solution**: Cerberus replaces visual CAPTCHAs with dynamic cryptographic proof-of-work challenges, behavioral DOM cadence analysis, TLS fingerprinting, and pre-commit Shannon entropy scanners (<1.1% false positive rate) to protect source code and APIs.
+
+### D. Data Privacy & Sovereign AI Mandates
+- **Problem**: Legal data protection frameworks (DPDP Act, GDPR, RBI rails) prohibit routing sensitive data to foreign third-party SaaS models.
+- **Solution**: Turnkey sovereign model deployment in private customer VPCs with dedicated NVIDIA inference engines, guaranteed zero data leakage, and full customer ownership of code, weights, and IP.
+
+---
+
+## 4. What Do We Deliver, and How Does an Engagement Work?
+
+### What We Deliver:
+1. **Production-Ready Sovereign Code**: Tested, modular TypeScript/Python codebases containerized with Docker and Kubernetes manifests.
+2. **Cryptographic Audit Trails**: OASIS SARIF compliance records and SHA-256 verifiable execution logs.
+3. **Model Context Protocol (MCP v2.0) Integration**: Direct integration with Envera MCP server over persistent Server-Sent Events (SSE).
+4. **Complete IP & Model Custody**: 100% transfer of fine-tuned weights, adapters, schemas, and deployment pipelines.
+
+### Engagement Lifecycle:
+1. **Discovery & Architecture Audit (Week 1)**: Rapid deep-dive into your workflow bottlenecks, data residency constraints, and security perimeters.
+2. **Proof-of-Concept / Staging Pilot (Weeks 2–3)**: Interactive prototype evaluated against your real, historical edge cases in a sandboxed staging environment.
+3. **Deterministic Hardening & Integration (Weeks 4–6)**: AST policy enforcement, zero-trust Entra ID / OAuth integration, and latency benchmarking.
+4. **Production Deployment & Handover (Week 7+)**: Air-gapped VPC rollout, founder-led team training, and continuous observability via Azure Application Insights.
+
+---
+
+## 5. What Evidence Supports Our Claims?
+- **Government of India DPIIT Recognized Startup**: Recognition certificate **#DIPP193082**.
+- **Institutional Incubation**: Selected for the **BITSoM Vertex AI Incubator** and backed by **FITT IIT Delhi**.
+- **Empirical Underwriting Benchmarks**:
+  - Turnaround time reduced from **3–5 days to < 105 seconds**.
+  - Cost per analyzed file reduced from **$80–$110 to $0.02**.
+  - **99.8% extraction accuracy** across unstructured multi-bank Indian statement formats.
+  - **100% compliance** with Reserve Bank of India (RBI) Digital Lending Guidelines.
+- **Infrastructure Safety Record**:
+  - **0 accidental wipes** permitted across all Arbiter-monitored environments.
+  - **34% average cloud compute savings** achieved through automated reclamation of idle GPU clusters.
+- **Production Edge Infrastructure**: High-availability Anycast CDN on Microsoft Azure Static Web Apps with global zero-cold-start edge delivery.
+
+---
+
+## 6. How to Contact Us or Book a Call
+- **Founder Direct Email**: [hanabi@enveraitech.com](mailto:hanabi@enveraitech.com)
+- **Executive Office Email**: [amaan@enveraitech.com](mailto:amaan@enveraitech.com)
+- **General Inquiries & Support**: [Enver.AI@outlook.com](mailto:Enver.AI@outlook.com)
+- **Online Lead Intake & Pilot Registration**: [https://enveraitech.com/contact](https://enveraitech.com/contact)
+- **Sovereign Agent Gateway**: [https://enveraitech.com/agent-gateway](https://enveraitech.com/agent-gateway)
+- **Live MCP Server**: `https://enveraitech.com/mcp/sse`
+- **Headquarters**: Mumbai, Maharashtra, India | Global Remote Engagements

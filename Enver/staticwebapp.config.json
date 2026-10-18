@@ -1,12 +1,59 @@
 {
+  "$schema": "https://json.schemastore.org/staticwebapp.config.json",
   "navigationFallback": {
     "rewrite": "/index.html",
-    "exclude": ["/images/*.{png,jpg,gif,svg}", "/css/*", "/js/*", "/api/*"]
+    "exclude": [
+      "/assets/*",
+      "/images/*",
+      "/robots.txt",
+      "/sitemap.xml",
+      "/llms.txt",
+      "/llms-full.txt",
+      "*.{png,jpg,jpeg,gif,svg,webp,ico,txt,xml,json,css,js,glb,gltf}"
+    ]
   },
   "routes": [
     {
       "route": "/api/*",
       "allowedRoles": ["anonymous", "authenticated"]
+    },
+    {
+      "route": "/robots.txt",
+      "rewrite": "/robots.txt",
+      "headers": {
+        "Content-Type": "text/plain; charset=utf-8",
+        "Cache-Control": "public, max-age=86400, s-maxage=86400",
+        "X-Robots-Tag": "all"
+      }
+    },
+    {
+      "route": "/sitemap.xml",
+      "rewrite": "/sitemap.xml",
+      "headers": {
+        "Content-Type": "application/xml; charset=utf-8",
+        "Cache-Control": "public, max-age=86400, s-maxage=86400",
+        "X-Robots-Tag": "all"
+      }
+    },
+    {
+      "route": "/llms.txt",
+      "rewrite": "/llms.txt",
+      "headers": {
+        "Content-Type": "text/markdown; charset=utf-8",
+        "Cache-Control": "public, max-age=86400, s-maxage=86400",
+        "Access-Control-Allow-Origin": "*",
+        "X-Robots-Tag": "all"
+      }
+    },
+    {
+      "route": "/llms-full.txt",
+      "rewrite": "/llms-full.txt",
+      "headers": {
+        "Content-Type": "text/markdown; charset=utf-8",
+        "Cache-Control": "public, max-age=86400, s-maxage=86400",
+        "Access-Control-Allow-Origin": "*",
+        "X-Robots-Tag": "all"
+      }
     }
   ],
   "responseOverrides": {
@@ -16,13 +63,16 @@
     }
   },
   "globalHeaders": {
-    "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.monitor.azure.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https: blob:; connect-src 'self' https: https://login.microsoftonline.com https://graph.microsoft.com https://generativelanguage.googleapis.com https://*.azurewebsites.net https://*.azurecontainerapps.io https://*.in.applicationinsights.azure.com https://*.livediagnostics.monitor.azure.com https://*.services.visualstudio.com;",
+    "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.monitor.azure.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https: blob:; connect-src 'self' https: https://login.microsoftonline.com https://graph.microsoft.com https://generativelanguage.googleapis.com https://*.azurewebsites.net https://*.azurecontainerapps.io https://*.in.applicationinsights.azure.com https://*.livediagnostics.monitor.azure.com https://*.services.visualstudio.com; object-src 'none'; frame-ancestors 'none';",
     "X-Frame-Options": "DENY",
     "X-Content-Type-Options": "nosniff",
     "Referrer-Policy": "strict-origin-when-cross-origin",
     "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload"
   },
   "mimeTypes": {
+    ".json": "application/json",
+    ".xml": "application/xml; charset=utf-8",
+    ".txt": "text/plain; charset=utf-8",
     ".glb": "model/gltf-binary",
     ".gltf": "model/gltf+json"
   }

@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import SwipeToast from "@/components/SwipeToast";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 interface ResearchPaper {
   id: string;
@@ -205,6 +206,10 @@ const RESEARCH_PAPERS: ResearchPaper[] = [
 ];
 
 export default function Research() {
+  usePageMeta({
+    title: "Sovereign Research & Technical Whitepapers",
+    description: "Read Enver's research on deterministic agentic frameworks, AST-enforced cloud firewalls, and explainable financial underwriting.",
+  });
   const { user } = useAuth();
   const [selectedPaper, setSelectedPaper] = useState<ResearchPaper>(RESEARCH_PAPERS[0]);
   const [filterCategory, setFilterCategory] = useState<string>("ALL");

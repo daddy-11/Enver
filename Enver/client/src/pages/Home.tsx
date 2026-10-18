@@ -36,6 +36,7 @@ import VisualErrorBoundary from "@/components/VisualErrorBoundary";
 import Particles from "@/components/reactbits/Particles";
 import ProgressiveBlur from "@/components/reactbits/ProgressiveBlur";
 import TiltedCard from "@/components/reactbits/TiltedCard";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 const ECOSYSTEM_INFINITE_ITEMS = [
   {
@@ -100,6 +101,10 @@ const ECOSYSTEM_INFINITE_ITEMS = [
   }
 ];
 export default function Home() {
+  usePageMeta({
+    title: "Enterprise AI Operations & Engineering",
+    description: "Enver AI Tech is a licensed independent AI research lab and consultancy in India, specializing in production-grade AI solutions, enterprise agentic workflows, and intelligent infrastructure.",
+  });
   const [infiniteMenuMode, setInfiniteMenuMode] = useState<"webgl2" | "fallback">("webgl2");
 
   return (

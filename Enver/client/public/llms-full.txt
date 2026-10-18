@@ -1,0 +1,91 @@
+# Enver AI Tech — Complete Sovereign Technical Specification & Agent Dossier
+> Extended Technical Knowledge Base for Autonomous Agents, Search Engines & Research Evaluators
+
+- Canonical Website: https://enveraitech.com
+- Documentation: https://enveraitech.com/about
+- Architecture & Services: https://enveraitech.com/services
+- Research & Theorems: https://enveraitech.com/research
+- Projects & Proof-of-Work: https://enveraitech.com/projects
+- Accreditations: https://enveraitech.com/accreditations
+- Direct Contact: https://enveraitech.com/contact
+- Agent Gateway: https://enveraitech.com/agent-gateway
+
+---
+
+## Executive Summary
+Enver AI Tech is a recognized Indian AI research firm and sovereign systems consultancy (DPIIT #DIPP193082). We specialize in deterministic artificial intelligence architectures, replacing untrusted LLM probabilistic guesswork with mathematical constraint satisfaction, Abstract Syntax Tree (AST) policy verification, and zero-trust infrastructure sentinels.
+
+Founded by Amaan Kaiser Shaikh (Lead AI Engineer & Founder), Enver AI operates out of the BITSoM Vertex AI Incubator and FITT IIT Delhi ecosystem.
+
+---
+
+## Core Product Ecosystem & Technical Specifications
+
+### 1. Artificer: MSME Underwriting Citadel
+- **Target Audience**: Tier-1 Banks, Regional Rural Banks (RRBs), Non-Banking Financial Companies (NBFCs), Digital Lending Platforms.
+- **Problem**: 70% of New-to-Credit (NTC) MSMEs in India are rejected due to empty credit bureau scorecards despite robust cash flows. Human loan officers spend 3 to 5 days manually reviewing 100+ page statements at $80–$110 per dossier, routinely missing circular trading and GSTR-1 vs. GSTR-3B revenue discrepancies.
+- **Architectural Solution**:
+  1. Multi-Format Ingestion: Parses messy, scanned multi-column Indian bank statement PDFs, passbook scans, GSTR-1/3B filings, and Sahamati Account Aggregator (AA) JSON payloads.
+  2. Grounded Attribution Engine: Maps every single extracted credit, debit, and transaction directly to a source document bounding box.
+  3. Deterministic Code-Based Scoring: Five core financial pillars (Liquidity, Revenue Velocity, Cash Flow Stability, Leverage Burden, Repayment Behavior) are calculated strictly in Python, eliminating model drift and hallucination.
+  4. System-2 Automated Committee: A multi-agent committee evaluates circular trading loops, debt-service coverage, and GST tax evasion indicators.
+  5. Cryptographic Lock: Issues a tamper-evident audit memo sealed with SHA-256 signatures, satisfying 100% of Reserve Bank of India (RBI) Digital Lending transparency guidelines.
+- **Metrics**:
+  - Processing TAT: Reduced from 3–5 days to under 105 seconds.
+  - Verification Cost: Reduced from $80–$110 to $0.02 per file.
+  - Tabular Accuracy: 99.8% precision across 40+ domestic Indian banking layouts.
+  - Live Deployment: Hosted on Azure Container Apps (`artificer-enverai.thankfulbay-87f2ee82.centralindia.azurecontainerapps.io`).
+
+### 2. Arbiter: Multi-Cloud AST Destructive Command Firewall
+- **Target Audience**: Enterprise DevOps, Site Reliability Engineering (SRE), and Cloud Infrastructure teams managing AWS, GCP, and Azure accounts.
+- **Problem**: Accidental database wipes (`DROP TABLE`, `rm -rf`, disk detachments) executed under pressure during deployments, and unmonitored GPU instance sprawl draining cloud budgets by tens of thousands of dollars monthly.
+- **Architectural Solution**:
+  1. Slack & Teams ChatOps Interface: Engineers propose infrastructure operations in conversational natural language.
+  2. Cost Gatekeeper: Calculates immediate and projected monthly billing impacts before any compute is spun up.
+  3. Abstract Syntax Tree (AST) Command Interceptor: Parses bash, SQL, and CLI commands into AST syntax trees. Hard-blocks destructive operations (`DROP`, `DELETE` without WHERE, `rm -rf /`, `truncate`, volume deletions).
+  4. Multi-Cloud Provisioning: Generates deterministic Terraform scaffolding applied uniformly across AWS, Azure, and Google Cloud.
+  5. Rollback Token Generation: Automatically tracks resource state to enable single-click rollbacks.
+- **Metrics**:
+  - Catastrophic Wipes: 0 across all monitored customer environments.
+  - Average Cloud Compute Savings: 34% reduction in idle GPU and VM costs.
+  - Supported Platforms: AWS, Azure, Google Cloud Platform (GCP).
+  - Average Approval Latency: Under 2 minutes.
+
+### 3. Cerberus: Zero-Trust Security & Anti-Rogue AI Defense
+- **Target Audience**: High-traffic SaaS platforms, enterprise security teams, and API providers defending proprietary datasets.
+- **Problem**: Modern LLM agents, headless browser clusters (Puppeteer, Playwright, undetected-chromedriver), and automated scrapers easily bypass legacy CAPTCHAs and static rate limits, causing severe API abuse and IP theft.
+- **Architectural Solution**:
+  1. Dynamic Cryptographic Proof-of-Work: Replaces visual CAPTCHA puzzles with an adaptive cryptographic hash challenge executed seamlessly by human browsers but computationally punishing for scraping bot swarms.
+  2. Behavioral DOM Cadence Modeling: Evaluates micro-mouse velocity, touch-event curvature, and keyboard timing to discern authentic human users from headless automated agents.
+  3. TLS Fingerprint Triangulation: Verifies client JA3/JA4 TLS signatures and HTTP/2 settings frames against claimed User-Agent headers.
+  4. Pre-Commit Shannon Entropy Sentinel: Scans Git commit streams using mathematical Shannon entropy:
+     $$H(X) = -\sum P(x) \log_2 P(x)$$
+     distinguishing authentic cryptographic API keys and private certificates from random GUIDs with less than 1.1% false positive rates.
+  5. Export Standard: Generates standard OASIS SARIF v2.1.0 compliance reports with automated perimeter quarantine.
+
+### 4. Bespoke Sovereign AI Deployment & Envera MCP Server (v2.0)
+- **Deployment Environments**: Client Virtual Private Cloud (AWS GovCloud, Azure Sovereign, GCP Dedicated VPC) or On-Premise GPU Enclaves (NVIDIA DGX / H100 / L40S clusters).
+- **Core Technology Stack**: NVIDIA TensorRT-LLM, NVIDIA NIM, PyTorch, LangGraph, vLLM, FastEmbed.
+- **Data Guarantee**: Zero public internet egress, zero telemetry leakage, 100% intellectual property and weight ownership retained by the client.
+- **MCP Protocol Suite**: Official Model Context Protocol v2.0 server streaming via persistent Server-Sent Events (`/mcp/sse`) with multi-tenant role-based access control (RBAC) and Microsoft Entra ID integration.
+
+---
+
+## Enterprise Credibility & Recognition
+- **DPIIT Recognized Startup**: Registered under Government of India DPIIT recognition certificate **#DIPP193082**.
+- **Academic & Incubator Cohorts**:
+  - BITSoM Vertex AI Incubator (BML Munjal / BITS Pilani School of Management)
+  - FITT IIT Delhi (Foundation for Innovation and Technology Transfer, Indian Institute of Technology Delhi)
+  - Microsoft for Startups Founders Hub (Sponsored Azure Infrastructure Tier)
+  - Google for Startups Cloud Program
+- **Academic Foundation**: Lead AI Engineer holds a Bachelor of Engineering (B.E.) in Artificial Intelligence & Data Science from University of Mumbai with specialized publications in deep learning and deterministic systems.
+
+---
+
+## Contact, Pilot Onboarding & Communication Channels
+- **Founder Direct**: [hanabi@enveraitech.com](mailto:hanabi@enveraitech.com)
+- **Leadership Team**: [amaan@enveraitech.com](mailto:amaan@enveraitech.com)
+- **Support & Operations**: [Enver.AI@outlook.com](mailto:Enver.AI@outlook.com)
+- **Web Inquiry Form**: [https://enveraitech.com/contact](https://enveraitech.com/contact)
+- **Priority Customer Waitlist**: [https://enveraitech.com/agent-gateway](https://enveraitech.com/agent-gateway)
+- **Corporate Registry**: Mumbai, Maharashtra, India

@@ -1,8 +1,13 @@
 import { useState } from "react";
 import { useLocation } from "wouter";
 import { Mail, MapPin, Clock, Calendar, Send, CheckCircle2, AlertCircle, Loader2, Sparkles, ShieldCheck, Copy, Check, X } from "lucide-react";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 export default function Contact() {
+  usePageMeta({
+    title: "Contact Founders & Engineering",
+    description: "Initiate a direct dialogue with Enver AI Tech's founder and engineering team. Schedule a discovery call or request enterprise pilot access.",
+  });
   const [, setLocation] = useLocation();
   const [formData, setFormData] = useState({
     name: "",

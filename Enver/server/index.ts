@@ -94,6 +94,32 @@ async function startServer() {
   // Strict Payload Limit: prevent RAM exhaustion & JSON inflation attacks
   app.use(express.json({ limit: "15kb" }));
 
+  // --- Structured Production HTTP Request Logger ---
+  app.use((req, res, next) => {
+    const startTime = Date.now();
+    const rawIp = (req.headers["x-forwarded-for"] || req.socket.remoteAddress || "unknown") as string;
+    const clientIp = Array.isArray(rawIp) ? rawIp[0] : rawIp.split(",")[0].trim();
+    const safeIp = anonymizeIP(clientIp);
+
+    res.on("finish", () => {
+      const duration = Date.now() - startTime;
+      const status = res.statusCode;
+      const logLine = `[${new Date().toISOString()}] [HTTP] ${req.method} ${req.originalUrl || req.url} ${status} (${duration}ms) - IP: ${safeIp}`;
+
+      if (status >= 500) {
+        console.error(`\x1b[31m${logLine}\x1b[0m`);
+      } else if (status >= 400) {
+        console.warn(`\x1b[33m${logLine}\x1b[0m`);
+      } else {
+        if (!req.url.match(/\.(js|css|png|jpg|ico|svg|woff2?|map)$/i)) {
+          console.info(`\x1b[36m${logLine}\x1b[0m`);
+        }
+      }
+    });
+
+    next();
+  });
+
   // --- Security Headers & Bot Defense Middleware ---
   app.use((req, res, next) => {
     // 1. Bot & Vulnerability Scanner Interceptor
@@ -829,12 +855,12 @@ auditor.monitorStream(process.env.LOG_STREAM_URI);`;
     });
   });
 
-  // --- SEO Routes ---
+  // --- SEO & AI Discovery Routes ---
   app.get("/robots.txt", (_req, res) => {
     res.type("text/plain");
     res.sendFile(path.join(staticPath, "robots.txt"), (err) => {
       if (err) {
-        res.send("User-agent: *\nAllow: /\nDisallow: /api/\nDisallow: /dashboard\nDisallow: /settings\nDisallow: /onboarding\nSitemap: https://enveraitech.com/sitemap.xml");
+        res.sendFile(path.resolve(__dirname, "..", "client", "public", "robots.txt"));
       }
     });
   });
@@ -843,14 +869,27 @@ auditor.monitorStream(process.env.LOG_STREAM_URI);`;
     res.type("application/xml");
     res.sendFile(path.join(staticPath, "sitemap.xml"), (err) => {
       if (err) {
-        res.send(`<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://enveraitech.com/</loc><priority>1.0</priority></url>
-  <url><loc>https://enveraitech.com/about</loc><priority>0.8</priority></url>
-  <url><loc>https://enveraitech.com/services</loc><priority>0.9</priority></url>
-  <url><loc>https://enveraitech.com/accreditations</loc><priority>0.8</priority></url>
-  <url><loc>https://enveraitech.com/contact</loc><priority>0.8</priority></url>
-</urlset>`);
+        res.sendFile(path.resolve(__dirname, "..", "client", "public", "sitemap.xml"));
+      }
+    });
+  });
+
+  app.get(["/llms.txt", "/.well-known/llms.txt"], (_req, res) => {
+    res.setHeader("Content-Type", "text/markdown; charset=utf-8");
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.sendFile(path.join(staticPath, "llms.txt"), (err) => {
+      if (err) {
+        res.sendFile(path.resolve(__dirname, "..", "client", "public", "llms.txt"));
+      }
+    });
+  });
+
+  app.get("/llms-full.txt", (_req, res) => {
+    res.setHeader("Content-Type", "text/markdown; charset=utf-8");
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.sendFile(path.join(staticPath, "llms-full.txt"), (err) => {
+      if (err) {
+        res.sendFile(path.resolve(__dirname, "..", "client", "public", "llms-full.txt"));
       }
     });
   });

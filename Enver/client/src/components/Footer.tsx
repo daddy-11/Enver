@@ -105,6 +105,8 @@ export default function Footer() {
                 { href: "/", label: "Overview" },
                 { href: "/playground", label: "Agent Console" },
                 { href: "/services", label: "Capabilities" },
+                { href: "/research", label: "Research & Theorems" },
+                { href: "/agent-gateway", label: "Enterprise Gateway" },
                 { href: "/accreditations", label: "Credibility" },
                 { href: "/about", label: "About Us" },
                 { href: "/contact", label: "Contact" }
@@ -226,6 +228,14 @@ export default function Footer() {
             <Link href="/ps" className="text-[#2B121F] hover:text-[#FF6F1E] font-medium transition-colors no-underline">
               Privacy Statement
             </Link>
+            <span className="text-[#E5DFD1]">·</span>
+            <a href="/sitemap.xml" target="_blank" rel="noopener noreferrer" className="text-[#2B121F] hover:text-[#FF6F1E] font-medium transition-colors no-underline">
+              Sitemap
+            </a>
+            <span className="text-[#E5DFD1]">·</span>
+            <a href="/llms.txt" target="_blank" rel="noopener noreferrer" className="text-[#FF6F1E] hover:text-[#2B121F] font-semibold transition-colors no-underline">
+              llms.txt
+            </a>
           </div>
 
           <div className="flex flex-wrap items-center gap-2 text-[#2B121F] font-medium text-[11px]">

@@ -9,6 +9,7 @@ import {
   ArrowRight
 } from "lucide-react";
 import DotGrid from "@/components/reactbits/DotGrid";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 const academicIncubators = [
   {
@@ -101,6 +102,11 @@ const hyperscalerCloudEcosystems = [
 ];
 
 export default function Accreditations() {
+  usePageMeta({
+    title: "Accreditations & Incubator Alliances",
+    description: "DPIIT recognized (#DIPP193082), incubated at BITSoM Vertex AI, backed by FITT IIT Delhi, and Microsoft for Startups Founders Hub.",
+  });
+
   return (
     <div className="relative bg-[#F7F3E9] text-[#2B121F] min-h-screen pt-8 sm:pt-12 font-sans selection:bg-[#2B121F] selection:text-[#F7F3E9] overflow-hidden">
       {/* =========================================================================

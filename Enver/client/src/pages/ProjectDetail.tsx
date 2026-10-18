@@ -12,10 +12,16 @@ import { Link, useParams } from "wouter";
 import { ArrowLeft, CheckCircle, ExternalLink, Sparkles } from "lucide-react";
 import Marquee from "@/components/reactbits/Marquee";
 import { projects } from "@/lib/projects";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 export default function ProjectDetail() {
   const params = useParams<{ slug: string }>();
   const project = projects.find((p) => p.slug === params.slug);
+
+  usePageMeta({
+    title: project ? `${project.title} — System Dossier` : "System Dossier",
+    description: project?.summary || "Classified technical dossier for Enver AI Tech sovereign enterprise fleet.",
+  });
 
   if (!project) {
     return (

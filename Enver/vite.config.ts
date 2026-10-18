@@ -852,22 +852,47 @@ Return a valid JSON object matching EXACTLY this structure:
       });
 
       server.middlewares.use("/robots.txt", (_req, res) => {
-        res.writeHead(200, { "Content-Type": "text/plain" });
-        res.end(`User-agent: *\nAllow: /\nSitemap: https://enveraitech.com/sitemap.xml`);
+        const filePath = path.resolve(import.meta.dirname, "client", "public", "robots.txt");
+        if (fs.existsSync(filePath)) {
+          res.writeHead(200, { "Content-Type": "text/plain; charset=utf-8" });
+          res.end(fs.readFileSync(filePath, "utf-8"));
+        } else {
+          res.writeHead(200, { "Content-Type": "text/plain" });
+          res.end(`User-agent: *\nAllow: /\nSitemap: https://enveraitech.com/sitemap.xml`);
+        }
       });
 
       server.middlewares.use("/sitemap.xml", (_req, res) => {
-        res.writeHead(200, { "Content-Type": "application/xml" });
-        res.end(`<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://enveraitech.com/</loc><priority>1.0</priority></url>
-  <url><loc>https://enveraitech.com/about</loc><priority>0.8</priority></url>
-  <url><loc>https://enveraitech.com/services</loc><priority>0.9</priority></url>
-  <url><loc>https://enveraitech.com/services/artificer</loc><priority>0.8</priority></url>
-  <url><loc>https://enveraitech.com/services/arbiter</loc><priority>0.8</priority></url>
-  <url><loc>https://enveraitech.com/services/cerberus</loc><priority>0.8</priority></url>
-  <url><loc>https://enveraitech.com/contact</loc><priority>0.8</priority></url>
-</urlset>`);
+        const filePath = path.resolve(import.meta.dirname, "client", "public", "sitemap.xml");
+        if (fs.existsSync(filePath)) {
+          res.writeHead(200, { "Content-Type": "application/xml; charset=utf-8" });
+          res.end(fs.readFileSync(filePath, "utf-8"));
+        } else {
+          res.writeHead(404, { "Content-Type": "text/plain" });
+          res.end("Not Found");
+        }
+      });
+
+      server.middlewares.use("/llms.txt", (_req, res) => {
+        const filePath = path.resolve(import.meta.dirname, "client", "public", "llms.txt");
+        if (fs.existsSync(filePath)) {
+          res.writeHead(200, { "Content-Type": "text/markdown; charset=utf-8", "Access-Control-Allow-Origin": "*" });
+          res.end(fs.readFileSync(filePath, "utf-8"));
+        } else {
+          res.writeHead(404, { "Content-Type": "text/plain" });
+          res.end("Not Found");
+        }
+      });
+
+      server.middlewares.use("/llms-full.txt", (_req, res) => {
+        const filePath = path.resolve(import.meta.dirname, "client", "public", "llms-full.txt");
+        if (fs.existsSync(filePath)) {
+          res.writeHead(200, { "Content-Type": "text/markdown; charset=utf-8", "Access-Control-Allow-Origin": "*" });
+          res.end(fs.readFileSync(filePath, "utf-8"));
+        } else {
+          res.writeHead(404, { "Content-Type": "text/plain" });
+          res.end("Not Found");
+        }
       });
     },
   };

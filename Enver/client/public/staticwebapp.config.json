@@ -5,19 +5,51 @@
     "exclude": [
       "/assets/*",
       "/images/*",
-      "*.{png,jpg,jpeg,gif,svg,webp,ico,txt,xml,json,css,js}"
+      "/robots.txt",
+      "/sitemap.xml",
+      "/llms.txt",
+      "/llms-full.txt",
+      "*.{png,jpg,jpeg,gif,svg,webp,ico,txt,xml,json,css,js,glb,gltf}"
     ]
   },
   "routes": [
     {
       "route": "/robots.txt",
-      "serve": "/robots.txt",
-      "statusCode": 200
+      "rewrite": "/robots.txt",
+      "headers": {
+        "Content-Type": "text/plain; charset=utf-8",
+        "Cache-Control": "public, max-age=86400, s-maxage=86400",
+        "X-Robots-Tag": "all"
+      }
     },
     {
       "route": "/sitemap.xml",
-      "serve": "/sitemap.xml",
-      "statusCode": 200
+      "rewrite": "/sitemap.xml",
+      "headers": {
+        "Content-Type": "application/xml; charset=utf-8",
+        "Cache-Control": "public, max-age=86400, s-maxage=86400",
+        "X-Robots-Tag": "all"
+      }
+    },
+    {
+      "route": "/llms.txt",
+      "rewrite": "/llms.txt",
+      "headers": {
+        "Content-Type": "text/markdown; charset=utf-8",
+        "Cache-Control": "public, max-age=86400, s-maxage=86400",
+        "Access-Control-Allow-Origin": "*",
+        "X-Robots-Tag": "all"
+      }
+    },
+    {
+      "route": "/llms-full.txt",
+      "rewrite": "/llms-full.txt",
+      "headers": {
+        "Content-Type": "text/markdown; charset=utf-8",
+        "Cache-Control": "public, max-age=86400, s-maxage=86400",
+        "Access-Control-Allow-Origin": "*",
+        "X-Robots-Tag": "all"
+      }
     }
   ],
   "globalHeaders": {
@@ -30,6 +62,9 @@
   },
   "mimeTypes": {
     ".json": "application/json",
-    ".xml": "application/xml"
+    ".xml": "application/xml; charset=utf-8",
+    ".txt": "text/plain; charset=utf-8",
+    ".glb": "model/gltf-binary",
+    ".gltf": "model/gltf+json"
   }
 }

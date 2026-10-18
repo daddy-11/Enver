@@ -1,8 +1,14 @@
 import React from "react";
 import { Link } from "wouter";
 import { ArrowLeft, Shield, Lock, EyeOff, Database, CheckCircle2, Mail, Server } from "lucide-react";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 export default function PrivacyStatement() {
+  usePageMeta({
+    title: "Privacy Statement & Sovereign Data Governance",
+    description: "Enver AI Tech Privacy Statement: Digital Personal Data Protection Act 2023, zero retention of unconsented data, client VPC isolation, and cryptographic auditing.",
+  });
+
   return (
     <div className="min-h-screen bg-[#F7F3E9] text-[#2B121F] pt-8 sm:pt-12 pb-24 font-sans selection:bg-[#2B121F] selection:text-[#F7F3E9]">
       <div className="max-w-[1000px] mx-auto px-4 sm:px-8">

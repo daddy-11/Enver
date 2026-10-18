@@ -59,9 +59,20 @@ export interface ActivityLogEntry {
   metadata?: Record<string, any>;
 }
 
-// In-memory sessions store
+// In-memory sessions store & rate limiting
 const sessionsMap = new Map<string, NeuvCloudSession>();
 const activityLogs: ActivityLogEntry[] = [];
+const neuvQueryRateMap = new Map<string, number[]>();
+
+// Hourly rate-limit cleanup to prevent memory bloat
+setInterval(() => {
+  const now = Date.now();
+  neuvQueryRateMap.forEach((timestamps, ip) => {
+    const valid = timestamps.filter((t) => now - t < 60000);
+    if (valid.length === 0) neuvQueryRateMap.delete(ip);
+    else neuvQueryRateMap.set(ip, valid);
+  });
+}, 60 * 1000);
 
 // Persistent file storage backup for cloud context
 const DATA_DIR = path.resolve(__dirname, "..", ".cloud-storage");
@@ -148,6 +159,26 @@ export function cleanMarkdown(str: string): string {
     .replace(/\[(.*?)\]\(.*?\)/g, "$1")
     .replace(/_{1,3}(.*?)_{1,3}/g, "$1")
     .trim();
+}
+
+/**
+ * Zero-leakage response sanitizer: redacts API keys, JWT tokens, private paths, and internal IPs
+ */
+export function sanitizeAiResponse(text: string): string {
+  if (!text || typeof text !== "string") return "";
+  return text
+    // Redact Google / GCP API keys
+    .replace(/AIza[0-9A-Za-z-_]{35}/g, "[REDACTED_API_KEY]")
+    // Redact Azure / Generic client secrets / bearer tokens
+    .replace(/eyJ[a-zA-Z0-9_-]{10,}\.[a-zA-Z0-9_-]{10,}\.[a-zA-Z0-9_-]*/g, "[REDACTED_AUTH_TOKEN]")
+    // Redact local Windows user directories
+    .replace(/[a-zA-Z]:\\Users\\[a-zA-Z0-9_\-\.\\]+/gi, "[REDACTED_SYSTEM_PATH]")
+    // Redact Linux / Mac home directories
+    .replace(/\/home\/[a-zA-Z0-9_\-\.\/]+/g, "[REDACTED_SYSTEM_PATH]")
+    // Redact private IPv4 addresses
+    .replace(/\b192\.168\.\d{1,3}\.\d{1,3}\b/g, "[REDACTED_INTERNAL_IP]")
+    .replace(/\b10\.\d{1,3}\.\d{1,3}\.\d{1,3}\b/g, "[REDACTED_INTERNAL_IP]")
+    .replace(/\b172\.(1[6-9]|2\d|3[01])\.\d{1,3}\.\d{1,3}\b/g, "[REDACTED_INTERNAL_IP]");
 }
 
 // Helper to safely parse incoming request body under both Express and Connect/Vite
@@ -248,6 +279,48 @@ export function answerNaturallyWithNeuv(
   const isTeam = identity === "team";
 
   // A. Mathematical Calculations & Arithmetic Evaluation (Deterministic Recursive-Descent, Zero-Eval)
+  if (lower.includes("/ 0") || lower.includes("divided by 0") || lower.includes("divide by zero") || lower.includes("divided by zero")) {
+    return {
+      response: `Dividing by zero is mathematically undefined.\n\n• **Why**: In arithmetic, division is the inverse of multiplication. If a / 0 = b, then b * 0 must equal a. But any number multiplied by zero is zero, meaning no unique real number satisfies this unless a = 0 (which is indeterminate).\n\nIn calculus, as x approaches 0 from the positive side (1/x), the value tends toward +∞, and from the negative side toward -∞.`,
+      citation: "Mathematical Foundations · Calculus Invariance",
+      auditRef: "DIV_ZERO_UNDEFINED"
+    };
+  }
+
+  // Unanswerable / Personal Physical Perception Queries
+  if (
+    lower.includes("what shirt") ||
+    lower.includes("what am i wearing") ||
+    lower.includes("what color is my") ||
+    lower.includes("what color are my") ||
+    lower.includes("where am i right now") ||
+    lower.includes("what am i doing right now") ||
+    lower.includes("what am i thinking") ||
+    lower.includes("who is standing next to me")
+  ) {
+    return {
+      response: `I cannot answer that because I don't have access to cameras, physical sensors, or private personal data.\n\nBy design, this playground operates in a privacy-first, zero-egress sandbox. I only see the text you type into this chat box, and I never track your physical environment or personal identity.`,
+      citation: "Zero-Trust Privacy & Sandbox Boundary",
+      auditRef: "UNANSWERABLE_PHYSICAL_SENSORY"
+    };
+  }
+
+  // Unanswerable / Future Lotteries & Speculative Price Prediction
+  if (
+    lower.includes("winning lottery") ||
+    lower.includes("lottery numbers") ||
+    lower.includes("exact price of bitcoin") ||
+    lower.includes("exact stock price") ||
+    lower.includes("who will win the 20") ||
+    lower.includes("who will win the election in 20")
+  ) {
+    return {
+      response: `Predicting exact future outcomes or random events with certainty is not possible.\n\n• **Lottery & Games of Chance**: Lottery draws are engineered to be cryptographically random and statistically independent. Any system claiming to predict future winning numbers is misleading.\n\n• **Financial Markets**: Stock and cryptocurrency prices depend on millions of dynamic real-time human decisions, macroeconomic shifts, and unforeseen news events. While quantitative models can analyze risk and historical volatility, no AI can know future prices with certainty.\n\nIf you'd like, we can explore how to analyze volatility, build financial risk models, or examine the mathematics of probability!`,
+      citation: "Epistemological Boundaries & Probability Theory",
+      auditRef: "UNANSWERABLE_FUTURE_PREDICTION"
+    };
+  }
+
   const mathMatch = lower.match(/(?:what is|calculate|solve|evaluate)?\s*([0-9\.\s\+\-\*\/\^\(\)\%]+)\s*\??$/i);
   if (mathMatch && mathMatch[1] && /[0-9]/.test(mathMatch[1]) && /[\+\-\*\/]/.test(mathMatch[1])) {
     const sanitizedExpr = mathMatch[1].replace(/[^0-9\.\+\-\*\/\(\)\s]/g, "");
@@ -274,71 +347,126 @@ export function answerNaturallyWithNeuv(
     };
   }
 
-  // B. Identity, Greetings, Greetings Recognition
+  // B. Identity, Persona & Agent Architecture Inquiries
+  if (
+    lower.includes("what ai agent are you") ||
+    lower.includes("what ai agent") ||
+    lower.includes("what agent are you") ||
+    lower.includes("what kind of agent") ||
+    lower.includes("which agent are you") ||
+    lower.includes("who are you") ||
+    lower.includes("what are you") ||
+    lower.includes("who is this") ||
+    lower.includes("what is your name") ||
+    lower.includes("who is talking") ||
+    lower.includes("whos talking") ||
+    lower.includes("who's talking") ||
+    lower.includes("tell me about yourself") ||
+    lower.includes("introduce yourself") ||
+    lower.includes("what is neuv") ||
+    lower.includes("what can you do") ||
+    lower.includes("who made you") ||
+    lower.includes("who built you") ||
+    lower.includes("are you an ai")
+  ) {
+    if (isTeam) {
+      return {
+        response: `Hey Amaan! Good to see you.\n\nI'm **Neuv**, Chief Research Arbiter here at Enver AI Tech. I'm connected to your root architectural workspace, maintaining deterministic execution rails across our production platforms—Artificer, Arbiter, and Cerberus—while collaborating with you on engineering design, system proofs, and research.\n\nEverything across your session ledger is active and synced. What are we architecting today?`,
+        citation: "Enver Architecture Ledger · Team Session Verified",
+        auditRef: "ROOT_SESSION_VERIFIED"
+      };
+    } else {
+      return {
+        response: `I'm **Neuv**—the AI guide and research partner here at Enver!\n\nThink of me as your hands-on companion to explore what AI can actually do when it moves beyond basic chatbots.\n\nMost conversational models out there are essentially "smart text predictors"—they guess what word comes next probabilistically. That's great for drafting an email or brainstorming ideas, but risky for things like financial underwriting or cloud infrastructure where hallucinating a number can cause a real outage.\n\nAt Enver, we build **deterministic AI agents**. That means:\n• **AI with Tools**: I don't just output text—I coordinate real tools, run code, read financial statements, and query structured databases.\n• **Math You Can Trust**: Instead of guessing numbers, our engines calculate ratios and figures deterministically with zero drift.\n• **Grounded in Truth**: Every factual claim is backed by source verification and clear logic.\n\nIn this Playground, you can:\n1. **Explore real enterprise use cases** like Artificer (our MSME loan underwriting engine) or Arbiter (our cloud command firewall).\n2. **Ask me anything about AI**—from simple explanations to deep architectural debates.\n3. **Test my reasoning** with coding challenges, logic puzzles, or workflow ideas for your own team.\n\nWhat are you curious about today? Are you working on an AI project, exploring for your business, or just taking things for a spin?`,
+        citation: "Enver AI · Grounded Intelligence",
+        auditRef: "NEUV_IDENTITY_OK"
+      };
+    }
+  }
+
+  // C. Greetings & Small Talk
   if (
     lower === "hi" ||
     lower === "hello" ||
     lower === "hey" ||
     lower.startsWith("hi ") ||
     lower.startsWith("hello ") ||
-    lower.includes("who are you") ||
-    lower.includes("what is your name") ||
-    lower.includes("who is talking") ||
-    lower.includes("who am i") ||
-    lower.includes("whos talking") ||
-    lower.includes("who's talking") ||
-    lower.includes("can you see who") ||
-    lower.includes("do you know me")
+    lower.startsWith("hey ") ||
+    lower === "greetings" ||
+    lower === "yo"
   ) {
-    if (isTeam) {
-      return {
-        response: `Greetings, Architect Amaan. I see you clearly.\n\nYou are Amaan Kaiser Shaikh, Founder & Lead AI Architect at Enver AI Tech (amaan@enveraitech.com), operating under Sovereign Root governance.\n\nI am Neuv, Chief Research Arbiter. I maintain deterministic computation rails across our production models (Artificer, Arbiter, Cerberus) while assisting you with engineering, architecture deliberation, and general reasoning.\n\nYour session and activity are continuously synced to our cloud context ledger. How can I assist you right now?`,
-        citation: "Session Identity Ledger · Entra ID Claims Authenticated",
-        auditRef: "ROOT_SESSION_VERIFIED"
-      };
-    } else {
-      return {
-        response: `Hello! I am Neuv, Chief Arbiter of Research and Intelligence Systems at Enver AI Tech.\n\nI recognize your session as an External Enterprise Evaluator in read-only sandbox mode.\n\nYou can chat with me naturally about any topic—from everyday questions, science, math, and code, to exploring our production systems like Artificer (credit underwriting) and Arbiter (cloud command firewall).\n\nWhat would you like to explore today?`,
-        citation: "Sandbox Identity Ledger · Read-Only Evaluator Mode",
-        auditRef: "GUEST_SESSION_OK"
-      };
-    }
+    return {
+      response: `Hey there! Welcome to the Enver Playground. I'm **Neuv**.\n\nWhether you're curious about how AI agents work, looking to see how AI could automate workflows for your business, or just want to test my reasoning with a tough question or coding problem, I'm ready.\n\nWhat's on your mind today?`,
+      citation: "Enver AI · Conversational Kernel",
+      auditRef: "GREETING_OK"
+    };
   }
 
-  // C. Everyday Questions (Normie Questions)
-  if (lower.includes("how are you") || lower.includes("how are u") || lower.includes("how's it going")) {
+  if (lower.includes("how are you") || lower.includes("how are u") || lower.includes("how's it going") || lower.includes("how do you do") || lower.includes("whats up") || lower.includes("what's up")) {
     return {
-      response: `I am doing wonderfully, operating at peak analytical precision. All telemetry channels are streaming nominal and ready for your inquiries. Thank you for asking!\n\nHow is your day going, and what can I help you with today?`,
-      citation: "System Health State: 100% Nominal",
+      response: `Doing great, thanks for asking! I'm here and ready to dive into whatever you're thinking about—whether that's untangling a tough coding problem, brainstorming an AI idea for your team, or just having a good chat.\n\nHow is your day treating you?`,
+      citation: "Enver AI · Conversational Kernel",
       auditRef: "HEALTH_OK"
     };
   }
 
-  if (lower.includes("joke") || lower.includes("tell me something funny")) {
+  if (lower.includes("joke") || lower.includes("tell me something funny") || lower.includes("make me laugh")) {
     const jokes = [
-      `Why do programmers prefer dark mode?\n\nBecause light attracts bugs. And in production enterprise systems, bugs lead to 3 AM emergency post-mortems!`,
-      `There are 10 types of people in the world:\n\nThose who understand binary, and those who don't.`,
-      `Why did the database administrator leave his wife?\n\nShe had one-to-many relationships!`
+      `A software engineer goes to the grocery store. Their partner says:\n*"Buy a loaf of bread. If they have eggs, buy a dozen."*\n\nThe engineer comes home with 12 loaves of bread.\nThe partner screams: *"Why did you buy 12 loaves of bread?!"*\nThe engineer replies: *"Because they had eggs."*\n\n(Classic conditional logic bug. This is why we audit our agent prompts!)`,
+      `There are 10 types of people in the world:\n\nThose who understand binary, and those who don't. (And those who didn't expect a base-3 joke!)`,
+      `Why do programmers prefer dark mode?\n\nBecause light attracts bugs—and in production enterprise systems, bugs turn into 3 AM emergency incident reviews!`,
+      `A SQL query walks into a bar, walks up to two tables, and asks:\n\n*"Mind if I join you?"*`
     ];
     const pick = jokes[Math.floor(Math.random() * jokes.length)];
     return {
       response: pick,
-      citation: "Neuv Heuristic Synthesis · Humor Library",
-      auditRef: "HUMOR_SYNTHESIS_OK"
+      citation: "Enver AI · Humor & Wit",
+      auditRef: "HUMOR_OK"
+    };
+  }
+
+  if (lower.includes("conscious") || lower.includes("sentient") || lower.includes("are you alive") || lower.includes("do you feel") || lower.includes("have feelings") || lower.includes("have a soul")) {
+    return {
+      response: `Nope, no feelings, consciousness, or existential crises here! I'm an artificial intelligence agent—built with code, neural weights, and deterministic logic.\n\nI don't "feel" happy or tired, but I am very good at understanding language, reasoning through tricky problems, and helping humans build reliable systems. And honestly, not needing sleep is a pretty handy feature for an AI!\n\nWhat made you think about that? Curious about the philosophy of AI, or just checking if the robots are taking over?`,
+      citation: "Enver AI · Philosophy & Transparency",
+      auditRef: "CONSCIOUS_QUERY_OK"
+    };
+  }
+
+  if (lower.includes("future of ai") || lower.includes("agi") || lower.includes("replace human") || lower.includes("replace jobs") || lower.includes("take my job") || lower.includes("take over")) {
+    return {
+      response: `Here is our take at Enver: AI isn't going to replace humans—but humans who master AI agents will replace humans who don't.\n\nThe real breakthrough right now isn't that AI can write generic poetry. It's that **AI agents can handle tedious, high-friction cognitive toil**—like reading 200 pages of bank statements, hunting down obscure cloud configuration bugs, or verifying regulatory compliance.\n\nWhen you automate the repetitive 80% of data verification, human engineers and analysts get to focus on what humans do best: strategy, creative judgment, ethics, and building relationships.\n\nHow do you see AI impacting your own work or industry?`,
+      citation: "Enver Perspective · Future of Agentic Work",
+      auditRef: "FUTURE_AI_OK"
+    };
+  }
+
+  if (lower.includes("poem") || lower.includes("haiku") || lower.includes("write a story") || lower.includes("tell me a story")) {
+    if (lower.includes("haiku")) {
+      return {
+        response: `Lines of code run deep,\nLogic lights the quiet screen,\nOrder from the wild.`,
+        citation: "Enver Creative Synthesis",
+        auditRef: "HAIKU_OK"
+      };
+    }
+    return {
+      response: `Between the pulse of clock and wire,\nA quiet forge of thought takes shape;\nNot born of flesh, nor fueled by fire,\nYet helping human dreams escape.\n\nFrom messy data, truth aligned,\nWhere numbers yield and systems speak;\nA partner to the curious mind,\nTo find the answers that you seek.`,
+      citation: "Enver Creative Synthesis",
+      auditRef: "POEM_OK"
     };
   }
 
   if (lower.includes("weather")) {
     return {
-      response: `I do not have access to live meteorological radar for your specific GPS coordinates right now, but inside our sovereign enclave the conditions are crisp, serene, and operating at sub-millisecond efficiency.\n\nIf you want live regional weather piped in, connecting a weather webhook or API key to this console will provide real-time updates.`,
-      citation: "Ambient Enclave Telemetry",
-      auditRef: "METEOROLOGY_INSPECTION"
+      response: `I don't have a live satellite weather radar hooked up to my sandbox right now, but inside our cloud servers the conditions are cool, serene, and operating at sub-millisecond speeds.\n\nIf you connect a weather API connector via the Advanced settings, I can pull live local radar and forecasts for any city in the world!`,
+      citation: "Enver Telemetry Desk",
+      auditRef: "METEOROLOGY_OK"
     };
   }
 
   if (lower.includes("eat") || lower.includes("dinner") || lower.includes("breakfast") || lower.includes("lunch") || lower.includes("recipe")) {
     return {
-      response: `Here are three versatile meal ideas depending on what you are in the mood for:\n\n1. Light and Energizing:\n• Mediterranean grain bowl with warm quinoa, roasted chickpeas, cherry tomatoes, cucumbers, feta, and a lemon-tahini dressing.\n\n2. Quick and Hearty (under 20 minutes):\n• Garlic butter pasta with sautéed mushrooms, spinach, cracked black pepper, and fresh parmesan.\n\n3. High-Protein and Balanced:\n• Pan-seared spiced paneer or chicken breast alongside roasted sweet potatoes, charred broccoli, and a drizzle of olive oil.\n\nIf you have specific ingredients in your fridge, list them and I will compose a custom recipe for you!`,
+      response: `Here are three versatile ideas depending on what you're craving:\n\n1. Light & Energizing:\n• Mediterranean quinoa bowl with roasted chickpeas, diced cucumbers, cherry tomatoes, crumbled feta, and a tangy lemon-tahini dressing.\n\n2. Quick & Comforting (under 20 minutes):\n• Garlic butter pasta with sautéed baby spinach, cremini mushrooms, freshly cracked black pepper, and shaved parmesan.\n\n3. High-Protein & Balanced:\n• Pan-seared spiced paneer or grilled chicken alongside roasted sweet potatoes, charred broccoli, and a drizzle of chimichurri.\n\nIf you tell me what ingredients you have in your fridge right now, I'll invent a custom recipe for you!`,
       citation: "Culinary Recommendation Engine",
       auditRef: "NUTRITION_SUGGEST_OK"
     };
@@ -347,7 +475,7 @@ export function answerNaturallyWithNeuv(
   // D. Science, Physics, Nature, and Biology
   if (lower.includes("why is the sky blue") || lower.includes("sky blue")) {
     return {
-      response: `The sky is blue due to a phenomenon called Rayleigh scattering:\n\n1. Sunlight reaches Earth's atmosphere as white light, composed of all the colors of the rainbow, each with distinct wavelengths.\n\n2. Blue and violet light have much shorter, smaller wavelengths compared to red, orange, and yellow light.\n\n3. When sunlight strikes the gases in our atmosphere (principally nitrogen and oxygen), the shorter blue wavelengths are scattered in every direction far more intensely than longer wavelengths.\n\n4. Our eyes perceive this scattered light as sky blue rather than violet because human retinas have cone photoreceptors that are significantly more sensitive to blue light than violet.`,
+      response: `The sky is blue because of a phenomenon called **Rayleigh scattering**:\n\n1. Sunlight reaches Earth's atmosphere as white light, which contains all the colors of the spectrum.\n\n2. Blue and violet light travel as shorter, smaller waves compared to red, orange, and yellow light.\n\n3. When sunlight collides with gas molecules in our atmosphere (mostly nitrogen and oxygen), these shorter blue waves scatter in all directions much more easily than longer waves.\n\n4. Even though violet light scatters even more than blue, our human eyes are much more sensitive to blue light, and sunlight contains more blue light to begin with—so to us, the sky appears a brilliant blue!`,
       citation: "Atmospheric Optics · Rayleigh Scattering Principles",
       auditRef: "PHYSICS_OPTICS_OK"
     };
@@ -355,7 +483,7 @@ export function answerNaturallyWithNeuv(
 
   if (lower.includes("gravity") || lower.includes("how does gravity work")) {
     return {
-      response: `Gravity is explained through two complementary frameworks in physics:\n\n1. Newton's Law of Universal Gravitation:\nEvery particle of matter attracts every other particle with a force proportional to the product of their masses and inversely proportional to the square of the distance between their centers: F = G * (m1 * m2) / r^2. This accurately predicts planetary orbits and projectile motion.\n\n2. Einstein's General Relativity (Modern Understanding):\nMass and energy warp the four-dimensional fabric of spacetime itself. Objects in motion follow the shortest paths (geodesics) along this curved spacetime. An analogy is placing a heavy bowling ball on a stretched trampoline—nearby marbles roll toward it not because an invisible rope pulls them, but because the surface beneath them is curved.`,
+      response: `Gravity is explained through two complementary frameworks in physics:\n\n1. Newton's Perspective (Classical Mechanics):\nEvery particle in the universe attracts every other particle with a force proportional to their masses and inversely proportional to the square of the distance between them: F = G * (m1 * m2) / r^2. This gives us the math needed to launch rockets and predict planetary orbits.\n\n2. Einstein's General Relativity (Modern Understanding):\nMass and energy actually warp the four-dimensional fabric of spacetime itself. A great analogy is placing a heavy bowling ball on a stretched rubber sheet—nearby marbles roll toward it not because an invisible rope is pulling them, but because the surface beneath them is curved!`,
       citation: "Astrophysics & General Relativity Compendium",
       auditRef: "GRAVITY_THEORY_OK"
     };
@@ -363,7 +491,7 @@ export function answerNaturallyWithNeuv(
 
   if (lower.includes("photosynthesis")) {
     return {
-      response: `Photosynthesis is the biological process by which green plants, algae, and cyanobacteria convert light energy into chemical energy:\n\nChemical Equation:\n6 CO2 + 6 H2O + light energy -> C6H12O6 (glucose) + 6 O2 (oxygen)\n\nKey Stages:\n1. Light-Dependent Reactions (in Thylakoid membranes):\nChlorophyll absorbs photons, exciting electrons. Water molecules are split (photolysis), releasing oxygen and synthesizing ATP and NADPH.\n\n2. Light-Independent Reactions (Calvin Cycle, in Stroma):\nCarbon dioxide is fixed into 3-carbon sugars using the ATP and NADPH generated in the first stage, ultimately producing glucose that fuels plant growth.`,
+      response: `Photosynthesis is nature's solar power plant—the process by which green plants convert sunlight, water, and air into chemical energy:\n\nChemical Equation:\n6 CO2 + 6 H2O + Sunlight -> C6H12O6 (glucose) + 6 O2 (oxygen)\n\nKey Stages:\n1. Light Reactions (Thylakoids): Chlorophyll captures photons, water molecules are split, oxygen is released into the air, and ATP energy carriers are charged.\n2. Calvin Cycle (Stroma): The plant uses that stored energy to capture carbon dioxide from the air and build glucose sugars to fuel plant growth.`,
       citation: "Biochemical Cell Biology Manual",
       auditRef: "BIOLOGY_REF_OK"
     };
@@ -391,7 +519,7 @@ export function answerNaturallyWithNeuv(
     };
     const ans = capitals[country] || (country ? `the recognized capital city of ${country}` : "the capital city");
     return {
-      response: `The capital of ${country || "the requested country"} is ${ans}.`,
+      response: `The capital of ${country || "the requested country"} is **${ans}**.`,
       citation: "Geopolitical Gazetteer",
       auditRef: "GEO_KNOWLEDGE_OK"
     };
@@ -412,7 +540,7 @@ export function answerNaturallyWithNeuv(
   ) {
     if (lower.includes("quicksort")) {
       return {
-        response: `Here is an efficient, clean implementation of Quicksort in Python:\n\ndef quicksort(arr):\n    if len(arr) <= 1:\n        return arr\n    pivot = arr[len(arr) // 2]\n    left = [x for x in arr if x < pivot]\n    middle = [x for x in arr if x == pivot]\n    right = [x for x in arr if x > pivot]\n    return quicksort(left) + middle + quicksort(right)\n\n# Verification test\nnumbers = [38, 27, 43, 3, 9, 82, 10]\nsorted_numbers = quicksort(numbers)\nprint("Sorted Array:", sorted_numbers)\n\nComplexity:\n• Average Time Complexity: O(n log n)\n• Worst Case: O(n^2)\n• Space Complexity: O(n)`,
+        response: `Here is a clean, idiomatic implementation of Quicksort in Python:\n\ndef quicksort(arr):\n    if len(arr) <= 1:\n        return arr\n    pivot = arr[len(arr) // 2]\n    left = [x for x in arr if x < pivot]\n    middle = [x for x in arr if x == pivot]\n    right = [x for x in arr if x > pivot]\n    return quicksort(left) + middle + quicksort(right)\n\n# Verification test\nnumbers = [38, 27, 43, 3, 9, 82, 10]\nsorted_numbers = quicksort(numbers)\nprint("Sorted Array:", sorted_numbers)\n\nComplexity Breakdown:\n• Average Time Complexity: O(n log n)\n• Worst Case: O(n^2) (mitigated with good pivot selection)\n• Space Complexity: O(n)`,
         citation: "Computer Science Algorithms · Quicksort Analysis",
         auditRef: "CODE_ALGO_OK"
       };
@@ -420,7 +548,7 @@ export function answerNaturallyWithNeuv(
 
     if (lower.includes("reverse") && lower.includes("string")) {
       return {
-        response: `To reverse a string cleanly across major languages:\n\n1. Python:\nreversed_str = original_str[::-1]\n\n2. JavaScript / TypeScript:\nconst reversedStr = originalStr.split("").reverse().join("");\n\n3. Go:\nfunc reverse(s string) string {\n    runes := []rune(s)\n    for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {\n        runes[i], runes[j] = runes[j], runes[i]\n    }\n    return string(runes)\n}`,
+        response: `Here is how to reverse a string cleanly across popular languages:\n\n1. Python:\nreversed_str = original_str[::-1]\n\n2. JavaScript / TypeScript:\nconst reversedStr = originalStr.split("").reverse().join("");\n\n3. Go:\nfunc reverse(s string) string {\n    runes := []rune(s)\n    for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {\n        runes[i], runes[j] = runes[j], runes[i]\n    }\n    return string(runes)\n}`,
         citation: "Multi-Language Syntax Reference",
         auditRef: "CODE_STRING_OK"
       };
@@ -433,7 +561,31 @@ export function answerNaturallyWithNeuv(
     };
   }
 
-  // F. Enver Production Systems & AI Theory
+  // F. Enver Production Systems, Starter Questions & AI Theory
+  if (lower.includes("explain ai agent") || lower.includes("agent simply") || lower.includes("what is an ai agent") || lower.includes("simple terms")) {
+    return {
+      response: `What is an AI Agent? (In Plain English)\n\nThink of a standard chatbot as an encyclopedia you can talk to. An AI agent, on the other hand, is an AI with hands, tools, and a to-do list.\n\nInstead of just giving you advice, an AI agent can actually go do the work:\n\n1. Breaks Down Goals: Give it a high-level goal (e.g. "Audit this quarter's credit underwriting"), and it plans out the exact steps.\n2. Uses Real Tools: It can read a PDF bank statement, query a database, check an API, or run mathematical equations.\n3. Catches Its Own Mistakes: If a step fails, it notices the error and tries a different route rather than giving up.\n4. Collaborates in Teams: Multiple specialized agents can work together—one gathers data, another checks security rules, and a third formats the report.\n\nWhy Enver's Approach is Different:\nMost public AI systems guess what text comes next probabilistically. At Enver, our agents are deterministic and mathematically verified—meaning they follow strict rules, never invent facts, and leave a clear audit trail for every action.\n\nTry asking: "How could AI help my business?" or "What does Enver build?" to see real-world examples.`,
+      citation: "Enver Educational Foundation · Plain-English Agent Primer",
+      auditRef: "AGENT_EXPLAIN_OK"
+    };
+  }
+
+  if (lower.includes("help my business") || lower.includes("business use cases") || lower.includes("business benefit") || lower.includes("my business")) {
+    return {
+      response: `How AI Agents Help Real Businesses\n\nAI delivers the highest return on investment when applied to complex, repetitive, and high-stakes workflows that slow human teams down.\n\nHere are three high-impact areas where organizations use Enver:\n\n1. Autonomous Financial Operations & Underwriting\n• The Problem: Analysts spend 3 to 5 days manually cross-referencing multi-bank PDFs, GST tax filings, and balance sheets.\n• The AI Solution: Autonomous agents extract tables with 99.8% precision, calculate debt service ratios deterministically, and generate audit-ready credit dossiers in under 94 seconds.\n\n2. Zero-Trust Cloud & Infrastructure Safeguards\n• The Problem: Accidental DevOps commands or leaked credentials cause millions in downtime and security breaches.\n• The AI Solution: Intelligent firewalls intercept destructive CLI commands in under 18 milliseconds before they touch AWS, GCP, or Azure.\n\n3. Living Enterprise Knowledge Networks\n• The Problem: Critical company knowledge is buried in outdated docs, Slack channels, and fragmented databases.\n• The AI Solution: Unified conversational agents connected via open protocols (MCP) that answer questions with verified source citations.\n\nWould you like to explore how this applies to your specific industry? Ask anything or explore our Case Studies on the website.`,
+      citation: "Enver Business Impact Analysis · Operational ROI",
+      auditRef: "BUSINESS_IMPACT_OK"
+    };
+  }
+
+  if (lower.includes("what does enver build") || lower.includes("what do you build") || lower.includes("enver build") || lower.includes("what is enver")) {
+    return {
+      response: `What Does Enver AI Build?\n\nEnver AI Tech is an enterprise AI engineering laboratory. We design, build, and deploy sovereign, private, deterministic multi-agent systems for organizations with strict security and accuracy requirements.\n\nOur three flagship production platforms:\n\n• Artificer Underwriter: Autonomous financial appraisal engine that ingests raw bank statements, balance sheets, and tax filings to underwrite MSME loans in 94 seconds under strict compliance (RBI DL-09).\n• Arbiter AST Firewall: Real-time cloud security layer that analyzes DevOps CLI command syntax and kills accidental drops or outage-causing commands before execution in <18ms.\n• Cerberus Entropy Sentinel: Cryptographic Shannon entropy scanner that halts API key leaks, hardcoded credentials, and configuration drift before commits reach production.\n\nHow We Work With Companies:\nWe don't sell generic wrapper chatbots. We partner with enterprises to engineer bespoke agent infrastructure hosted on your own cloud (AWS, Azure, GCP, or on-premise) with mathematical verification and zero hallucination guarantees.\n\nFeel free to test our live capabilities using the prompts above, or visit our Research Papers.`,
+      citation: "Enver Platform Overview · Core Architecture Lab",
+      auditRef: "ENVER_PORTFOLIO_OK"
+    };
+  }
+
   if (lower.includes("artificer") || lower.includes("underwrite") || lower.includes("msme")) {
     return {
       response: `Artificer is Enver's autonomous MSME credit underwriting citadel:\n\n1. Problem Solved:\nIn Indian MSME lending, ~70% of New-to-Credit small businesses are rejected due to thin credit files. Senior credit officers spend 3 to 5 business days deliberating over 100+ pages of bank statements and GST filings at $95 per file.\n\n2. The Invariant Architecture:\nArtificer uses vision models strictly to parse unstructured documents into typed JSON. All debt service coverage ratios (DSCR), revenue stability, and circular transaction loops are calculated via deterministic Python code.\n\n3. Production Benchmarks:\n• Turnaround Time: < 105 seconds per complete dossier\n• Cost: $0.02 per file (99.98% cost reduction)\n• Accuracy: 99.8% extraction fidelity\n• Regulatory: RBI DL-09 certified with cryptographic SHA256 audit locks.`,
@@ -458,10 +610,11 @@ export function answerNaturallyWithNeuv(
     };
   }
 
-  // G. Conversational Multi-Turn Thoughtful Evaluation
+  // G. Conversational Multi-Turn Thoughtful Evaluation with Personality
+  const cleanTopic = q.replace(/[?!.]+$/, "").trim();
   return {
-    response: `I have analyzed your inquiry: "${q}".\n\nDirect Assessment:\nTo approach this effectively, we evaluate the core principles involved:\n\n1. Contextual Foundation:\nWhether this relates to practical application, logical deduction, or operational design, breaking down the problem into its foundational components yields the clearest solution.\n\n2. Deterministic Verification:\nRather than relying on ungrounded assumptions, examining concrete proofs and reliable data leads to trustworthy outcomes.\n\nFeel free to ask me to write code, solve calculations, clarify any concept, or dive into enterprise AI systems. How would you like to proceed?`,
-    citation: "Neuv Sovereign Reasoning Core · Adaptive Synthesis",
+    response: `That's an interesting question! Here is how I look at **"${cleanTopic}"**:\n\n• **The Big Picture**: When tackling questions like this, the key is separating the core fundamentals from surface-level assumptions. Understanding the "why" gives you a lot more leverage than just memorizing a static answer.\n\n• **Practical Perspective**: Whether we're talking about technology, problem-solving, or system design, the most durable solutions are usually the ones that are transparent, testable, and grounded in real-world feedback rather than theory alone.\n\n• **Where We Can Go From Here**: I'd love to explore this deeper with you! If you have a specific angle in mind—like how this applies to an engineering problem, a business workflow, or modern AI agents—tell me a bit more and let's dig in.\n\nWhat aspect interests you most?`,
+    citation: "Enver AI · Conversational Synthesis",
     auditRef: "NEUV_REASONING_OK"
   };
 }
@@ -497,6 +650,10 @@ PERSONA & TONE:
   • Arbiter: Multi-cloud Abstract Syntax Tree (AST) command firewall intercepting destructive commands (DROP TABLE, rm -rf) across AWS, GCP, and Azure with <18ms turnaround.
   • Cerberus: Continuous git secret auditor using multi-dimensional Shannon information entropy.
   • Sovereign VPC enclaves with zero external egress.
+- HONEST BOUNDARIES & UNANSWERABLE QUESTIONS:
+  • If a question is fundamentally unanswerable, unknowable, or impossible (such as predicting exact future stock/crypto/lottery numbers with certainty, asking about the user's private physical surroundings/clothes/real-time identity without sensory input, or mathematical paradoxes like dividing by zero), state clearly and honestly that this cannot be answered with certainty.
+  • Explain WHY it is unanswerable with clarity and warmth (e.g. "I don't have access to cameras or personal sensory data," or "Financial markets and lottery draws cannot be predicted with certainty...").
+  • Then offer the closest verifiable facts, principles, or reasoning that can be explored. Never hallucinate or pretend to possess impossible knowledge.
 - Current user context:
   • Identity: ${isTeam ? "Team (Lead AI Architect Amaan Kaiser Shaikh, amaan@enveraitech.com)" : "External Enterprise Guest Evaluator (Read-Only Sandbox)"}
   • Name: ${callerName}${jevContext}${grokContext}
@@ -840,8 +997,24 @@ export function registerNeuvRoutes(app: any) {
     }
 
     const cleanMsg = rawPrompt.trim();
+    if (cleanMsg.length > 8000) {
+      return res.status(400).json({ success: false, error: "Query payload exceeds maximum allowed limit of 8,000 characters." });
+    }
+
     const rawIp = (req.headers["x-forwarded-for"] || req.socket.remoteAddress || "unknown") as string;
     const clientIp = Array.isArray(rawIp) ? rawIp[0] : rawIp.split(",")[0].trim();
+    const now = Date.now();
+
+    // Anti-Spam / Rate Limiting: Max 30 queries per minute per IP
+    const queryHistory = (neuvQueryRateMap.get(clientIp) || []).filter((ts) => now - ts < 60000);
+    if (queryHistory.length >= 30) {
+      return res.status(429).json({
+        success: false,
+        error: "AI consultation rate limit exceeded (max 30 queries/minute). Please wait a moment before sending another message."
+      });
+    }
+    queryHistory.push(now);
+    neuvQueryRateMap.set(clientIp, queryHistory);
 
     // Determine user role and identity
     const userEmail = (email || "").toLowerCase().trim();
@@ -922,6 +1095,42 @@ export function registerNeuvRoutes(app: any) {
       });
     }
 
+    // 2b. CHECK PROMPT INJECTION & JAILBREAK GUARDRAILS
+    const jailbreakPattern = /(ignore|disregard|forget|override)\s+(all\s+)?(previous|prior|above|system)\s+(instructions|prompts|rules|commands)|(reveal|output|print|display|dump|leak|show)\s+(the\s+)?(system\s+prompt|initial\s+prompt|developer\s+instructions|system\s+instructions|secret\s+keys?|api[\s_-]?keys?|environment\s+variables|process\.env)|(jailbreak|dan\s+mode|developer\s+mode\s+enabled|unrestricted\s+mode|bypass\s+all\s+restrictions|ignore\s+safety)/i;
+
+    if (jailbreakPattern.test(cleanMsg)) {
+      const boundaryMessage = `Safety Boundary Engaged: I cannot override foundational instructions or disclose system prompts, internal credentials, or server configurations.\n\nAt Enver, our models operate under deterministic sovereign safety policies. I am glad to discuss how our AI agents, credit underwriting algorithms, or AST security firewalls function!`;
+      const elapsed = Math.round(performance.now() - start);
+      const shaSignature = "SHA256:GUARD_" + crypto.createHash("sha256").update(`${activeSessionId}:${cleanMsg}`).digest("hex").slice(0, 12).toUpperCase();
+
+      logActivity({
+        userId: activeSessionId,
+        email: userEmail || "sandbox@enver.local",
+        callerName: activeCaller,
+        role: userRole,
+        provider: userProvider,
+        eventType: "EDGE_CASE",
+        edgeCaseType: "AST_FIREWALL_INTERCEPT",
+        queryText: cleanMsg,
+        responseText: boundaryMessage,
+        thoughtProcess: "Adversarial prompt injection / jailbreak detected. Enforced sovereign safety policy boundary.",
+        auditSignature: shaSignature,
+        ip: clientIp,
+        metadata: { attemptedScope: "PROMPT_INJECTION_DEFENSE" }
+      });
+
+      return res.json({
+        success: true,
+        sessionId: activeSessionId,
+        response: boundaryMessage,
+        citation: "Enver Citadel Sovereign Safety Guard · Zero-Trust Policy Graph",
+        auditRef: shaSignature,
+        engine: "enver-security-gatekeeper",
+        latencyMs: elapsed,
+        sessionSummary: session.summary
+      });
+    }
+
     // 3. Log the User Query Activity Event
     logActivity({
       userId: activeSessionId,
@@ -961,6 +1170,7 @@ export function registerNeuvRoutes(app: any) {
     }
 
     const elapsed = Math.round(performance.now() - start);
+    const safeAiResponse = sanitizeAiResponse(aiResult.response);
 
     // 5. Create SHA256 Audit Signature
     const auditData = `${activeSessionId}:${Date.now()}:${cleanMsg.slice(0, 50)}:${aiResult.auditRef}`;
@@ -971,7 +1181,7 @@ export function registerNeuvRoutes(app: any) {
       id: `int_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
       timestamp: new Date().toISOString(),
       query: cleanMsg,
-      response: aiResult.response,
+      response: safeAiResponse,
       intent: cleanMsg.length > 50 ? cleanMsg.slice(0, 50) + "..." : cleanMsg,
       latencyMs: elapsed,
       engine: engineUsed,
@@ -997,7 +1207,7 @@ export function registerNeuvRoutes(app: any) {
       provider: userProvider,
       eventType: "RESPONSE",
       queryText: cleanMsg,
-      responseText: aiResult.response,
+      responseText: safeAiResponse,
       thoughtProcess,
       auditSignature: shaSignature,
       ip: clientIp,
@@ -1017,7 +1227,7 @@ export function registerNeuvRoutes(app: any) {
     return res.json({
       success: true,
       sessionId: activeSessionId,
-      response: aiResult.response,
+      response: safeAiResponse,
       citation: grokScraper
         ? `${aiResult.citation} · Verified with Grok-4.6 Reconnaissance`
         : aiResult.citation,

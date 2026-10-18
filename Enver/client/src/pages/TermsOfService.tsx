@@ -2,8 +2,14 @@ import React from "react";
 import { Link } from "wouter";
 import { ArrowLeft, Shield, FileText, Scale, Lock, CheckCircle2, Mail, ExternalLink } from "lucide-react";
 import Logo from "@/components/Logo";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 export default function TermsOfService() {
+  usePageMeta({
+    title: "Terms of Service & Regulatory Governance",
+    description: "Enver AI Tech Terms of Service, DPIIT recognition, RBI digital lending compliance, enterprise IP ownership, and sovereign governance invariants.",
+  });
+
   return (
     <div className="min-h-screen bg-[#F7F3E9] text-[#2B121F] pt-8 sm:pt-12 pb-24 font-sans selection:bg-[#2B121F] selection:text-[#F7F3E9]">
       <div className="max-w-[1000px] mx-auto px-4 sm:px-8">

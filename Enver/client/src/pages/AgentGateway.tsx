@@ -21,8 +21,13 @@ import {
 import Logo from "@/components/Logo";
 import { useAuth } from "@/contexts/AuthContext";
 import { getCustomerRoster, CustomerLeadRecord } from "@/lib/auth";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 export default function AgentGateway() {
+  usePageMeta({
+    title: "Enterprise Agent Gateway & Pilot Authentication",
+    description: "Sign in with Microsoft Entra ID or Google Workspace to access Enver AI Tech's sovereign agent gateway and private enterprise sandboxes.",
+  });
   const [, setLocation] = useLocation();
   const searchParams = new URLSearchParams(typeof window !== "undefined" ? window.location.search : "");
   const { register, login, loginGoogle, logout, user } = useAuth();

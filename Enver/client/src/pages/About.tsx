@@ -2,6 +2,7 @@ import { Mail, ArrowRight, Award, GraduationCap, Cloud, Sparkles, ShieldCheck, L
 import SpotlightCard from "@/components/reactbits/SpotlightCard";
 import InstitutionalEndorsement from "@/components/InstitutionalEndorsement";
 import { Link } from "wouter";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 // @ts-ignore
 import SplitText from "@/components/reactbits/SplitText";
@@ -70,6 +71,11 @@ const team = [
 ];
 
 export default function About() {
+  usePageMeta({
+    title: "About Us — Sovereign AI Engineers & Founders",
+    description: "Meet the engineering and governance team behind Enver AI Tech. DPIIT recognized startup building deterministic agentic architectures and AST security sentinels.",
+  });
+
   return (
     <div className="relative bg-[#F7F3E9] text-[#2B121F] min-h-screen pt-8 sm:pt-12 font-sans selection:bg-[#2B121F] selection:text-[#F7F3E9] overflow-hidden">
       {/* =========================================================================

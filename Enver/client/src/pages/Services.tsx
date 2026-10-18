@@ -28,6 +28,7 @@ import {
   CloudServerIcon
 } from "@hugeicons/core-free-icons";
 import BranchedMenu from "@/components/reactbits/BranchedMenu";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 // Enterprise Use Cases Tackled by Enver AI Tech
 export const useCases = [
@@ -177,6 +178,10 @@ export const branchedMenuItems = [
 ];
 
 export default function Services() {
+  usePageMeta({
+    title: "Autonomous Fleets & Enterprise Solutions",
+    description: "Explore Enver's enterprise systems: Artificer for financial underwriting, Arbiter for multi-cloud AST governance, and Cerberus for anti-bot defense.",
+  });
   const [, setLocation] = useLocation();
   const [selectedIndex, setSelectedIndex] = useState(0);
   const activeCase = useMemo(() => useCases[selectedIndex], [selectedIndex]);

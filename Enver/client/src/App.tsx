@@ -53,10 +53,18 @@ function DecoupledConsoleRoute() {
 
 function PageLoader() {
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-[#F7F3E9] text-[#2B121F] font-mono text-xs">
-      <div className="flex items-center gap-2">
+    <div className="min-h-screen w-full flex flex-col items-center justify-center bg-[#0C110C] text-[#EDE8DF] font-sans transition-colors duration-300">
+      <div className="relative flex items-center justify-center mb-4">
+        <div className="absolute w-12 h-12 rounded-full bg-[#FF6F1E]/25 blur-lg animate-pulse" />
+        <img
+          src="/enver-crest-transparent.png"
+          alt="Enver AI Tech"
+          className="w-10 h-10 object-contain relative z-10 animate-pulse"
+        />
+      </div>
+      <div className="flex items-center gap-2 text-xs font-mono text-[#A8B3A4]">
         <span className="w-2 h-2 rounded-full bg-[#FF6F1E] animate-ping" />
-        <span>Loading Envera Citadel...</span>
+        <span>Initializing Sovereign Core...</span>
       </div>
     </div>
   );
